@@ -1,14 +1,20 @@
-document.addEventListener('DOMContentLoaded', () => {
-    initApp();
-    setupEventListeners();
-    setupImageLoading(); // Ensure this is called
-    setupEnhancedImageLoading();
-    setupVideoModal();
-    setupEnhancedSearch();
-    setupCategoryFilter();
-    setupBlogViewSwitcher();
-    animateStats();
-});
+// Global removeFromHistory function for search history management
+function removeFromHistory(query) {
+    let history = JSON.parse(localStorage.getItem('searchHistory') || '[]');
+    history = history.filter(item => item !== query);
+    localStorage.setItem('searchHistory', JSON.stringify(history));
+    const searchHistory = document.querySelector('.history-items');
+    if (searchHistory) {
+        searchHistory.innerHTML = history.map(item => `
+        <div class="history-item">
+          <span><i class="fas fa-history"></i> ${item}</span>
+          <button class="icon-button" onclick="removeFromHistory('${item}')">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      `).join('');
+    }
+}
 
 // Core initialization
 function initApp() {
@@ -37,7 +43,7 @@ function initApp() {
     return app;
 }
 
-// Event listeners
+// Event listeners setup
 function setupEventListeners() {
     // Navigation scroll
     handleNavScroll();
@@ -51,7 +57,7 @@ function setupEventListeners() {
     // Post interactions
     setupPostInteractions();
 
-    // Image loading
+    // Image loading (called here; no need to duplicate elsewhere)
     setupImageLoading();
 
     // Parallax effects
@@ -79,11 +85,11 @@ const ui = {
         const toast = Object.assign(document.createElement('div'), {
             className: `toast toast-${type}`,
             innerHTML: `
-                <div class="toast-content">
-                    <i class="fas fa-${type === 'success' ? 'check' : 'info'}-circle"></i>
-                    <span>${message}</span>
-                </div>
-            `
+          <div class="toast-content">
+            <i class="fas fa-${type === 'success' ? 'check' : 'info'}-circle"></i>
+            <span>${message}</span>
+          </div>
+        `
         });
 
         document.body.appendChild(toast);
@@ -123,11 +129,11 @@ function handleNavScroll() {
     window.addEventListener('scroll', () => {
         const currentScroll = window.pageYOffset;
         const nav = document.querySelector('.top-nav');
-        
+
         nav.style.transform = currentScroll > lastScroll && currentScroll > 100
             ? 'translateY(-100%)'
             : 'translateY(0)';
-        
+
         nav.classList.toggle('nav-scrolled', currentScroll > 100);
         lastScroll = currentScroll;
     });
@@ -137,7 +143,7 @@ function handleNavScroll() {
 function setupThemeToggle() {
     const themeToggle = document.getElementById('theme-toggle');
     const icon = themeToggle.querySelector('i');
-    
+
     // Check initial theme
     if (localStorage.getItem('dark-mode') === 'true') {
         document.body.classList.add('dark-mode');
@@ -148,7 +154,7 @@ function setupThemeToggle() {
         document.body.classList.toggle('dark-mode');
         const isDark = document.body.classList.contains('dark-mode');
         localStorage.setItem('dark-mode', isDark);
-        
+
         // Toggle icon
         icon.classList.toggle('fa-moon', !isDark);
         icon.classList.toggle('fa-sun', isDark);
@@ -166,7 +172,7 @@ function setupSearch() {
 
     // Search history
     const history = JSON.parse(localStorage.getItem('searchHistory') || '[]');
-    
+
     function updateHistory(query) {
         if (!query) return;
         const newHistory = [query, ...history.filter(h => h !== query)].slice(0, 5);
@@ -176,13 +182,13 @@ function setupSearch() {
 
     function renderHistory(items) {
         searchHistory.innerHTML = items.map(item => `
-            <div class="history-item">
-                <span><i class="fas fa-history"></i> ${item}</span>
-                <button class="icon-button" onclick="removeFromHistory('${item}')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        `).join('');
+        <div class="history-item">
+          <span><i class="fas fa-history"></i> ${item}</span>
+          <button class="icon-button" onclick="removeFromHistory('${item}')">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      `).join('');
     }
 
     // Search suggestions
@@ -194,16 +200,16 @@ function setupSearch() {
 
         const suggestions = generateSuggestions(query);
         searchResults.innerHTML = suggestions.map(suggestion => `
-            <div class="search-suggestion" role="button" tabindex="0">
-                <div class="suggestion-icon">
-                    <i class="fas ${suggestion.icon}"></i>
-                </div>
-                <div class="suggestion-content">
-                    <div class="suggestion-title">${suggestion.title}</div>
-                    <div class="suggestion-subtitle">${suggestion.subtitle}</div>
-                </div>
-            </div>
-        `).join('');
+        <div class="search-suggestion" role="button" tabindex="0">
+          <div class="suggestion-icon">
+            <i class="fas ${suggestion.icon}"></i>
+          </div>
+          <div class="suggestion-content">
+            <div class="suggestion-title">${suggestion.title}</div>
+            <div class="suggestion-subtitle">${suggestion.subtitle}</div>
+          </div>
+        </div>
+      `).join('');
     }
 
     // Filters toggle
@@ -212,7 +218,7 @@ function setupSearch() {
         filtersToggle.setAttribute('aria-expanded', !filtersPanel.hidden);
     });
 
-    // Search input handler
+    // Search input handler with debounce
     let debounceTimer;
     searchInput?.addEventListener('input', (e) => {
         clearTimeout(debounceTimer);
@@ -221,7 +227,7 @@ function setupSearch() {
         }, 300);
     });
 
-    // Keyboard navigation
+    // Keyboard navigation for suggestions
     searchInput?.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowDown') {
             e.preventDefault();
@@ -230,7 +236,7 @@ function setupSearch() {
         }
     });
 
-    // Initialize
+    // Initialize history
     renderHistory(history);
 }
 
@@ -309,7 +315,7 @@ function loginUser({ username, password }) {
     });
 }
 
-// Image loading handler
+// Fallback images for various content types
 const fallbackImages = {
     technology: 'https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg',
     design: 'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg',
@@ -320,13 +326,14 @@ const fallbackImages = {
     portrait: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg'
 };
 
+// Image loading handler
 function setupImageLoading() {
     const images = document.querySelectorAll('.article-img, .post-card-image img, .author-avatar');
-    
+
     const loadImage = (img) => {
         const src = img.getAttribute('data-src') || img.src;
         const tempImage = new Image();
-        
+
         tempImage.onload = () => {
             img.src = src;
             img.classList.add('loaded');
@@ -337,7 +344,7 @@ function setupImageLoading() {
                 }
             }
         };
-        
+
         tempImage.onerror = () => {
             const type = img.getAttribute('data-type') || 'technology';
             img.src = fallbackImages[type];
@@ -349,13 +356,13 @@ function setupImageLoading() {
                 }
             }
         };
-        
+
         tempImage.src = src;
     };
 
     images.forEach(img => {
         img.removeAttribute('loading');
-        
+
         if ('IntersectionObserver' in window) {
             const observer = new IntersectionObserver(
                 (entries, observer) => {
@@ -392,7 +399,7 @@ function setupHeaderInteractions() {
     // Mobile menu toggle
     const mobileMenuBtn = document.querySelector('.mobile-menu-button');
     const navLinks = document.querySelector('.nav-links');
-    
+
     mobileMenuBtn?.addEventListener('click', () => {
         navLinks.classList.toggle('show');
         document.body.classList.toggle('menu-open');
@@ -472,24 +479,24 @@ function setupActiveLinks() {
 function setupHeroAnimations() {
     // Animate stats numbers
     const statsNumbers = document.querySelectorAll('.stat-number[data-count]');
-    
+
     const animateValue = (element, start, end, duration) => {
         const range = end - start;
         const increment = range / (duration / 16);
         let current = start;
-        
+
         const updateNumber = () => {
             current += increment;
             if (current >= end) {
-                element.textContent = end >= 1000 ? `${(end/1000).toFixed(0)}k+` : end;
+                element.textContent = end >= 1000 ? `${(end / 1000).toFixed(0)}k+` : end;
                 return;
             }
-            element.textContent = Math.floor(current) >= 1000 ? 
-                `${(Math.floor(current)/1000).toFixed(0)}k+` : 
+            element.textContent = Math.floor(current) >= 1000 ?
+                `${(Math.floor(current) / 1000).toFixed(0)}k+` :
                 Math.floor(current);
             requestAnimationFrame(updateNumber);
         };
-        
+
         updateNumber();
     };
 
@@ -516,7 +523,7 @@ function setupFeaturedPosts() {
     categoryPills.forEach(pill => {
         pill.addEventListener('click', () => {
             const category = pill.textContent.trim().toLowerCase();
-            
+
             // Update active state
             categoryPills.forEach(p => p.classList.remove('active'));
             pill.classList.add('active');
@@ -525,10 +532,10 @@ function setupFeaturedPosts() {
             posts.forEach(post => {
                 const postCategory = post.querySelector('.post-category').textContent.trim().toLowerCase();
                 const shouldShow = category === 'all topics' || postCategory === category;
-                
+
                 post.style.opacity = '0';
                 post.style.transform = 'scale(0.95)';
-                
+
                 setTimeout(() => {
                     post.style.display = shouldShow ? 'block' : 'none';
                     if (shouldShow) {
@@ -563,25 +570,25 @@ function setupFeaturedPosts() {
 function setupLatestArticles() {
     const viewButtons = document.querySelectorAll('.view-switcher button');
     const blogGrid = document.querySelector('.blog-grid');
-    
+
     viewButtons.forEach(button => {
         button.addEventListener('click', () => {
             const view = button.dataset.view;
-            
+
             // Update active state
             viewButtons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
-            
+
             // Update view
             blogGrid.classList.remove('grid-view', 'list-view');
             blogGrid.classList.add(`${view}-view`);
-            
+
             // Trigger layout animations
             const articles = blogGrid.querySelectorAll('.article-card');
             articles.forEach((article, index) => {
                 article.style.opacity = '0';
                 article.style.transform = 'scale(0.95)';
-                
+
                 setTimeout(() => {
                     article.style.opacity = '1';
                     article.style.transform = 'scale(1)';
@@ -624,16 +631,16 @@ function setupCreateSection() {
         tag.addEventListener('click', () => {
             const tagText = tag.textContent.trim();
             const tagIcon = tag.querySelector('i').className;
-            
+
             if (!document.querySelector(`.selected-tag[data-tag="${tagText}"]`)) {
                 const tagElement = document.createElement('span');
                 tagElement.className = 'tag-chip selected-tag';
                 tagElement.dataset.tag = tagText;
                 tagElement.innerHTML = `
-                    <i class="${tagIcon}"></i>
-                    ${tagText}
-                    <i class="fas fa-times remove-tag"></i>
-                `;
+            <i class="${tagIcon}"></i>
+            ${tagText}
+            <i class="fas fa-times remove-tag"></i>
+          `;
                 editor.selectedTags.appendChild(tagElement);
 
                 // Add remove functionality
@@ -644,7 +651,7 @@ function setupCreateSection() {
         });
     });
 
-    // Keyboard shortcuts
+    // Keyboard shortcuts for publishing
     document.addEventListener('keydown', (e) => {
         if (e.metaKey && e.key === 'Enter') {
             editor.publishButton.click();
@@ -652,52 +659,16 @@ function setupCreateSection() {
     });
 }
 
-// Add Stats Counter Animation
-function animateStats() {
-    const stats = document.querySelectorAll('.stat-value[data-count]');
-    
-    stats.forEach(stat => {
-        const target = parseInt(stat.dataset.count, 10);
-        const duration = 2000;
-        const startTime = performance.now();
-        const startValue = 0;
-
-        function updateCount(currentTime) {
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-
-            const currentValue = Math.floor(startValue + (target - startValue) * progress);
-            stat.textContent = `${currentValue}k+`;
-
-            if (progress < 1) {
-                requestAnimationFrame(updateCount);
-            }
-        }
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                if (entries[0].isIntersecting) {
-                    requestAnimationFrame(updateCount);
-                    observer.disconnect();
-                }
-            },
-            { threshold: 0.5 }
-        );
-
-        observer.observe(stat);
-    });
-}
-
 // Enhanced Image Loading
 function setupEnhancedImageLoading() {
     const images = document.querySelectorAll('img[data-src]');
-    
+
     const imageObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const img = entry.target;
                 const src = img.dataset.src;
-                
+
                 const tempImage = new Image();
                 tempImage.onload = () => {
                     img.src = src;
@@ -708,7 +679,7 @@ function setupEnhancedImageLoading() {
                     }
                 };
                 tempImage.src = src;
-                
+
                 observer.unobserve(img);
             }
         });
@@ -728,12 +699,12 @@ function setupVideoModal() {
     const modal = document.createElement('div');
     modal.className = 'video-modal';
     modal.innerHTML = `
-        <div class="video-modal-content">
-            <button class="close-modal"><i class="fas fa-times"></i></button>
-            <div class="video-container">
-                <iframe width="560" height="315" src="" frameborder="0" allowfullscreen></iframe>
-            </div>
+      <div class="video-modal-content">
+        <button class="close-modal"><i class="fas fa-times"></i></button>
+        <div class="video-container">
+          <iframe width="560" height="315" src="" frameborder="0" allowfullscreen></iframe>
         </div>
+      </div>
     `;
 
     document.body.appendChild(modal);
@@ -758,7 +729,7 @@ function setupEnhancedSearch() {
     const searchInput = document.getElementById('search-modal-input');
     const searchModal = document.querySelector('.search-modal');
     const searchResults = document.querySelector('.search-results');
-    
+
     // Search Modal Toggle
     document.addEventListener('keydown', (e) => {
         if (e.key === '/' && !e.target.matches('input, textarea')) {
@@ -806,15 +777,15 @@ function performSearch(query) {
     ];
 
     searchResults.innerHTML = results.map(result => `
-        <div class="search-result-item">
-            <div class="result-icon">
-                <i class="fas fa-${result.type === 'article' ? 'newspaper' : 'user'}"></i>
-            </div>
-            <div class="result-content">
-                <h4>${result.type === 'article' ? result.title : result.name}</h4>
-                <p>${result.type === 'article' ? result.excerpt : result.role}</p>
-            </div>
+      <div class="search-result-item">
+        <div class="result-icon">
+          <i class="fas fa-${result.type === 'article' ? 'newspaper' : 'user'}"></i>
         </div>
+        <div class="result-content">
+          <h4>${result.type === 'article' ? result.title : result.name}</h4>
+          <p>${result.type === 'article' ? result.excerpt : result.role}</p>
+        </div>
+      </div>
     `).join('');
 }
 
@@ -826,22 +797,20 @@ function setupCategoryFilter() {
     categoryPills.forEach(pill => {
         pill.addEventListener('click', () => {
             const category = pill.textContent.trim().toLowerCase();
-            
+
             categoryPills.forEach(p => p.classList.remove('active'));
             pill.classList.add('active');
 
             posts.forEach(post => {
-                const postCategory = post.querySelector('.post-category')
-                    ?.textContent.trim().toLowerCase();
-                
+                const postCategory = post.querySelector('.post-category')?.textContent.trim().toLowerCase();
+
                 post.style.opacity = '0';
                 post.style.transform = 'translateY(20px)';
-                
+
                 setTimeout(() => {
-                    const shouldShow = category === 'all topics' || 
-                                    postCategory === category;
+                    const shouldShow = category === 'all topics' || postCategory === category;
                     post.style.display = shouldShow ? 'block' : 'none';
-                    
+
                     if (shouldShow) {
                         setTimeout(() => {
                             post.style.opacity = '1';
@@ -862,18 +831,18 @@ function setupBlogViewSwitcher() {
     viewButtons.forEach(button => {
         button.addEventListener('click', () => {
             const view = button.dataset.view;
-            
+
             viewButtons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
-            
+
             blogGrid.className = `blog-grid ${view}-view`;
-            
+
             // Trigger re-layout animation
             const articles = blogGrid.querySelectorAll('.article-card');
             articles.forEach((article, index) => {
                 article.style.opacity = '0';
                 article.style.transform = 'scale(0.95)';
-                
+
                 setTimeout(() => {
                     article.style.opacity = '1';
                     article.style.transform = 'scale(1)';
@@ -883,8 +852,45 @@ function setupBlogViewSwitcher() {
     });
 }
 
-// Initialize everything
-function initializeApp() {
+// Add Stats Counter Animation
+function animateStats() {
+    const stats = document.querySelectorAll('.stat-value[data-count]');
+    
+    stats.forEach(stat => {
+        const target = parseInt(stat.dataset.count, 10);
+        const duration = 2000;
+        const startTime = performance.now();
+        const startValue = 0;
+
+        function updateCount(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+
+            const currentValue = Math.floor(startValue + (target - startValue) * progress);
+            stat.textContent = `${currentValue}k+`;
+
+            if (progress < 1) {
+                requestAnimationFrame(updateCount);
+            }
+        }
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting) {
+                    requestAnimationFrame(updateCount);
+                    observer.disconnect();
+                }
+            },
+            { threshold: 0.5 }
+        );
+
+        observer.observe(stat);
+    });
+}
+
+// Main initialization when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    initApp();
     setupEventListeners();
     setupEnhancedImageLoading();
     setupVideoModal();
@@ -892,7 +898,4 @@ function initializeApp() {
     setupCategoryFilter();
     setupBlogViewSwitcher();
     animateStats();
-}
-
-// Call initialization when DOM is ready
-document.addEventListener('DOMContentLoaded', initializeApp);
+});

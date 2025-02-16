@@ -1,1071 +1,1098 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Modern Wiki & Blog</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Wiki & Blog</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
+
 <body class="custom-scrollbar">
-  <!-- Modern Navigation Bar -->
-  <nav class="top-nav">
-    <div class="nav-container">
-      <div class="nav-brand">
-        <i class="fas fa-book-reader brand-icon"></i>
-        <span>WikiBlog</span>
-      </div>
-      
-      <button class="mobile-menu-button" aria-label="Toggle menu">
-        <i class="fas fa-bars"></i>
-      </button>
+    <!-- Modern Navigation Bar -->
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-book-reader brand-icon"></i>
+                <span>WikiBlog</span>
+            </div>
 
-      <div class="nav-links">
-        <a href="#home" class="nav-link active">
-          <i class="fas fa-home"></i> Home
-        </a>
-        <a href="#posts" class="nav-link">
-          <i class="fas fa-newspaper"></i> Posts
-        </a>
-        <a href="#create" class="nav-link">
-          <i class="fas fa-edit"></i> Create
-        </a>
-        <a href="#search" class="nav-link">
-          <i class="fas fa-search"></i> Search
-        </a>
-      </div>
-      <div class="nav-actions">
-        <button class="icon-button search-toggle" aria-label="Open search">
-          <i class="fas fa-search"></i>
-        </button>
-        <button id="theme-toggle" class="icon-button" aria-label="Toggle theme">
-          <i class="fas fa-moon"></i>
-        </button>
-        <div class="user-menu">
-          <button class="profile-button" aria-label="User menu">
-            <i class="fas fa-user-circle"></i>
-            <span class="username">Guest</span>
-          </button>
-          <div class="dropdown-menu">
-            <a href="#profile"><i class="fas fa-user"></i> Profile</a>
-            <a href="#settings"><i class="fas fa-cog"></i> Settings</a>
-            <a href="#logout" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </nav>
+            <button class="mobile-menu-button" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
 
-  <!-- Enhanced Search Modal -->
-  <div class="search-modal">
-    <div class="search-container">
-        <div class="search-header">
-            <h2>Search WikiBlog</h2>
-            <div class="search-shortcuts">
-                <span>Press <kbd class="shortcut-key">/</kbd> to search</span>
-                <span>Press <kbd class="shortcut-key">Esc</kbd> to close</span>
+            <div class="nav-links">
+                <a href="#home" class="nav-link active">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="#posts" class="nav-link">
+                    <i class="fas fa-newspaper"></i> Posts
+                </a>
+                <a href="#create" class="nav-link">
+                    <i class="fas fa-edit"></i> Create
+                </a>
+                <a href="#search" class="nav-link">
+                    <i class="fas fa-search"></i> Search
+                </a>
+            </div>
+            <div class="nav-actions">
+                <button class="icon-button search-toggle" aria-label="Open search">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button id="theme-toggle" class="icon-button" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="user-menu">
+                    <button class="profile-button" aria-label="User menu">
+                        <i class="fas fa-user-circle"></i>
+                        <span class="username">Guest</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a href="#profile"><i class="fas fa-user"></i> Profile</a>
+                        <a href="#settings"><i class="fas fa-cog"></i> Settings</a>
+                        <a href="#logout" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
             </div>
         </div>
+    </nav>
 
-        <div class="search-body">
-            <div class="search-input-group">
-                <div class="search-input-wrapper">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" id="search-modal-input" class="modern-input" 
-                           placeholder="Search articles, topics, or authors..." autofocus>
-                    <button class="search-clear" type="button">
-                        <i class="fas fa-times"></i>
+    <!-- Enhanced Search Modal -->
+    <div class="search-modal">
+        <div class="search-container">
+            <div class="search-header">
+                <h2>Search WikiBlog</h2>
+                <div class="search-shortcuts">
+                    <span>Press <kbd class="shortcut-key">/</kbd> to search</span>
+                    <span>Press <kbd class="shortcut-key">Esc</kbd> to close</span>
+                </div>
+            </div>
+
+            <div class="search-body">
+                <div class="search-input-group">
+                    <div class="search-input-wrapper">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="search-modal-input" class="modern-input"
+                            placeholder="Search articles, topics, or authors..." autofocus>
+                        <button class="search-clear" type="button">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <button class="icon-button" id="search-filters-toggle">
+                        <i class="fas fa-sliders-h"></i>
                     </button>
                 </div>
-                <button class="icon-button" id="search-filters-toggle">
-                    <i class="fas fa-sliders-h"></i>
-                </button>
-            </div>
 
-            <div class="search-filters-panel" hidden>
-                <div class="filter-groups">
-                    <div class="filter-group">
-                        <span class="filter-group-title">Content Type</span>
-                        <label><input type="checkbox" checked> Articles</label>
-                        <label><input type="checkbox" checked> Wiki</label>
-                        <label><input type="checkbox" checked> Comments</label>
-                    </div>
-                    <div class="filter-group">
-                        <span class="filter-group-title">Time Range</span>
-                        <label><input type="radio" name="time" checked> Any time</label>
-                        <label><input type="radio" name="time"> Past week</label>
-                        <label><input type="radio" name="time"> Past month</label>
-                        <label><input type="radio" name="time"> Past year</label>
-                    </div>
-                    <div class="filter-group">
-                        <span class="filter-group-title">Sort By</span>
-                        <label><input type="radio" name="sort" checked> Relevance</label>
-                        <label><input type="radio" name="sort"> Date</label>
-                        <label><input type="radio" name="sort"> Popularity</label>
+                <div class="search-filters-panel" hidden>
+                    <div class="filter-groups">
+                        <div class="filter-group">
+                            <span class="filter-group-title">Content Type</span>
+                            <label><input type="checkbox" checked> Articles</label>
+                            <label><input type="checkbox" checked> Wiki</label>
+                            <label><input type="checkbox" checked> Comments</label>
+                        </div>
+                        <div class="filter-group">
+                            <span class="filter-group-title">Time Range</span>
+                            <label><input type="radio" name="time" checked> Any time</label>
+                            <label><input type="radio" name="time"> Past week</label>
+                            <label><input type="radio" name="time"> Past month</label>
+                            <label><input type="radio" name="time"> Past year</label>
+                        </div>
+                        <div class="filter-group">
+                            <span class="filter-group-title">Sort By</span>
+                            <label><input type="radio" name="sort" checked> Relevance</label>
+                            <label><input type="radio" name="sort"> Date</label>
+                            <label><input type="radio" name="sort"> Popularity</label>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="search-results custom-scrollbar">
-                <!-- Dynamic Results -->
-            </div>
+                <div class="search-results custom-scrollbar">
+                    <!-- Dynamic Results -->
+                </div>
 
-            <div class="search-history">
-                <h4>Recent Searches</h4>
-                <div class="history-items">
-                    <!-- Dynamic History -->
+                <div class="search-history">
+                    <h4>Recent Searches</h4>
+                    <div class="history-items">
+                        <!-- Dynamic History -->
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-  <main>
-    <section class="hero-section parallax">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <div class="badge" data-aos="fade-down">
-                <i class="fas fa-star"></i>
-                Join Our Community
-            </div>
-            
-            <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
-                Where Knowledge<br>
-                Meets Creativity
-            </h1>
-            
-            <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
-                Join thousands of writers, thinkers, and experts sharing their insights.
-                Create, collaborate, and grow with us.
-            </p>
-            
-            <div class="hero-buttons" data-aos="fade-up" data-aos-delay="300">
-                <button class="hero-button primary">
-                    <i class="fas fa-pencil-alt"></i>
-                    Start Writing
-                </button>
-                <button class="hero-button glass-button">
-                    <i class="fas fa-compass"></i>
-                    Explore Content
-                </button>
-            </div>
-            
-            <div class="hero-stats" data-aos="fade-up" data-aos-delay="400">
-                <div class="stat-item">
-                    <span class="stat-number" data-count="10000">10k+</span>
-                    <span class="stat-label">Articles</span>
+    <main>
+        <section class="hero-section parallax">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <div class="badge" data-aos="fade-down">
+                    <i class="fas fa-star"></i>
+                    Join Our Community
                 </div>
-                <div class="stat-item">
-                    <span class="stat-number" data-count="50000">50k+</span>
-                    <span class="stat-label">Writers</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" data-count="100000">100k+</span>
-                    <span class="stat-label">Readers</span>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Featured Posts Section -->
-    <section class="featured-posts">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2 class="section-title">Featured Stories</h2>
-                <p class="section-subtitle">Discover trending articles and insights</p>
-            </div>
 
-            <div class="posts-grid">
-                <!-- Featured Post -->
-                <article class="featured-post" data-aos="fade-up">
-                    <div class="post-card-image">
-                        <img data-src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg" 
-                             data-type="featured"
-                             alt="Featured post">
-                        <div class="post-category">
-                            <i class="fas fa-award"></i>
-                            Featured
-                        </div>
+                <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
+                    Where Knowledge<br>
+                    Meets Creativity
+                </h1>
+
+                <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+                    Join thousands of writers, thinkers, and experts sharing their insights.
+                    Create, collaborate, and grow with us.
+                </p>
+
+                <div class="hero-buttons" data-aos="fade-up" data-aos-delay="300">
+                    <button class="hero-button primary">
+                        <i class="fas fa-pencil-alt"></i>
+                        Start Writing
+                    </button>
+                    <button class="hero-button glass-button">
+                        <i class="fas fa-compass"></i>
+                        Explore Content
+                    </button>
+                </div>
+
+                <div class="hero-stats" data-aos="fade-up" data-aos-delay="400">
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="10000">10k+</span>
+                        <span class="stat-label">Articles</span>
                     </div>
-                    <div class="post-content">
-                        <span class="featured-badge">
-                            <i class="fas fa-star"></i>
-                            Trending
-                        </span>
-                        <h2 class="post-title">The Evolution of Modern Web Development in 2024</h2>
-                        <p class="post-excerpt">Discover the latest trends, tools, and technologies shaping the future of web development. From AI-powered frameworks to revolutionary design patterns...</p>
-                        <div class="post-meta">
-                            <span class="post-meta-item">
-                                <i class="far fa-clock"></i>
-                                8 min read
-                            </span>
-                            <span class="post-meta-item">
-                                <i class="far fa-eye"></i>
-                                2.4k views
-                            </span>
-                        </div>
-                        <div class="post-author">
-                            <img data-type="portrait" data-src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg" alt="Author" class="author-avatar" loading="lazy">
-                            <div class="author-info">
-                                <span class="author-name">Sarah Johnson</span>
-                                <span class="author-role">Senior Developer</span>
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="50000">50k+</span>
+                        <span class="stat-label">Writers</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="100000">100k+</span>
+                        <span class="stat-label">Readers</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Posts Section -->
+        <section class="featured-posts">
+            <div class="container">
+                <div class="section-header" data-aos="fade-up">
+                    <h2 class="section-title gradient-text">Featured Stories</h2>
+                    <p class="section-subtitle">Discover trending articles and insights</p>
+                </div>
+
+                <div class="posts-grid">
+                    <!-- Featured Post -->
+                    <article class="featured-post" data-aos="fade-up">
+                        <div class="post-card-image">
+                            <img data-src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg"
+                                data-type="featured" alt="Featured post">
+                                <span class="featured-badge">
+                                    <i class="fas fa-star"></i>
+                                    Trending
+                                </span>
+                            <div class="post-category">
+                                <i class="fas fa-award"></i>
+                                Featured
                             </div>
                         </div>
-                    </div>
-                </article>
+                        <div class="post-content">
+                            
+                            <h2 class="post-title">The Evolution of Modern Web Development in 2024</h2>
+                            <p class="post-excerpt">Discover the latest trends, tools, and technologies shaping the
+                                future of web development. From AI-powered frameworks to revolutionary design
+                                patterns...</p>
+                            <div class="post-meta">
+                                <span class="post-meta-item">
+                                    <i class="far fa-clock"></i>
+                                    8 min read
+                                </span>
+                                <span class="post-meta-item">
+                                    <i class="far fa-eye"></i>
+                                    2.4k views
+                                </span>
+                            </div>
+                            <div class="post-author">
+                                <img data-type="portrait"
+                                    data-src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg"
+                                    alt="Author" class="author-avatar" loading="lazy">
+                                <div class="author-info">
+                                    <span class="author-name">Sarah Johnson</span>
+                                    <span class="author-role">Senior Developer</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
 
-                <!-- Technology Posts -->
-                <article class="post-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="post-card-image">
-                        <img data-src="https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg" 
-                             data-type="technology"
-                             alt="Technology">
-                        <div class="post-category">
-                            <i class="fas fa-laptop-code"></i>
-                            Technology
+                    <!-- Technology Posts -->
+                    <article class="post-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="post-card-image">
+                            <img data-src="https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg"
+                                data-type="technology" alt="Technology">
+                            <div class="post-category">
+                                <i class="fas fa-laptop-code"></i>
+                                Technology
+                            </div>
                         </div>
-                    </div>
-                    <div class="post-content">
-                        <h3 class="post-title">Building Scalable Applications with Modern Architecture</h3>
-                        <p class="post-excerpt">Learn the best practices and patterns for creating robust, scalable applications...</p>
-                        <div class="post-meta">
-                            <span class="post-meta-item">
-                                <i class="far fa-clock"></i>
-                                6 min read
-                            </span>
-                            <span class="post-meta-item">
-                                <i class="far fa-heart"></i>
-                                328
-                            </span>
+                        <div class="post-content">
+                            <h3 class="post-title">Building Scalable Applications with Modern Architecture</h3>
+                            <p class="post-excerpt">Learn the best practices and patterns for creating robust, scalable
+                                applications...</p>
+                            <div class="post-meta">
+                                <span class="post-meta-item">
+                                    <i class="far fa-clock"></i>
+                                    6 min read
+                                </span>
+                                <span class="post-meta-item">
+                                    <i class="far fa-heart"></i>
+                                    328
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                </article>
+                    </article>
 
-                <article class="post-card" data-aos="fade-up" data-aos-delay="150">
-                    <div class="post-card-image">
-                        <img data-type="technology" src="https://images.pexels.com/photos/3861972/pexels-photo-3861972.jpeg" alt="Technology" loading="lazy">
-                        <div class="post-category">
-                            <i class="fas fa-laptop-code"></i>
-                            Technology
+                    <article class="post-card" data-aos="fade-up" data-aos-delay="150">
+                        <div class="post-card-image">
+                            <img data-type="technology"
+                                src="https://images.pexels.com/photos/3861972/pexels-photo-3861972.jpeg"
+                                alt="Technology" loading="lazy">
+                            <div class="post-category">
+                                <i class="fas fa-laptop-code"></i>
+                                Technology
+                            </div>
                         </div>
-                    </div>
-                    <div class="post-content">
-                        <h3 class="post-title">Modern Backend Development Patterns</h3>
-                        <p class="post-excerpt">Explore efficient patterns and best practices for scalable backend architectures...</p>
-                        <div class="post-meta">
-                            <span class="post-meta-item">
-                                <i class="far fa-clock"></i>
-                                7 min read
-                            </span>
-                            <span class="post-meta-item">
-                                <i class="far fa-heart"></i>
-                                421
-                            </span>
+                        <div class="post-content">
+                            <h3 class="post-title">Modern Backend Development Patterns</h3>
+                            <p class="post-excerpt">Explore efficient patterns and best practices for scalable backend
+                                architectures...</p>
+                            <div class="post-meta">
+                                <span class="post-meta-item">
+                                    <i class="far fa-clock"></i>
+                                    7 min read
+                                </span>
+                                <span class="post-meta-item">
+                                    <i class="far fa-heart"></i>
+                                    421
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                </article>
+                    </article>
 
-                <article class="post-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="post-card-image">
-                        <img data-type="technology" src="https://images.pexels.com/photos/1181677/pexels-photo-1181677.jpeg" alt="Technology" loading="lazy">
-                        <div class="post-category">
-                            <i class="fas fa-laptop-code"></i>
-                            Technology
+                    <article class="post-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="post-card-image">
+                            <img data-type="technology"
+                                src="https://images.pexels.com/photos/1181677/pexels-photo-1181677.jpeg"
+                                alt="Technology" loading="lazy">
+                            <div class="post-category">
+                                <i class="fas fa-laptop-code"></i>
+                                Technology
+                            </div>
                         </div>
-                    </div>
-                    <div class="post-content">
-                        <h3 class="post-title">Frontend Performance Optimization</h3>
-                        <p class="post-excerpt">Master the techniques for building blazing-fast web applications...</p>
-                        <div class="post-meta">
-                            <span class="post-meta-item">
-                                <i class="far fa-clock"></i>
-                                5 min read
-                            </span>
-                            <span class="post-meta-item">
-                                <i class="far fa-heart"></i>
-                                287
-                            </span>
+                        <div class="post-content">
+                            <h3 class="post-title">Frontend Performance Optimization</h3>
+                            <p class="post-excerpt">Master the techniques for building blazing-fast web applications...
+                            </p>
+                            <div class="post-meta">
+                                <span class="post-meta-item">
+                                    <i class="far fa-clock"></i>
+                                    5 min read
+                                </span>
+                                <span class="post-meta-item">
+                                    <i class="far fa-heart"></i>
+                                    287
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                </article>
+                    </article>
 
-                <!-- Design Posts -->
-                <article class="post-card" data-aos="fade-up" data-aos-delay="250">
-                    <div class="post-card-image">
-                        <img data-type="design" src="https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg" alt="Design" loading="lazy">
-                        <div class="post-category">
-                            <i class="fas fa-paint-brush"></i>
-                            Design
+                    <!-- Design Posts -->
+                    <article class="post-card" data-aos="fade-up" data-aos-delay="250">
+                        <div class="post-card-image">
+                            <img data-type="design"
+                                src="https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg" alt="Design"
+                                loading="lazy">
+                            <div class="post-category">
+                                <i class="fas fa-paint-brush"></i>
+                                Design
+                            </div>
                         </div>
-                    </div>
-                    <div class="post-content">
-                        <h3 class="post-title">Design Principles for Modern Web Applications</h3>
-                        <p class="post-excerpt">Explore essential design principles that make web applications more intuitive and user-friendly...</p>
-                        <div class="post-meta">
-                            <span class="post-meta-item">
-                                <i class="far fa-clock"></i>
-                                5 min read
-                            </span>
-                            <span class="post-meta-item">
-                                <i class="far fa-heart"></i>
-                                245
-                            </span>
+                        <div class="post-content">
+                            <h3 class="post-title">Design Principles for Modern Web Applications</h3>
+                            <p class="post-excerpt">Explore essential design principles that make web applications more
+                                intuitive and user-friendly...</p>
+                            <div class="post-meta">
+                                <span class="post-meta-item">
+                                    <i class="far fa-clock"></i>
+                                    5 min read
+                                </span>
+                                <span class="post-meta-item">
+                                    <i class="far fa-heart"></i>
+                                    245
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                </article>
+                    </article>
 
-                <article class="post-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="post-card-image">
-                        <img data-type="design" src="https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg" alt="Design" loading="lazy">
-                        <div class="post-category">
-                            <i class="fas fa-paint-brush"></i>
-                            Design
+                    <article class="post-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="post-card-image">
+                            <img data-type="design"
+                                src="https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg" alt="Design"
+                                loading="lazy">
+                            <div class="post-category">
+                                <i class="fas fa-paint-brush"></i>
+                                Design
+                            </div>
                         </div>
-                    </div>
-                    <div class="post-content">
-                        <h3 class="post-title">Creating Immersive User Experiences</h3>
-                        <p class="post-excerpt">Learn how to design engaging and memorable user experiences...</p>
-                        <div class="post-meta">
-                            <span class="post-meta-item">
-                                <i class="far fa-clock"></i>
-                                6 min read
-                            </span>
-                            <span class="post-meta-item">
-                                <i class="far fa-heart"></i>
-                                342
-                            </span>
+                        <div class="post-content">
+                            <h3 class="post-title">Creating Immersive User Experiences</h3>
+                            <p class="post-excerpt">Learn how to design engaging and memorable user experiences...</p>
+                            <div class="post-meta">
+                                <span class="post-meta-item">
+                                    <i class="far fa-clock"></i>
+                                    6 min read
+                                </span>
+                                <span class="post-meta-item">
+                                    <i class="far fa-heart"></i>
+                                    342
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                </article>
+                    </article>
 
-                <article class="post-card" data-aos="fade-up" data-aos-delay="350">
-                    <div class="post-card-image">
-                        <img data-type="design" src="https://images.pexels.com/photos/1762851/pexels-photo-1762851.jpeg" alt="Design" loading="lazy">
-                        <div class="post-category">
-                            <i class="fas fa-paint-brush"></i>
-                            Design
+                    <article class="post-card" data-aos="fade-up" data-aos-delay="350">
+                        <div class="post-card-image">
+                            <img data-type="design"
+                                src="https://images.pexels.com/photos/1762851/pexels-photo-1762851.jpeg" alt="Design"
+                                loading="lazy">
+                            <div class="post-category">
+                                <i class="fas fa-paint-brush"></i>
+                                Design
+                            </div>
                         </div>
-                    </div>
-                    <div class="post-content">
-                        <h3 class="post-title">Design Systems at Scale</h3>
-                        <p class="post-excerpt">Building and maintaining design systems for large applications...</p>
-                        <div class="post-meta">
-                            <span class="post-meta-item">
-                                <i class="far fa-clock"></i>
-                                8 min read
-                            </span>
-                            <span class="post-meta-item">
-                                <i class="far fa-heart"></i>
-                                396
-                            </span>
+                        <div class="post-content">
+                            <h3 class="post-title">Design Systems at Scale</h3>
+                            <p class="post-excerpt">Building and maintaining design systems for large applications...
+                            </p>
+                            <div class="post-meta">
+                                <span class="post-meta-item">
+                                    <i class="far fa-clock"></i>
+                                    8 min read
+                                </span>
+                                <span class="post-meta-item">
+                                    <i class="far fa-heart"></i>
+                                    396
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                </article>
+                    </article>
 
-                <!-- AI & ML Posts -->
-                <article class="post-card" data-aos="fade-up" data-aos-delay="400">
-                    <div class="post-card-image">
-                        <img data-type="ai" src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg" alt="AI & ML" loading="lazy">
-                        <div class="post-category">
-                            <i class="fas fa-robot"></i>
-                            AI & ML
+                    <!-- AI & ML Posts -->
+                    <article class="post-card" data-aos="fade-up" data-aos-delay="400">
+                        <div class="post-card-image">
+                            <img data-type="ai" src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg"
+                                alt="AI & ML" loading="lazy">
+                            <div class="post-category">
+                                <i class="fas fa-robot"></i>
+                                AI & ML
+                            </div>
                         </div>
-                    </div>
-                    <div class="post-content">
-                        <h3 class="post-title">Machine Learning in Modern Applications</h3>
-                        <p class="post-excerpt">Discover how AI and machine learning are transforming web development and user experiences...</p>
-                        <div class="post-meta">
-                            <span class="post-meta-item">
-                                <i class="far fa-clock"></i>
-                                7 min read
-                            </span>
-                            <span class="post-meta-item">
-                                <i class="far fa-heart"></i>
-                                412
-                            </span>
+                        <div class="post-content">
+                            <h3 class="post-title">Machine Learning in Modern Applications</h3>
+                            <p class="post-excerpt">Discover how AI and machine learning are transforming web
+                                development and user experiences...</p>
+                            <div class="post-meta">
+                                <span class="post-meta-item">
+                                    <i class="far fa-clock"></i>
+                                    7 min read
+                                </span>
+                                <span class="post-meta-item">
+                                    <i class="far fa-heart"></i>
+                                    412
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                </article>
+                    </article>
 
-                <article class="post-card" data-aos="fade-up" data-aos-delay="450">
-                    <div class="post-card-image">
-                        <img data-type="ai" src="https://images.pexels.com/photos/8386434/pexels-photo-8386434.jpeg" alt="AI & ML" loading="lazy">
-                        <div class="post-category">
-                            <i class="fas fa-robot"></i>
-                            AI & ML
+                    <article class="post-card" data-aos="fade-up" data-aos-delay="450">
+                        <div class="post-card-image">
+                            <img data-type="ai" src="https://images.pexels.com/photos/8386434/pexels-photo-8386434.jpeg"
+                                alt="AI & ML" loading="lazy">
+                            <div class="post-category">
+                                <i class="fas fa-robot"></i>
+                                AI & ML
+                            </div>
                         </div>
-                    </div>
-                    <div class="post-content">
-                        <h3 class="post-title">Natural Language Processing Advances</h3>
-                        <p class="post-excerpt">Latest developments in NLP and their practical applications...</p>
-                        <div class="post-meta">
-                            <span class="post-meta-item">
-                                <i class="far fa-clock"></i>
-                                9 min read
-                            </span>
-                            <span class="post-meta-item">
-                                <i class="far fa-heart"></i>
-                                534
-                            </span>
+                        <div class="post-content">
+                            <h3 class="post-title">Natural Language Processing Advances</h3>
+                            <p class="post-excerpt">Latest developments in NLP and their practical applications...</p>
+                            <div class="post-meta">
+                                <span class="post-meta-item">
+                                    <i class="far fa-clock"></i>
+                                    9 min read
+                                </span>
+                                <span class="post-meta-item">
+                                    <i class="far fa-heart"></i>
+                                    534
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                </article>
+                    </article>
 
-                <article class="post-card" data-aos="fade-up" data-aos-delay="500">
-                    <div class="post-card-image">
-                        <img data-type="ai" src="https://images.pexels.com/photos/8386639/pexels-photo-8386639.jpeg" alt="AI & ML" loading="lazy">
-                        <div class="post-category">
-                            <i class="fas fa-robot"></i>
-                            AI & ML
+                    <article class="post-card" data-aos="fade-up" data-aos-delay="500">
+                        <div class="post-card-image">
+                            <img data-type="ai" src="https://images.pexels.com/photos/8386639/pexels-photo-8386639.jpeg"
+                                alt="AI & ML" loading="lazy">
+                            <div class="post-category">
+                                <i class="fas fa-robot"></i>
+                                AI & ML
+                            </div>
                         </div>
-                    </div>
-                    <div class="post-content">
-                        <h3 class="post-title">Computer Vision in Practice</h3>
-                        <p class="post-excerpt">Implementing computer vision solutions in real-world applications...</p>
-                        <div class="post-meta">
-                            <span class="post-meta-item">
-                                <i class="far fa-clock"></i>
-                                7 min read
-                            </span>
-                            <span class="post-meta-item">
-                                <i class="far fa-heart"></i>
-                                467
-                            </span>
+                        <div class="post-content">
+                            <h3 class="post-title">Computer Vision in Practice</h3>
+                            <p class="post-excerpt">Implementing computer vision solutions in real-world applications...
+                            </p>
+                            <div class="post-meta">
+                                <span class="post-meta-item">
+                                    <i class="far fa-clock"></i>
+                                    7 min read
+                                </span>
+                                <span class="post-meta-item">
+                                    <i class="far fa-heart"></i>
+                                    467
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                </article>
+                    </article>
 
-                <!-- Mobile Posts -->
-                <article class="post-card" data-aos="fade-up" data-aos-delay="550">
-                    <div class="post-card-image">
-                        <img data-type="mobile" src="https://images.pexels.com/photos/47261/pexels-photo-47261.jpeg" alt="Mobile Development" loading="lazy">
-                        <div class="post-category">
-                            <i class="fas fa-mobile-alt"></i>
-                            Mobile
+                    <!-- Mobile Posts -->
+                    <article class="post-card" data-aos="fade-up" data-aos-delay="550">
+                        <div class="post-card-image">
+                            <img data-type="mobile" src="https://images.pexels.com/photos/47261/pexels-photo-47261.jpeg"
+                                alt="Mobile Development" loading="lazy">
+                            <div class="post-category">
+                                <i class="fas fa-mobile-alt"></i>
+                                Mobile
+                            </div>
                         </div>
-                    </div>
-                    <div class="post-content">
-                        <h3 class="post-title">Building Cross-Platform Mobile Applications</h3>
-                        <p class="post-excerpt">Learn how to create efficient and scalable mobile applications that work across multiple platforms...</p>
-                        <div class="post-meta">
-                            <span class="post-meta-item">
-                                <i class="far fa-clock"></i>
-                                6 min read
-                            </span>
-                            <span class="post-meta-item">
-                                <i class="far fa-heart"></i>
-                                289
-                            </span>
+                        <div class="post-content">
+                            <h3 class="post-title">Building Cross-Platform Mobile Applications</h3>
+                            <p class="post-excerpt">Learn how to create efficient and scalable mobile applications that
+                                work across multiple platforms...</p>
+                            <div class="post-meta">
+                                <span class="post-meta-item">
+                                    <i class="far fa-clock"></i>
+                                    6 min read
+                                </span>
+                                <span class="post-meta-item">
+                                    <i class="far fa-heart"></i>
+                                    289
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                </article>
+                    </article>
 
-                <article class="post-card" data-aos="fade-up" data-aos-delay="600">
-                    <div class="post-card-image">
-                        <img data-type="mobile" src="https://images.pexels.com/photos/1092644/pexels-photo-1092644.jpeg" alt="Mobile Development" loading="lazy">
-                        <div class="post-category">
-                            <i class="fas fa-mobile-alt"></i>
-                            Mobile
+                    <article class="post-card" data-aos="fade-up" data-aos-delay="600">
+                        <div class="post-card-image">
+                            <img data-type="mobile"
+                                src="https://images.pexels.com/photos/1092644/pexels-photo-1092644.jpeg"
+                                alt="Mobile Development" loading="lazy">
+                            <div class="post-category">
+                                <i class="fas fa-mobile-alt"></i>
+                                Mobile
+                            </div>
                         </div>
-                    </div>
-                    <div class="post-content">
-                        <h3 class="post-title">State Management in Mobile Apps</h3>
-                        <p class="post-excerpt">Advanced state management patterns for complex mobile applications...</p>
-                        <div class="post-meta">
-                            <span class="post-meta-item"></span>
-                                <i class="far fa-heart"></i>
-                                312
-                            </span>
+                        <div class="post-content">
+                            <h3 class="post-title">State Management in Mobile Apps</h3>
+                            <p class="post-excerpt">Advanced state management patterns for complex mobile
+                                applications...</p>
+                            <div class="post-meta">
+                                <span class="post-meta-item">
+                                    <i class="far fa-clock"></i>
+                                    6 min read
+                                </span>
+                                <span class="post-meta-item">
+                                    <i class="far fa-heart"></i>
+                                    312
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                </article>
+                    </article>
 
-                <article class="post-card" data-aos="fade-up" data-aos-delay="650">
-                    <div class="post-card-image">
-                        <img data-type="mobile" src="https://images.pexels.com/photos/1440727/pexels-photo-1440727.jpeg" alt="Mobile Development" loading="lazy">
-                        <div class="post-category">
-                            <i class="fas fa-mobile-alt"></i>
-                            Mobile
+                    <article class="post-card" data-aos="fade-up" data-aos-delay="650">
+                        <div class="post-card-image">
+                            <img data-type="mobile"
+                                src="https://images.pexels.com/photos/1440727/pexels-photo-1440727.jpeg"
+                                alt="Mobile Development" loading="lazy">
+                            <div class="post-category">
+                                <i class="fas fa-mobile-alt"></i>
+                                Mobile
+                            </div>
                         </div>
-                    </div>
-                    <div class="post-content">
-                        <h3 class="post-title">Mobile UI Animation Techniques</h3>
-                        <p class="post-excerpt">Creating smooth and engaging animations for mobile interfaces...</p>
-                        <div class="post-meta">
-                            <span class="post-meta-item">
-                                <i class="far fa-clock"></i>
-                                5 min read
-                            </span>
-                            <span class="post-meta-item">
-                                <i class="far fa-heart"></i>
-                                276
-                            </span>
+                        <div class="post-content">
+                            <h3 class="post-title">Mobile UI Animation Techniques</h3>
+                            <p class="post-excerpt">Creating smooth and engaging animations for mobile interfaces...</p>
+                            <div class="post-meta">
+                                <span class="post-meta-item">
+                                    <i class="far fa-clock"></i>
+                                    5 min read
+                                </span>
+                                <span class="post-meta-item">
+                                    <i class="far fa-heart"></i>
+                                    276
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                </article>
-            </div>
-
-            <div class="category-pills" data-aos="fade-up">
-                <button class="category-pill active">
-                    <i class="fas fa-globe"></i>
-                    All Topics
-                </button>
-                <button class="category-pill">
-                    <i class="fas fa-laptop-code"></i>
-                    Technology
-                </button>
-                <button class="category-pill">
-                    <i class="fas fa-paint-brush"></i>
-                    Design
-                </button>
-                <button class="category-pill">
-                    <i class="fas fa-robot"></i>
-                    AI & ML
-                </button>
-                <button class="category-pill">
-                    <i class="fas fa-mobile-alt"></i>
-                    Mobile
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- 3. Latest Articles -->
-    <section class="blog-section">
-    <div class="container">
-        <div class="blog-header">
-            <div class="section-intro">
-                <h2 class="section-title gradient-text">Latest Articles</h2>
-                <p class="section-subtitle">Fresh insights from our community</p>
-            </div>
-            <div class="blog-controls">
-                <div class="view-switcher">
-                    <button class="active" data-view="grid">
-                        <i class="fas fa-grid"></i>
-                        Grid
-                    </button>
-                    <button data-view="list">
-                        <i class="fas fa-list"></i>
-                        List
-                    </button>
+                    </article>
                 </div>
-                <select class="modern-select">
-                    <option>Most Recent</option>
-                    <option>Most Popular</option>
-                    <option>Trending</option>
-                </select>
-            </div>
-        </div>
 
-        <div class="blog-grid" data-aos="fade-up">
-            <!-- Article Card 1 -->
-            <article class="article-card">
-                <div class="article-image">
-                    <img class="article-img" 
-                         data-src="https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg" 
-                         data-type="developer"
-                         alt="Programming">
-                    <span class="article-category">
+                <div class="category-pills" data-aos="fade-up">
+                    <button class="category-pill active">
+                        <i class="fas fa-globe"></i>
+                        All Topics
+                    </button>
+                    <button class="category-pill">
                         <i class="fas fa-laptop-code"></i>
                         Technology
-                    </span>
-                    <div class="article-meta">
-                        <span><i class="far fa-clock"></i> 5 min read</span>
-                        <span><i class="far fa-eye"></i> 1.2k views</span>
-                    </div>
-                </div>
-                <div class="article-content">
-                    <div class="article-info">
-                        <span>March 15, 2024</span>
-                        <span><i class="far fa-bookmark"></i> Save</span>
-                    </div>
-                    <h3 class="article-title">Advanced TypeScript Patterns for Enterprise Applications</h3>
-                    <p class="article-excerpt">Explore advanced TypeScript patterns and best practices for building scalable enterprise applications...</p>
-                    <div class="article-footer">
-                        <div class="article-author">
-                            <img data-src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg" 
-                                 data-type="portrait"
-                                 alt="Author" 
-                                 class="author-avatar">
-                            <div>
-                                <div class="author-name">Alex Mitchell</div>
-                                <div class="author-role">Tech Lead</div>
-                            </div>
-                        </div>
-                        <div class="article-stats">
-                            <span class="stat-item">
-                                <i class="far fa-heart"></i>
-                                248
-                            </span>
-                            <span class="stat-item">
-                                <i class="far fa-comment"></i>
-                                42
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Article Card 2 -->
-            <article class="article-card">
-                <div class="article-image">
-                    <img class="article-img"
-                         data-src="https://images.pexels.com/photos/1181298/pexels-photo-1181298.jpeg"
-                         data-type="technology"
-                         alt="Web Development">
-                    <span class="article-category">
-                        <i class="fas fa-code"></i>
-                        Development
-                    </span>
-                    <div class="article-meta">
-                        <span><i class="far fa-clock"></i> 7 min read</span>
-                        <span><i class="far fa-eye"></i> 956 views</span>
-                    </div>
-                </div>
-                <div class="article-content">
-                    <div class="article-info">
-                        <span>March 14, 2024</span>
-                        <span><i class="far fa-bookmark"></i> Save</span>
-                    </div>
-                    <h3 class="article-title">Modern Web Development Best Practices</h3>
-                    <p class="article-excerpt">Learn the latest techniques and patterns for building modern web applications...</p>
-                    <div class="article-footer">
-                        <div class="article-author">
-                            <img data-src="https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg" 
-                                 data-type="portrait"
-                                 alt="Author" 
-                                 class="author-avatar">
-                            <div>
-                                <div class="author-name">Mark Wilson</div>
-                                <div class="author-role">Senior Developer</div>
-                            </div>
-                        </div>
-                        <div class="article-stats">
-                            <span class="stat-item"><i class="far fa-heart"></i> 192</span>
-                            <span class="stat-item"><i class="far fa-comment"></i> 34</span>
-                        </div>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Article Card 3 -->
-            <article class="article-card">
-                <div class="article-image">
-                    <img class="article-img"
-                         data-src="https://images.pexels.com/photos/3182773/pexels-photo-3182773.jpeg"
-                         data-type="design"
-                         alt="Design">
-                    <span class="article-category">
+                    </button>
+                    <button class="category-pill">
                         <i class="fas fa-paint-brush"></i>
                         Design
-                    </span>
-                    <div class="article-meta">
-                        <span><i class="far fa-clock"></i> 4 min read</span>
-                        <span><i class="far fa-eye"></i> 784 views</span>
+                    </button>
+                    <button class="category-pill">
+                        <i class="fas fa-robot"></i>
+                        AI & ML
+                    </button>
+                    <button class="category-pill">
+                        <i class="fas fa-mobile-alt"></i>
+                        Mobile
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Latest Articles -->
+        <section class="blog-section">
+            <div class="container">
+                <div class="blog-header">
+                    <div class="section-intro">
+                        <h2 class="section-title gradient-text">Latest Articles</h2>
+                        <p class="section-subtitle">Fresh insights from our community</p>
+                    </div>
+                    <div class="blog-controls">
+                        <div class="view-switcher">
+                            <button class="active" data-view="grid">
+                                <i class="fas fa-grid"></i>
+                                Grid
+                            </button>
+                            <button data-view="list">
+                                <i class="fas fa-list"></i>
+                                List
+                            </button>
+                        </div>
+                        <select class="modern-select">
+                            <option>Most Recent</option>
+                            <option>Most Popular</option>
+                            <option>Trending</option>
+                        </select>
                     </div>
                 </div>
-                <div class="article-content">
-                    <div class="article-info">
-                        <span>March 13, 2024</span>
-                        <span><i class="far fa-bookmark"></i> Save</span>
-                    </div>
-                    <h3 class="article-title">UI Design Trends for 2024</h3>
-                    <p class="article-excerpt">Explore the latest trends in user interface design and how to implement them...</p>
-                    <div class="article-footer">
-                        <div class="article-author">
-                            <img data-src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg" 
-                                 data-type="portrait"
-                                 alt="Author" 
-                                 class="author-avatar">
-                            <div>
-                                <div class="author-name">Sarah Chen</div>
-                                <div class="author-role">UX Designer</div>
+
+                <div class="blog-grid" data-aos="fade-up">
+                    <!-- Article Card 1 -->
+                    <article class="article-card">
+                        <div class="article-image">
+                            <img class="article-img"
+                                data-src="https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg"
+                                data-type="developer" alt="Programming">
+                            <span class="article-category">
+                                <i class="fas fa-laptop-code"></i>
+                                Technology
+                            </span>
+                            <div class="article-meta">
+                                <span><i class="far fa-clock"></i> 5 min read</span>
+                                <span><i class="far fa-eye"></i> 1.2k views</span>
                             </div>
                         </div>
-                        <div class="article-stats">
-                            <span class="stat-item"><i class="far fa-heart"></i> 167</span>
-                            <span class="stat-item"><i class="far fa-comment"></i> 28</span>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </div>
-
-        <div class="blog-pagination" data-aos="fade-up">
-            <!-- ...existing pagination code... -->
-        </div>
-    </div>
-</section>
-
-    <!-- 4. Create Section -->
-    <section class="create-section">
-    <div class="container">
-        <div class="section-header" data-aos="fade-up">
-            <div class="badge"><i class="fas fa-sparkles"></i> Creator Studio</div>
-            <h2 class="section-title">Share Your Knowledge</h2>
-            <p class="section-subtitle">Create engaging content that inspires and educates</p>
-        </div>
-
-        <div class="create-grid">
-            <div class="editor-panel glass-card" data-aos="fade-right">
-                <div class="editor-tabs">
-                    <button class="tab-btn active" data-tab="write">
-                        <i class="fas fa-pen-fancy"></i>
-                        <span>Write</span>
-                    </button>
-                    <button class="tab-btn" data-tab="preview">
-                        <i class="fas fa-eye"></i>
-                        <span>Preview</span>
-                    </button>
-                    <button class="tab-btn" data-tab="settings">
-                        <i class="fas fa-cog"></i>
-                        <span>Settings</span>
-                    </button>
-                </div>
-
-                <div class="editor-content">
-                    <div class="post-type-selector">
-                        <button class="type-btn active" data-type="article">
-                            <i class="fas fa-newspaper"></i>
-                            <span>Article</span>
-                        </button>
-                        <button class="type-btn" data-type="tutorial">
-                            <i class="fas fa-graduation-cap"></i>
-                            <span>Tutorial</span>
-                        </button>
-                        <button class="type-btn" data-type="wiki">
-                            <i class="fas fa-book"></i>
-                            <span>Wiki</span>
-                        </button>
-                    </div>
-
-                    <div class="editor-main">
-                        <div class="floating-tools">
-                            <button title="Add Image"><i class="fas fa-image"></i></button>
-                            <button title="Add Video"><i class="fas fa-video"></i></button>
-                            <button title="Add Code"><i class="fas fa-code"></i></button>
-                            <button title="Add Link"><i class="fas fa-link"></i></button>
-                        </div>
-
-                        <input type="text" class="title-input" placeholder="Enter your title...">
-                        
-                        <div class="tag-wrapper">
-                            <div class="tag-input-container">
-                                <input type="text" class="tag-input" placeholder="Add tags...">
-                                <div class="tag-suggestions">
-                                    <span class="tag-chip" data-tag="technology">
-                                        <i class="fas fa-microchip"></i> Technology
+                        <div class="article-content">
+                            <div class="article-info">
+                                <span>March 15, 2024</span>
+                                <span><i class="far fa-bookmark"></i> Save</span>
+                            </div>
+                            <h3 class="article-title">Advanced TypeScript Patterns for Enterprise Applications</h3>
+                            <p class="article-excerpt">Explore advanced TypeScript patterns and best practices for
+                                building scalable enterprise applications...</p>
+                            <div class="article-footer">
+                                <div class="article-author">
+                                    <img data-src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg"
+                                        data-type="portrait" alt="Author" class="author-avatar">
+                                    <div>
+                                        <div class="author-name">Alex Mitchell</div>
+                                        <div class="author-role">Tech Lead</div>
+                                    </div>
+                                </div>
+                                <div class="article-stats">
+                                    <span class="stat-item">
+                                        <i class="far fa-heart"></i>
+                                        248
                                     </span>
-                                    <span class="tag-chip" data-tag="design">
-                                        <i class="fas fa-palette"></i> Design
-                                    </span>
-                                    <span class="tag-chip" data-tag="tutorial">
-                                        <i class="fas fa-chalkboard-teacher"></i> Tutorial
+                                    <span class="stat-item">
+                                        <i class="far fa-comment"></i>
+                                        42
                                     </span>
                                 </div>
                             </div>
-                            <div class="selected-tags"></div>
                         </div>
+                    </article>
 
-                        <div class="editor-toolbar">
-                            <div class="toolbar-group">
-                                <button title="Bold"><i class="fas fa-bold"></i></button>
-                                <button title="Italic"><i class="fas fa-italic"></i></button>
-                                <button title="Underline"><i class="fas fa-underline"></i></button>
-                                <button title="Strike"><i class="fas fa-strikethrough"></i></button>
-                            </div>
-                            <div class="toolbar-group">
-                                <button title="Heading 1"><i class="fas fa-heading"></i>1</button>
-                                <button title="Heading 2"><i class="fas fa-heading"></i>2</button>
-                                <button title="Heading 3"><i class="fas fa-heading"></i>3</button>
-                            </div>
-                            <div class="toolbar-group">
-                                <button title="Bullet List"><i class="fas fa-list-ul"></i></button>
-                                <button title="Numbered List"><i class="fas fa-list-ol"></i></button>
-                                <button title="Quote"><i class="fas fa-quote-right"></i></button>
+                    <!-- Article Card 2 -->
+                    <article class="article-card">
+                        <div class="article-image">
+                            <img class="article-img"
+                                data-src="https://images.pexels.com/photos/1181298/pexels-photo-1181298.jpeg"
+                                data-type="technology" alt="Web Development">
+                            <span class="article-category">
+                                <i class="fas fa-code"></i>
+                                Development
+                            </span>
+                            <div class="article-meta">
+                                <span><i class="far fa-clock"></i> 7 min read</span>
+                                <span><i class="far fa-eye"></i> 956 views</span>
                             </div>
                         </div>
+                        <div class="article-content">
+                            <div class="article-info">
+                                <span>March 14, 2024</span>
+                                <span><i class="far fa-bookmark"></i> Save</span>
+                            </div>
+                            <h3 class="article-title">Modern Web Development Best Practices</h3>
+                            <p class="article-excerpt">Learn the latest techniques and patterns for building modern web
+                                applications...</p>
+                            <div class="article-footer">
+                                <div class="article-author">
+                                    <img data-src="https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg"
+                                        data-type="portrait" alt="Author" class="author-avatar">
+                                    <div>
+                                        <div class="author-name">Mark Wilson</div>
+                                        <div class="author-role">Senior Developer</div>
+                                    </div>
+                                </div>
+                                <div class="article-stats">
+                                    <span class="stat-item"><i class="far fa-heart"></i> 192</span>
+                                    <span class="stat-item"><i class="far fa-comment"></i> 34</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
 
-                        <div class="content-area">
-                            <textarea class="content-editor" placeholder="Start writing your story..."></textarea>
+                    <!-- Article Card 3 -->
+                    <article class="article-card">
+                        <div class="article-image">
+                            <img class="article-img"
+                                data-src="https://images.pexels.com/photos/3182773/pexels-photo-3182773.jpeg"
+                                data-type="design" alt="Design">
+                            <span class="article-category">
+                                <i class="fas fa-paint-brush"></i>
+                                Design
+                            </span>
+                            <div class="article-meta">
+                                <span><i class="far fa-clock"></i> 4 min read</span>
+                                <span><i class="far fa-eye"></i> 784 views</span>
+                            </div>
+                        </div>
+                        <div class="article-content">
+                            <div class="article-info">
+                                <span>March 13, 2024</span>
+                                <span><i class="far fa-bookmark"></i> Save</span>
+                            </div>
+                            <h3 class="article-title">UI Design Trends for 2024</h3>
+                            <p class="article-excerpt">Explore the latest trends in user interface design and how to
+                                implement them...</p>
+                            <div class="article-footer">
+                                <div class="article-author">
+                                    <img data-src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg"
+                                        data-type="portrait" alt="Author" class="author-avatar">
+                                    <div>
+                                        <div class="author-name">Sarah Chen</div>
+                                        <div class="author-role">UX Designer</div>
+                                    </div>
+                                </div>
+                                <div class="article-stats">
+                                    <span class="stat-item"><i class="far fa-heart"></i> 167</span>
+                                    <span class="stat-item"><i class="far fa-comment"></i> 28</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="blog-pagination" data-aos="fade-up">
+                    <!-- ...existing pagination code... -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Create Section -->
+        <section class="create-section">
+            <div class="container">
+                <div class="section-header" data-aos="fade-up">
+                    <div class="badge"><i class="fas fa-sparkles"></i> Creator Studio</div>
+                    <h2 class="section-title gradient-text">Share Your Knowledge</h2>
+                    <p class="section-subtitle">Create engaging content that inspires and educates</p>
+                </div>
+
+                <div class="create-grid">
+                    <div class="editor-panel glass-card" data-aos="fade-right">
+                        <div class="editor-tabs">
+                            <button class="tab-btn active" data-tab="write">
+                                <i class="fas fa-pen-fancy"></i>
+                                <span>Write</span>
+                            </button>
+                            <button class="tab-btn" data-tab="preview">
+                                <i class="fas fa-eye"></i>
+                                <span>Preview</span>
+                            </button>
+                            <button class="tab-btn" data-tab="settings">
+                                <i class="fas fa-cog"></i>
+                                <span>Settings</span>
+                            </button>
+                        </div>
+
+                        <div class="editor-content">
+                            <div class="post-type-selector">
+                                <button class="type-btn active" data-type="article">
+                                    <i class="fas fa-newspaper"></i>
+                                    <span>Article</span>
+                                </button>
+                                <button class="type-btn" data-type="tutorial">
+                                    <i class="fas fa-graduation-cap"></i>
+                                    <span>Tutorial</span>
+                                </button>
+                                <button class="type-btn" data-type="wiki">
+                                    <i class="fas fa-book"></i>
+                                    <span>Wiki</span>
+                                </button>
+                            </div>
+
+                            <div class="editor-main">
+                                <div class="floating-tools">
+                                    <button title="Add Image"><i class="fas fa-image"></i></button>
+                                    <button title="Add Video"><i class="fas fa-video"></i></button>
+                                    <button title="Add Code"><i class="fas fa-code"></i></button>
+                                    <button title="Add Link"><i class="fas fa-link"></i></button>
+                                </div>
+
+                                <input type="text" class="title-input" placeholder="Enter your title...">
+
+                                <div class="tag-wrapper">
+                                    <div class="tag-input-container">
+                                        <input type="text" class="tag-input" placeholder="Add tags...">
+                                        <div class="tag-suggestions">
+                                            <span class="tag-chip" data-tag="technology">
+                                                <i class="fas fa-microchip"></i> Technology
+                                            </span>
+                                            <span class="tag-chip" data-tag="design">
+                                                <i class="fas fa-palette"></i> Design
+                                            </span>
+                                            <span class="tag-chip" data-tag="tutorial">
+                                                <i class="fas fa-chalkboard-teacher"></i> Tutorial
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="selected-tags"></div>
+                                </div>
+
+                                <div class="editor-toolbar">
+                                    <div class="toolbar-group">
+                                        <button title="Bold"><i class="fas fa-bold"></i></button>
+                                        <button title="Italic"><i class="fas fa-italic"></i></button>
+                                        <button title="Underline"><i class="fas fa-underline"></i></button>
+                                        <button title="Strike"><i class="fas fa-strikethrough"></i></button>
+                                    </div>
+                                    <div class="toolbar-group">
+                                        <button title="Heading 1"><i class="fas fa-heading"></i>1</button>
+                                        <button title="Heading 2"><i class="fas fa-heading"></i>2</button>
+                                        <button title="Heading 3"><i class="fas fa-heading"></i>3</button>
+                                    </div>
+                                    <div class="toolbar-group">
+                                        <button title="Bullet List"><i class="fas fa-list-ul"></i></button>
+                                        <button title="Numbered List"><i class="fas fa-list-ol"></i></button>
+                                        <button title="Quote"><i class="fas fa-quote-right"></i></button>
+                                    </div>
+                                </div>
+
+                                <div class="content-area">
+                                    <textarea class="content-editor"
+                                        placeholder="Start writing your story..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="editor-footer">
+                            <button class="outline-button">
+                                <i class="fas fa-save"></i> Save Draft
+                            </button>
+                            <button class="publish-button">
+                                <i class="fas fa-paper-plane"></i> Publish
+                                <span class="button-tooltip">⌘ + Enter</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-panel" data-aos="fade-left">
+                        <div class="help-card glass-card">
+                            <h3><i class="fas fa-lightbulb"></i> Writing Tips</h3>
+                            <ul class="tips-list">
+                                <li>Keep your paragraphs short and focused</li>
+                                <li>Use headings to organize your content</li>
+                                <li>Include relevant images and examples</li>
+                                <li>End with a clear call-to-action</li>
+                            </ul>
+                        </div>
+
+                        <div class="resources-card glass-card">
+                            <h3><i class="fas fa-box-open"></i> Resources</h3>
+                            <div class="resource-grid">
+                                <a href="#" class="resource-item">
+                                    <i class="fas fa-image"></i>
+                                    <span>Free Images</span>
+                                </a>
+                                <a href="#" class="resource-item">
+                                    <i class="fas fa-chart-bar"></i>
+                                    <span>Analytics</span>
+                                </a>
+                                <a href="#" class="resource-item">
+                                    <i class="fas fa-book"></i>
+                                    <span>Guidelines</span>
+                                </a>
+                                <a href="#" class="resource-item">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span>Help</span>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <div class="editor-footer">
-                    <button class="outline-button">
-                        <i class="fas fa-save"></i> Save Draft
-                    </button>
-                    <button class="publish-button">
-                        <i class="fas fa-paper-plane"></i> Publish
-                        <span class="button-tooltip">⌘ + Enter</span>
-                    </button>
-                </div>
+        <!-- 5. About Section -->
+        <section class="about-section">
+            <div class="about-background-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
             </div>
 
-            <div class="sidebar-panel" data-aos="fade-left">
-                <div class="help-card glass-card">
-                    <h3><i class="fas fa-lightbulb"></i> Writing Tips</h3>
-                    <ul class="tips-list">
-                        <li>Keep your paragraphs short and focused</li>
-                        <li>Use headings to organize your content</li>
-                        <li>Include relevant images and examples</li>
-                        <li>End with a clear call-to-action</li>
+            <div class="container">
+                <div class="section-header text-center" data-aos="fade-up">
+                    <span class="badge gradient-badge">
+                        <i class="fas fa-star-half-alt"></i> Our Story
+                    </span>
+                    <h2 class="section-title gradient-text">Building Tomorrow's Knowledge Hub</h2>
+                    <p class="section-subtitle">Join a community of passionate creators and learners</p>
+                </div>
+
+                <div class="mission-vision-grid">
+                    <div class="mission-card glass-card" data-aos="fade-right">
+                        <div class="card-icon gradient-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3>Our Mission</h3>
+                        <p>Empowering individuals to share knowledge and inspire others through engaging content and
+                            meaningful connections.</p>
+                    </div>
+
+                    <div class="vision-card glass-card" data-aos="fade-left">
+                        <div class="card-icon gradient-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3>Our Vision</h3>
+                        <p>Creating the most vibrant and inclusive knowledge-sharing platform where ideas flourish and
+                            innovation thrives.</p>
+                    </div>
+                </div>
+
+                <div class="about-grid">
+                    <div class="about-content" data-aos="fade-right">
+                        <div class="feature-list">
+                            <div class="feature-item" data-aos="fade-up" data-aos-delay="100">
+                                <div class="feature-icon-wrapper">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="feature-content">
+                                    <h3>Thriving Community</h3>
+                                    <p>Join thousands of creators sharing their knowledge and expertise.</p>
+                                </div>
+                            </div>
+
+                            <div class="feature-item" data-aos="fade-up" data-aos-delay="200">
+                                <div class="feature-icon-wrapper">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <div class="feature-content">
+                                    <h3>Quality First</h3>
+                                    <p>Curated content ensuring high-quality and reliable information.</p>
+                                </div>
+                            </div>
+
+                            <div class="feature-item" data-aos="fade-up" data-aos-delay="300">
+                                <div class="feature-icon-wrapper">
+                                    <i class="fas fa-comments"></i>
+                                </div>
+                                <div class="feature-content">
+                                    <h3>Active Engagement</h3>
+                                    <p>Meaningful discussions and collaborative learning experiences.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cta-group">
+                            <button class="gradient-button">
+                                <i class="fas fa-rocket"></i>
+                                Join Community
+                            </button>
+                            <button class="outline-button">
+                                <i class="fas fa-play"></i>
+                                Watch Video
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="about-showcase" data-aos="fade-left">
+                        <div class="showcase-grid">
+                            <img src="https://images.pexels.com/photos/3182812/pexels-photo-3182812.jpeg"
+                                alt="Team Collaboration" class="showcase-img img-1" data-aos="zoom-in"
+                                data-aos-delay="100">
+                            <img src="https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg"
+                                alt="Creative Discussion" class="showcase-img img-2" data-aos="zoom-in"
+                                data-aos-delay="200">
+                            <img src="https://images.pexels.com/photos/3182781/pexels-photo-3182781.jpeg"
+                                alt="Knowledge Sharing" class="showcase-img img-3" data-aos="zoom-in"
+                                data-aos-delay="300">
+                        </div>
+
+                        <div class="stats-card glass-card" data-aos="fade-up">
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <div class="stat-value" data-count="50">0k+</div>
+                                    <div class="stat-label">Active Writers</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value" data-count="100">0k+</< /div>
+                                        <div class="stat-label">Articles</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value" data-count="200">0k+</< /div>
+                                            <div class="stat-label">Monthly Readers</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-value">4.9</div>
+                                            <div class="stat-label">User Rating</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="testimonials-section" data-aos="fade-up">
+                            <h3 class="text-center">What Our Community Says</h3>
+                            <div class="testimonials-grid">
+                                <div class="testimonial-card glass-card" data-aos="fade-up" data-aos-delay="100">
+                                    <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg"
+                                        alt="User Avatar" class="testimonial-avatar">
+                                    <div class="testimonial-content">
+                                        <p>"An amazing platform for sharing knowledge and connecting with like-minded
+                                            individuals."</p>
+                                        <div class="testimonial-author">
+                                            <strong>David Chen</strong>
+                                            <span>Tech Writer</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="testimonial-card glass-card" data-aos="fade-up" data-aos-delay="200">
+                                    <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg"
+                                        alt="User Avatar" class="testimonial-avatar">
+                                    <div class="testimonial-content">
+                                        <p>"The quality of content and community engagement here is unmatched."</p>
+                                        <div class="testimonial-author">
+                                            <strong>Sarah Miller</strong>
+                                            <span>Content Creator</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        </section>
+    </main>
+
+    <footer class="modern-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <i class="fas fa-book-reader brand-icon"></i>
+                <span>WikiBlog</span>
+            </div>
+
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="#posts"><i class="fas fa-newspaper"></i> Posts</a></li>
+                        <li><a href="#create"><i class="fas fa-edit"></i> Create</a></li>
+                        <li><a href="#search"><i class="fas fa-search"></i> Search</a></li>
                     </ul>
                 </div>
 
-                <div class="resources-card glass-card">
-                    <h3><i class="fas fa-box-open"></i> Resources</h3>
-                    <div class="resource-grid">
-                        <a href="#" class="resource-item">
-                            <i class="fas fa-image"></i>
-                            <span>Free Images</span>
-                        </a>
-                        <a href="#" class="resource-item">
-                            <i class="fas fa-chart-bar"></i>
-                            <span>Analytics</span>
-                        </a>
-                        <a href="#" class="resource-item">
-                            <i class="fas fa-book"></i>
-                            <span>Guidelines</span>
-                        </a>
-                        <a href="#" class="resource-item">
-                            <i class="fas fa-question-circle"></i>
-                            <span>Help</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-    <!-- 5. About Section -->
-    <section class="about-section">
-    <div class="about-background-shapes">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
-    </div>
-    
-    <div class="container">
-        <div class="section-header text-center" data-aos="fade-up">
-            <span class="badge gradient-badge">
-                <i class="fas fa-star-half-alt"></i> Our Story
-            </span>
-            <h2 class="section-title">Building Tomorrow's Knowledge Hub</h2>
-            <p class="section-subtitle">Join a community of passionate creators and learners</p>
-        </div>
-
-        <div class="mission-vision-grid">
-            <div class="mission-card glass-card" data-aos="fade-right">
-                <div class="card-icon gradient-icon">
-                    <i class="fas fa-rocket"></i>
-                </div>
-                <h3>Our Mission</h3>
-                <p>Empowering individuals to share knowledge and inspire others through engaging content and meaningful connections.</p>
-            </div>
-
-            <div class="vision-card glass-card" data-aos="fade-left">
-                <div class="card-icon gradient-icon">
-                    <i class="fas fa-lightbulb"></i>
-                </div>
-                <h3>Our Vision</h3>
-                <p>Creating the most vibrant and inclusive knowledge-sharing platform where ideas flourish and innovation thrives.</p>
-            </div>
-        </div>
-
-        <div class="about-grid">
-            <div class="about-content" data-aos="fade-right">
-                <div class="feature-list">
-                    <div class="feature-item" data-aos="fade-up" data-aos-delay="100">
-                        <div class="feature-icon-wrapper">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h3>Thriving Community</h3>
-                            <p>Join thousands of creators sharing their knowledge and expertise.</p>
-                        </div>
-                    </div>
-
-                    <div class="feature-item" data-aos="fade-up" data-aos-delay="200">
-                        <div class="feature-icon-wrapper">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h3>Quality First</h3>
-                            <p>Curated content ensuring high-quality and reliable information.</p>
-                        </div>
-                    </div>
-
-                    <div class="feature-item" data-aos="fade-up" data-aos-delay="300">
-                        <div class="feature-icon-wrapper">
-                            <i class="fas fa-comments"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h3>Active Engagement</h3>
-                            <p>Meaningful discussions and collaborative learning experiences.</p>
-                        </div>
-                    </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <ul>
+                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                        <li><a href="#"><i class="fab fa-github"></i> GitHub</a></li>
+                        <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
+                        <li><a href="#"><i class="fab fa-discord"></i> Discord</a></li>
+                    </ul>
                 </div>
 
-                <div class="cta-group">
-                    <button class="gradient-button">
-                        <i class="fas fa-rocket"></i>
-                        Join Community
-                    </button>
-                    <button class="outline-button">
-                        <i class="fas fa-play"></i>
-                        Watch Video
-                    </button>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-book"></i> Documentation</a></li>
+                        <li><a href="#"><i class="fas fa-question-circle"></i> FAQ</a></li>
+                        <li><a href="#"><i class="fas fa-code"></i> API</a></li>
+                        <li><a href="#"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> info@wikiblog.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-map-marker-alt"></i> San Francisco, CA</li>
+                    </ul>
                 </div>
             </div>
 
-            <div class="about-showcase" data-aos="fade-left">
-                <div class="showcase-grid">
-                    <img src="https://images.pexels.com/photos/3182812/pexels-photo-3182812.jpeg" 
-                         alt="Team Collaboration" 
-                         class="showcase-img img-1"
-                         data-aos="zoom-in"
-                         data-aos-delay="100">
-                    <img src="https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg" 
-                         alt="Creative Discussion" 
-                         class="showcase-img img-2"
-                         data-aos="zoom-in"
-                         data-aos-delay="200">
-                    <img src="https://images.pexels.com/photos/3182781/pexels-photo-3182781.jpeg" 
-                         alt="Knowledge Sharing" 
-                         class="showcase-img img-3"
-                         data-aos="zoom-in"
-                         data-aos-delay="300">
-                </div>
-
-                <div class="stats-card glass-card" data-aos="fade-up">
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <div class="stat-value" data-count="50">0k+</div>
-                            <div class="stat-label">Active Writers</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value" data-count="100">0k+</</div>
-                            <div class="stat-label">Articles</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value" data-count="200">0k+</</div>
-                            <div class="stat-label">Monthly Readers</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">4.9</div>
-                            <div class="stat-label">User Rating</div>
-                        </div>
-                    </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 WikiBlog. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Terms</a>
+                    <a href="#">Privacy</a>
+                    <a href="#">Cookies</a>
                 </div>
             </div>
         </div>
+    </footer>
 
-        <div class="testimonials-section" data-aos="fade-up">
-            <h3 class="text-center">What Our Community Says</h3>
-            <div class="testimonials-grid">
-                <div class="testimonial-card glass-card" data-aos="fade-up" data-aos-delay="100">
-                    <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg" 
-                         alt="User Avatar" 
-                         class="testimonial-avatar">
-                    <div class="testimonial-content">
-                        <p>"An amazing platform for sharing knowledge and connecting with like-minded individuals."</p>
-                        <div class="testimonial-author">
-                            <strong>David Chen</strong>
-                            <span>Tech Writer</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card glass-card" data-aos="fade-up" data-aos-delay="200">
-                    <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg" 
-                         alt="User Avatar" 
-                         class="testimonial-avatar">
-                    <div class="testimonial-content">
-                        <p>"The quality of content and community engagement here is unmatched."</p>
-                        <div class="testimonial-author">
-                            <strong>Sarah Miller</strong>
-                            <span>Content Creator</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-  </main>
-
-  <footer class="modern-footer">
-    <div class="footer-container">
-      <div class="footer-brand">
-        <i class="fas fa-book-reader brand-icon"></i>
-        <span>WikiBlog</span>
-      </div>
-      
-      <div class="footer-content">
-        <div class="footer-section">
-          <h4>Navigation</h4>
-          <ul>
-            <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
-            <li><a href="#posts"><i class="fas fa-newspaper"></i> Posts</a></li>
-            <li><a href="#create"><i class="fas fa-edit"></i> Create</a></li>
-            <li><a href="#search"><i class="fas fa-search"></i> Search</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-section">
-          <h4>Connect</h4>
-          <ul>
-            <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
-            <li><a href="#"><i class="fab fa-github"></i> GitHub</a></li>
-            <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
-            <li><a href="#"><i class="fab fa-discord"></i> Discord</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-section">
-          <h4>Resources</h4>
-          <ul>
-            <li><a href="#"><i class="fas fa-book"></i> Documentation</a></li>
-            <li><a href="#"><i class="fas fa-question-circle"></i> FAQ</a></li>
-            <li><a href="#"><i class="fas fa-code"></i> API</a></li>
-            <li><a href="#"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-section">
-          <h4>Contact</h4>
-          <ul>
-            <li><i class="fas fa-envelope"></i> info@wikiblog.com</li>
-            <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
-            <li><i class="fas fa-map-marker-alt"></i> San Francisco, CA</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        <p>&copy; 2024 WikiBlog. All rights reserved.</p>
-        <div class="footer-links">
-          <a href="#">Terms</a>
-          <a href="#">Privacy</a>
-          <a href="#">Cookies</a>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>
-    AOS.init({
-      duration: 800,
-      offset: 100,
-      once: true,
-      disable: 'mobile'
-    });
-  </script>
-  <script src="scripts.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            offset: 100,
+            once: true,
+            disable: 'mobile'
+        });
+    </script>
+    <script src="scripts.js"></script>
 </body>
+
 </html>
