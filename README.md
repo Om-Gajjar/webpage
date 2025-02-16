@@ -1,118 +1,152 @@
-# Modern Wiki & Blog Platform
+# Modern Wiki & Blog Platform 🚀
 
-A modern, responsive web platform for knowledge sharing and blogging with rich features and an intuitive user interface.
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![JavaScript](https://img.shields.io/badge/javascript-ES6+-yellow.svg)](https://www.ecma-international.org/ecma-262/)
+[![CSS](https://img.shields.io/badge/css-custom_properties-orange.svg)](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties)
+[![Responsive](https://img.shields.io/badge/responsive-mobile_first-green.svg)](https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Responsive_Design)
 
-![Platform Preview](https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg)
+A modern, responsive web platform for knowledge sharing and blogging with rich features, smooth animations, and an intuitive user interface.
 
-## 🚀 Features
+![Platform Preview](preview.jpeg)
 
-### Content Creation
+## ✨ Features
+
+### 💻 User Interface
+- Responsive design with mobile-first approach
+- Dark/Light theme with system preference detection
+- Glass morphism effects and smooth transitions
+- Custom scrollbar styling
+- Loading states and placeholders
+- Interactive hover effects
+
+### 📝 Content Creation
 - Rich text editor with markdown support
 - Real-time preview
 - Image and video embedding
 - Code syntax highlighting
 - Tag management system
 - Draft auto-saving
-- Scheduled publishing
-
-### User Experience
-- Responsive design for all devices
-- Dark/Light mode toggle
-- Infinite scroll loading
-- Advanced search functionality
-- Category filtering
-- Grid/List view switching
-- Smooth animations
 - Keyboard shortcuts
+- File drag & drop
 
-### Community Features
-- User profiles and portfolios
-- Comments and discussions
-- Like/Save functionality
-- Follow system
-- Notification center
-- User reputation system
+### 🔍 Search & Discovery
+- Advanced search with filters
+- Category-based browsing
+- Grid/List view switching
+- Infinite scroll loading
+- Search history tracking
+- Related content suggestions
+- Trending topics
 
-### Technical Features
-- Modern CSS with custom properties
-- Responsive images with lazy loading
-- Intersection Observer for animations
-- Local storage for user preferences
-- Custom scrollbar styling
-- Glass morphism effects
-- Advanced animation system
+### 🎯 Performance
+- Lazy loading images
+- Intersection Observer usage
+- Optimized animations
+- Debounced search
+- Local storage caching
+- Minified assets
+- Progressive loading
 
-## 🛠️ Setup
+## 🛠️ Technical Stack
+
+### Frontend
+- Vanilla JavaScript (ES6+)
+- Custom CSS with variables
+- CSS Grid & Flexbox
+- IntersectionObserver API
+- LocalStorage API
+- Fetch API
+
+### Libraries
+- Font Awesome (icons)
+- AOS (animations)
+- Inter font (typography)
+
+## 📦 Installation
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/webpage.git
-cd webpage
+git clone https://github.com/Om-Gajjar/modern-wiki-blog.git
+cd modern-wiki-blog
 ```
 
-2. Open `index.html` in your browser or use a local server:
+2. Open with live server or directly in browser:
 ```bash
+# Using Python
 python -m http.server 8000
-# or
+
+# Using Node.js
 npx serve
+
+# Using PHP
+php -S localhost:8000
 ```
 
-## 🎮 Usage
+## 🎮 Usage Guide
 
-### Navigation
-- `/` - Open search
-- `Esc` - Close modals
-- `⌘ + Enter` - Publish content
-- `⌘ + S` - Save draft
+### Keyboard Shortcuts
+| Shortcut | Action |
+|----------|--------|
+| `/` | Open search |
+| `Esc` | Close modals |
+| `⌘ + Enter` | Publish content |
+| `⌘ + S` | Save draft |
+| `⌘ + D` | Toggle dark mode |
 
 ### Content Creation
 1. Click "Start Writing" or press `N`
-2. Select content type (Article/Tutorial/Wiki)
+2. Choose content type:
+   - Article
+   - Tutorial
+   - Wiki
 3. Add title and content
 4. Use toolbar for formatting
 5. Add tags for categorization
 6. Preview and publish
 
-### Dark Mode
-- Click moon/sun icon in header
-- Auto-detects system preference
-- Persists across sessions
-
-## 🎨 Customization
-
-### Colors
-Modify root variables in `styles.css`:
+### Theme Customization
+Modify CSS variables in `styles.css`:
 ```css
 :root {
-    --primary: #2563eb;
-    --secondary: #8b5cf6;
-    --accent: #f59e0b;
-    /* ...other variables */
+  --primary: #2563eb;
+  --secondary: #8b5cf6;
+  --accent: #f59e0b;
+  /* ...other variables */
 }
 ```
 
-### Animations
-Adjust AOS (Animate On Scroll) settings in `index.html`:
-```javascript
-AOS.init({
-    duration: 800,
-    offset: 100,
-    once: true,
-    disable: 'mobile'
-});
+## 🎨 Components
+
+### Layout Components
+- Navigation bar with user menu
+- Search modal with filters
+- Content editor with toolbar
+- Featured posts grid
+- Blog post cards
+- About section
+- Footer with sections
+
+### Interactive Elements
+- Category pills
+- View switcher
+- Tag chips
+- Loading states
+- Toast notifications
+- Dropdown menus
+- Modal windows
+
+## 📱 Responsive Breakpoints
+
+```css
+/* Mobile */
+@media (max-width: 768px) { }
+
+/* Tablet */
+@media (max-width: 1024px) { }
+
+/* Desktop */
+@media (min-width: 1025px) { }
 ```
-
-## 📱 Responsive Design
-
-- Mobile: < 768px
-- Tablet: 768px - 1024px
-- Desktop: > 1024px
-
-Features adapt to screen size:
-- Collapsible navigation
-- Stacked layouts
-- Touch-friendly interfaces
-- Optimized images
 
 ## 🔧 Browser Support
 
@@ -122,57 +156,58 @@ Features adapt to screen size:
 - Edge (latest)
 - Mobile browsers
 
-## 🛡️ Performance
-
-The platform implements various optimization techniques:
+## 📊 Performance Optimizations
 
 - Image lazy loading
 - CSS containment
 - Efficient animations
 - Debounced search
-- Optimized fonts
-- Minified assets
-
-## 📚 Documentation
-
-### File Structure
-```
-webpage/
-├── index.html      # Main HTML structure
-├── styles.css      # Global styles and components
-├── scripts.js      # Interactive functionality
-└── README.md       # Documentation
-```
-
-### Key Components
-- Navigation system
-- Search functionality
-- Content editor
-- Article grid/list
-- User authentication
-- Comments system
+- Asset optimization
+- Memory management
+- Virtual scroll for large lists
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create feature branch
-3. Commit changes
-4. Push to branch
+2. Create feature branch (`git checkout -b feature/name`)
+3. Commit changes (`git commit -am 'Add feature'`)
+4. Push to branch (`git push origin feature/name`)
 5. Open pull request
 
-## 📄 License
+## 📝 License
 
-MIT License - feel free to use and modify for your projects.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Credits
+## 👏 Credits
 
-- Icons: Font Awesome
-- Images: Pexels
-- Animations: AOS Library
-- Fonts: Google Fonts
+- Icons: [Font Awesome](https://fontawesome.com)
+- Images: [Pexels](https://www.pexels.com)
+- Animations: [AOS Library](https://michalsnik.github.io/aos/)
+- Fonts: [Google Fonts](https://fonts.google.com)
 
 ## 📞 Support
 
-- GitHub Issues
+- GitHub Issues: [Report Bug](https://github.com/Om-Gajjar/modern-wiki-blog/issues)
 - Email: support@example.com
-- Documentation: /docs
+- Documentation: [Wiki](https://github.com/Om-Gajjar/modern-wiki-blog/wiki)
+
+## 🗺️ Roadmap
+
+- [ ] Authentication system
+- [ ] Comment system
+- [ ] Real-time collaboration
+- [ ] Advanced analytics
+- [ ] API documentation
+- [ ] Mobile app version
+- [ ] Offline support
+- [ ] Multi-language support
+
+## 🌟 Contributors
+
+<a href="https://github.com/yourusername/modern-wiki-blog/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=yourusername/modern-wiki-blog" />
+</a>
+
+---
+
+Made with ❤️ by [Om Gajjar](https://github.com/Om-Gajjar)
