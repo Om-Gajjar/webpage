@@ -3,16 +3,21 @@ function removeFromHistory(query) {
     let history = JSON.parse(localStorage.getItem('searchHistory') || '[]');
     history = history.filter(item => item !== query);
     localStorage.setItem('searchHistory', JSON.stringify(history));
+
     const searchHistory = document.querySelector('.history-items');
     if (searchHistory) {
-        searchHistory.innerHTML = history.map(item => `
+        searchHistory.innerHTML = history
+            .map(
+                item => `
         <div class="history-item">
           <span><i class="fas fa-history"></i> ${item}</span>
           <button class="icon-button" onclick="removeFromHistory('${item}')">
             <i class="fas fa-times"></i>
           </button>
         </div>
-      `).join('');
+      `
+            )
+            .join('');
     }
 }
 
@@ -21,7 +26,9 @@ function initApp() {
     const app = {
         state: {
             isDark: localStorage.getItem('dark-mode') === 'true',
-            user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null
+            user: localStorage.getItem('user')
+                ? JSON.parse(localStorage.getItem('user'))
+                : null
         },
         elements: {
             nav: document.querySelector('.top-nav'),
@@ -57,7 +64,7 @@ function setupEventListeners() {
     // Post interactions
     setupPostInteractions();
 
-    // Image loading (called here; no need to duplicate elsewhere)
+    // Image loading
     setupImageLoading();
 
     // Parallax effects
@@ -100,7 +107,7 @@ const ui = {
         }, duration);
     },
 
-    addLoading: (element) => {
+    addLoading: element => {
         element.disabled = true;
         const originalText = element.textContent;
         element.textContent = 'Loading...';
@@ -130,10 +137,8 @@ function handleNavScroll() {
         const currentScroll = window.pageYOffset;
         const nav = document.querySelector('.top-nav');
 
-        nav.style.transform = currentScroll > lastScroll && currentScroll > 100
-            ? 'translateY(-100%)'
-            : 'translateY(0)';
-
+        nav.style.transform =
+            currentScroll > lastScroll && currentScroll > 100 ? 'translateY(-100%)' : 'translateY(0)';
         nav.classList.toggle('nav-scrolled', currentScroll > 100);
         lastScroll = currentScroll;
     });
@@ -181,14 +186,18 @@ function setupSearch() {
     }
 
     function renderHistory(items) {
-        searchHistory.innerHTML = items.map(item => `
+        searchHistory.innerHTML = items
+            .map(
+                item => `
         <div class="history-item">
           <span><i class="fas fa-history"></i> ${item}</span>
           <button class="icon-button" onclick="removeFromHistory('${item}')">
             <i class="fas fa-times"></i>
           </button>
         </div>
-      `).join('');
+      `
+            )
+            .join('');
     }
 
     // Search suggestions
@@ -197,9 +206,10 @@ function setupSearch() {
             searchResults.innerHTML = '';
             return;
         }
-
         const suggestions = generateSuggestions(query);
-        searchResults.innerHTML = suggestions.map(suggestion => `
+        searchResults.innerHTML = suggestions
+            .map(
+                suggestion => `
         <div class="search-suggestion" role="button" tabindex="0">
           <div class="suggestion-icon">
             <i class="fas ${suggestion.icon}"></i>
@@ -209,7 +219,9 @@ function setupSearch() {
             <div class="suggestion-subtitle">${suggestion.subtitle}</div>
           </div>
         </div>
-      `).join('');
+      `
+            )
+            .join('');
     }
 
     // Filters toggle
@@ -220,7 +232,7 @@ function setupSearch() {
 
     // Search input handler with debounce
     let debounceTimer;
-    searchInput?.addEventListener('input', (e) => {
+    searchInput?.addEventListener('input', e => {
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => {
             showSuggestions(e.target.value);
@@ -228,7 +240,7 @@ function setupSearch() {
     });
 
     // Keyboard navigation for suggestions
-    searchInput?.addEventListener('keydown', (e) => {
+    searchInput?.addEventListener('keydown', e => {
         if (e.key === 'ArrowDown') {
             e.preventDefault();
             const firstSuggestion = searchResults.querySelector('.search-suggestion');
@@ -330,7 +342,7 @@ const fallbackImages = {
 function setupImageLoading() {
     const images = document.querySelectorAll('.article-img, .post-card-image img, .author-avatar');
 
-    const loadImage = (img) => {
+    const loadImage = img => {
         const src = img.getAttribute('data-src') || img.src;
         const tempImage = new Image();
 
@@ -362,7 +374,6 @@ function setupImageLoading() {
 
     images.forEach(img => {
         img.removeAttribute('loading');
-
         if ('IntersectionObserver' in window) {
             const observer = new IntersectionObserver(
                 (entries, observer) => {
@@ -382,7 +393,7 @@ function setupImageLoading() {
     });
 }
 
-// Add parallax effects
+// Parallax effects
 function setupParallaxEffects() {
     const parallaxSections = document.querySelectorAll('.parallax');
     window.addEventListener('scroll', () => {
@@ -426,7 +437,7 @@ function setupSearchShortcut() {
     });
 
     // Close search on escape
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', e => {
         if (e.key === 'Escape') {
             searchModal?.classList.remove('show');
         }
@@ -438,7 +449,7 @@ function setupUserMenu() {
     const dropdownMenu = userMenu?.querySelector('.dropdown-menu');
 
     // Close dropdown on outside click
-    document.addEventListener('click', (e) => {
+    document.addEventListener('click', e => {
         if (!userMenu?.contains(e.target)) {
             dropdownMenu?.classList.remove('show');
         }
@@ -446,7 +457,7 @@ function setupUserMenu() {
 
     // Handle logout
     const logoutBtn = document.querySelector('.logout-link');
-    logoutBtn?.addEventListener('click', (e) => {
+    logoutBtn?.addEventListener('click', e => {
         e.preventDefault();
         handleLogout();
     });
@@ -491,9 +502,10 @@ function setupHeroAnimations() {
                 element.textContent = end >= 1000 ? `${(end / 1000).toFixed(0)}k+` : end;
                 return;
             }
-            element.textContent = Math.floor(current) >= 1000 ?
-                `${(Math.floor(current) / 1000).toFixed(0)}k+` :
-                Math.floor(current);
+            element.textContent =
+                Math.floor(current) >= 1000
+                    ? `${(Math.floor(current) / 1000).toFixed(0)}k+`
+                    : Math.floor(current);
             requestAnimationFrame(updateNumber);
         };
 
@@ -501,16 +513,19 @@ function setupHeroAnimations() {
     };
 
     // Start animation when element is in view
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const target = entry.target;
-                const endValue = parseInt(target.getAttribute('data-count'), 10);
-                animateValue(target, 0, endValue, 2000);
-                observer.unobserve(target);
-            }
-        });
-    }, { threshold: 0.5 });
+    const observer = new IntersectionObserver(
+        entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = entry.target;
+                    const endValue = parseInt(target.getAttribute('data-count'), 10);
+                    animateValue(target, 0, endValue, 2000);
+                    observer.unobserve(target);
+                }
+            });
+        },
+        { threshold: 0.5 }
+    );
 
     statsNumbers.forEach(stat => observer.observe(stat));
 }
@@ -530,7 +545,9 @@ function setupFeaturedPosts() {
 
             // Filter posts
             posts.forEach(post => {
-                const postCategory = post.querySelector('.post-category').textContent.trim().toLowerCase();
+                const postCategory = post.querySelector('.post-category').textContent
+                    .trim()
+                    .toLowerCase();
                 const shouldShow = category === 'all topics' || postCategory === category;
 
                 post.style.opacity = '0';
@@ -580,8 +597,7 @@ function setupLatestArticles() {
             button.classList.add('active');
 
             // Update view
-            blogGrid.classList.remove('grid-view', 'list-view');
-            blogGrid.classList.add(`${view}-view`);
+            blogGrid.className = `blog-grid ${view}-view`;
 
             // Trigger layout animations
             const articles = blogGrid.querySelectorAll('.article-card');
@@ -651,8 +667,8 @@ function setupCreateSection() {
         });
     });
 
-    // Keyboard shortcuts for publishing
-    document.addEventListener('keydown', (e) => {
+    // Keyboard shortcut for publishing (Cmd/Ctrl + Enter)
+    document.addEventListener('keydown', e => {
         if (e.metaKey && e.key === 'Enter') {
             editor.publishButton.click();
         }
@@ -663,30 +679,30 @@ function setupCreateSection() {
 function setupEnhancedImageLoading() {
     const images = document.querySelectorAll('img[data-src]');
 
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                const src = img.dataset.src;
+    const imageObserver = new IntersectionObserver(
+        (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    const src = img.dataset.src;
+                    const tempImage = new Image();
 
-                const tempImage = new Image();
-                tempImage.onload = () => {
-                    img.src = src;
-                    img.classList.add('loaded');
-                    const container = img.closest('.post-card-image, .article-image');
-                    if (container) {
-                        container.classList.add('loaded');
-                    }
-                };
-                tempImage.src = src;
+                    tempImage.onload = () => {
+                        img.src = src;
+                        img.classList.add('loaded');
+                        const container = img.closest('.post-card-image, .article-image');
+                        if (container) {
+                            container.classList.add('loaded');
+                        }
+                    };
+                    tempImage.src = src;
 
-                observer.unobserve(img);
-            }
-        });
-    }, {
-        rootMargin: '50px 0px',
-        threshold: 0.1
-    });
+                    observer.unobserve(img);
+                }
+            });
+        },
+        { rootMargin: '50px 0px', threshold: 0.1 }
+    );
 
     images.forEach(img => imageObserver.observe(img));
 }
@@ -706,7 +722,6 @@ function setupVideoModal() {
         </div>
       </div>
     `;
-
     document.body.appendChild(modal);
 
     videoButton.addEventListener('click', () => {
@@ -715,7 +730,7 @@ function setupVideoModal() {
         iframe.src = 'https://www.youtube.com/embed/your-video-id';
     });
 
-    modal.addEventListener('click', (e) => {
+    modal.addEventListener('click', e => {
         if (e.target === modal || e.target.closest('.close-modal')) {
             modal.classList.remove('show');
             const iframe = modal.querySelector('iframe');
@@ -731,7 +746,7 @@ function setupEnhancedSearch() {
     const searchResults = document.querySelector('.search-results');
 
     // Search Modal Toggle
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', e => {
         if (e.key === '/' && !e.target.matches('input, textarea')) {
             e.preventDefault();
             searchModal.classList.add('show');
@@ -744,7 +759,7 @@ function setupEnhancedSearch() {
 
     // Search Input Handler
     let searchTimeout;
-    searchInput?.addEventListener('input', (e) => {
+    searchInput?.addEventListener('input', e => {
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
             const query = e.target.value.trim();
@@ -776,17 +791,24 @@ function performSearch(query) {
         }
     ];
 
-    searchResults.innerHTML = results.map(result => `
+    searchResults.innerHTML = results
+        .map(
+            result => `
       <div class="search-result-item">
         <div class="result-icon">
-          <i class="fas fa-${result.type === 'article' ? 'newspaper' : 'user'}"></i>
+          <i class="fas fa-${result.type === 'article' ? 'newspaper' : 'user'
+                }"></i>
         </div>
         <div class="result-content">
-          <h4>${result.type === 'article' ? result.title : result.name}</h4>
-          <p>${result.type === 'article' ? result.excerpt : result.role}</p>
+          <h4>${result.type === 'article' ? result.title : result.name
+                }</h4>
+          <p>${result.type === 'article' ? result.excerpt : result.role
+                }</p>
         </div>
       </div>
-    `).join('');
+    `
+        )
+        .join('');
 }
 
 // Category Filter Enhancement
@@ -802,7 +824,10 @@ function setupCategoryFilter() {
             pill.classList.add('active');
 
             posts.forEach(post => {
-                const postCategory = post.querySelector('.post-category')?.textContent.trim().toLowerCase();
+                const postCategory = post
+                    .querySelector('.post-category')
+                    ?.textContent.trim()
+                    .toLowerCase();
 
                 post.style.opacity = '0';
                 post.style.transform = 'translateY(20px)';
@@ -855,7 +880,7 @@ function setupBlogViewSwitcher() {
 // Add Stats Counter Animation
 function animateStats() {
     const stats = document.querySelectorAll('.stat-value[data-count]');
-    
+
     stats.forEach(stat => {
         const target = parseInt(stat.dataset.count, 10);
         const duration = 2000;
@@ -865,7 +890,6 @@ function animateStats() {
         function updateCount(currentTime) {
             const elapsed = currentTime - startTime;
             const progress = Math.min(elapsed / duration, 1);
-
             const currentValue = Math.floor(startValue + (target - startValue) * progress);
             stat.textContent = `${currentValue}k+`;
 
@@ -875,7 +899,7 @@ function animateStats() {
         }
 
         const observer = new IntersectionObserver(
-            (entries) => {
+            entries => {
                 if (entries[0].isIntersecting) {
                     requestAnimationFrame(updateCount);
                     observer.disconnect();
