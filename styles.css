@@ -27,6 +27,9 @@
     --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
     --transition: all 0.3s ease;
+
+    --success: #10b981;
+    --error: #ef4444;
 }
 
 /* Base Reset & Typography
@@ -143,6 +146,8 @@ main {
 
 .user-menu {
     position: relative;
+    display: none;
+    /* Hide by default */
 }
 
 .profile-button {
@@ -214,6 +219,12 @@ main {
     color: #dc2626 !important;
 }
 
+.user-menu:focus-within .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
 /* Active Link Indicator */
 .nav-link.active::after {
     content: '';
@@ -224,26 +235,6 @@ main {
     height: 2px;
     background: var(--primary);
     border-radius: 2px;
-}
-
-/* Enhanced User Menu */
-.user-menu {
-    position: relative;
-}
-
-.profile-button {
-    position: relative;
-    z-index: 2;
-}
-
-.dropdown-menu {
-    z-index: 1;
-}
-
-.user-menu:focus-within .dropdown-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
 }
 
 /* Enhanced Scrollbar */
@@ -2334,4 +2325,157 @@ body.dark-mode {
         background: white;
         color: black;
     }
+}
+
+/* Auth Styles */
+.auth-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-right: 1rem;
+}
+
+.btn-login,
+.btn-signup {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.btn-login {
+    background: transparent;
+    color: var(--primary);
+    border: 1px solid var(--primary);
+}
+
+.btn-login:hover,
+.btn-login:focus {
+    background: rgba(37, 99, 235, 0.1);
+}
+
+.btn-signup {
+    background: var(--primary);
+    color: white;
+    border: none;
+}
+
+.btn-signup:hover,
+.btn-signup:focus {
+    background: var(--primary-dark);
+}
+
+.auth-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.auth-modal.show {
+    display: flex;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background: var(--surface);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    width: 90%;
+    max-width: 400px;
+    margin: auto;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-submit:hover {
+    opacity: 0.9;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.toast {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    color: white;
+    z-index: 1100;
+}
+
+.toast.success {
+    background: var(--success);
+}
+
+.toast.error {
+    background: var(--error);
+}
+
+.form-switch {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.form-switch a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.form-switch a:hover {
+    text-decoration: underline;
 }

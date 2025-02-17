@@ -47,6 +47,9 @@
                 <button id="theme-toggle" class="icon-button" aria-label="Toggle theme">
                     <i class="fas fa-moon"></i>
                 </button>
+                <div class="auth-buttons">
+                    <button class="btn-login" data-modal="login">Login</button>
+                </div>
                 <div class="user-menu">
                     <button class="profile-button" aria-label="User menu">
                         <i class="fas fa-user-circle"></i>
@@ -55,12 +58,68 @@
                     <div class="dropdown-menu">
                         <a href="#profile"><i class="fas fa-user"></i> Profile</a>
                         <a href="#settings"><i class="fas fa-cog"></i> Settings</a>
-                        <a href="#logout" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        <a href="#" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
                 </div>
             </div>
         </div>
     </nav>
+
+    <!-- <section class="auth-section"> -->
+        <div class="auth-modal" id="login-modal" role="dialog" aria-labelledby="login-title">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="login-title">Login</h2>
+                    <button class="modal-close" aria-label="Close login modal">&times;</button>
+                </div>
+                <form id="login-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" required autocomplete="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" required autocomplete="current-password">
+                    </div>
+                    <button type="submit" class="btn-submit">Login</button>
+                    <p class="form-switch">
+                        Don't have an account? <a href="#" data-modal="signup" class="switch-auth">Sign up</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+
+        <div class="auth-modal" id="signup-modal" role="dialog" aria-labelledby="signup-title">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="signup-title">Sign Up</h2>
+                    <button class="modal-close" aria-label="Close signup modal">&times;</button>
+                </div>
+                <form id="signup-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="signup-username">Username</label>
+                        <input type="text" id="signup-username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-email">Email</label>
+                        <input type="email" id="signup-email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password-confirm">Confirm Password</label>
+                        <input type="password" id="signup-password-confirm" required>
+                    </div>
+                    <button type="submit" class="btn-submit">Sign Up</button>
+                    <p class="form-switch">
+                        Already have an account? <a href="#" data-modal="login" class="switch-auth">Login</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    <!-- </section> -->
 
     <!-- Enhanced Search Modal -->
     <div class="search-modal">
@@ -187,17 +246,17 @@
                         <div class="post-card-image">
                             <img data-src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg"
                                 data-type="featured" alt="Featured post">
-                                <span class="featured-badge">
-                                    <i class="fas fa-star"></i>
-                                    Trending
-                                </span>
+                            <span class="featured-badge">
+                                <i class="fas fa-star"></i>
+                                Trending
+                            </span>
                             <div class="post-category">
                                 <i class="fas fa-award"></i>
                                 Featured
                             </div>
                         </div>
                         <div class="post-content">
-                            
+
                             <h2 class="post-title">The Evolution of Modern Web Development in 2024</h2>
                             <p class="post-excerpt">Discover the latest trends, tools, and technologies shaping the
                                 future of web development. From AI-powered frameworks to revolutionary design
