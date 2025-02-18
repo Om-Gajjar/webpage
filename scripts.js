@@ -60,10 +60,7 @@ function setupEventListeners() {
 
     // Search functionality
     setupSearch();
-
-    // Post interactions
-    setupPostInteractions();
-
+    
     // Image loading
     setupImageLoading();
 
@@ -89,21 +86,39 @@ function setupEventListeners() {
 // UI Helpers
 const ui = {
     showToast: (message, type = 'info', duration = 3000) => {
+        // Remove existing toasts of the same type
+        document.querySelectorAll(`.toast.toast-${type}`).forEach(toast => {
+            toast.remove();
+        });
+
         const toast = Object.assign(document.createElement('div'), {
             className: `toast toast-${type}`,
             innerHTML: `
-          <div class="toast-content">
-            <i class="fas fa-${type === 'success' ? 'check' : 'info'}-circle"></i>
-            <span>${message}</span>
-          </div>
-        `
+                <div class="toast-content">
+                    <i class="fas fa-${type === 'success' ? 'check' : 'info'}-circle"></i>
+                    <span>${message}</span>
+                </div>
+            `
         });
+
+        // Add positioning based on existing toasts
+        const existingToasts = document.querySelectorAll('.toast');
+        const offset = existingToasts.length * 60; // 60px spacing between toasts
+        toast.style.bottom = `${20 + offset}px`; // 20px initial bottom spacing
 
         document.body.appendChild(toast);
         requestAnimationFrame(() => toast.classList.add('show'));
+
+        // Remove toast after duration
         setTimeout(() => {
             toast.classList.remove('show');
-            setTimeout(() => toast.remove(), 300);
+            setTimeout(() => {
+                toast.remove();
+                // Reposition remaining toasts
+                document.querySelectorAll('.toast').forEach((t, index) => {
+                    t.style.bottom = `${20 + (index * 60)}px`;
+                });
+            }, 300);
         }, duration);
     },
 
@@ -272,59 +287,6 @@ function generateSuggestions(query) {
             subtitle: 'Browse related topics'
         }
     ];
-}
-
-// Post interactions
-function setupPostInteractions() {
-    document.querySelectorAll('form').forEach(form => {
-        form.addEventListener('submit', handleFormSubmit);
-    });
-}
-
-// Form handling
-async function handleFormSubmit(e) {
-    e.preventDefault();
-    const form = e.target;
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const removeLoading = ui.addLoading(submitBtn);
-
-    try {
-        const formData = Object.fromEntries(new FormData(form));
-        const response = await processForm(form.id, formData);
-        ui.showToast(response.message, 'success');
-        form.reset();
-    } catch (error) {
-        ui.showToast(error.message, 'error');
-    } finally {
-        removeLoading();
-    }
-}
-
-// Data processing
-function processForm(formId, data) {
-    switch (formId) {
-        case 'login-form':
-            return loginUser(data);
-        case 'signup-form':
-            return signupUser(data);
-        case 'post-form':
-            return createPost(data);
-        default:
-            throw new Error('Unknown form type');
-    }
-}
-
-// Auth functions
-function loginUser({ username, password }) {
-    // Simulate API call
-    return new Promise(resolve => {
-        setTimeout(() => {
-            const user = { username, id: Date.now() };
-            localStorage.setItem('user', JSON.stringify(user));
-            updateUserInterface(user);
-            resolve({ message: 'Logged in successfully' });
-        }, 1000);
-    });
 }
 
 // Fallback images for various content types

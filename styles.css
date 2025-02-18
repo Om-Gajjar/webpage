@@ -2479,3 +2479,38 @@ body.dark-mode {
 .form-switch a:hover {
     text-decoration: underline;
 }
+
+.toast {
+    position: fixed;
+    right: 20px;
+    min-width: 300px;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    color: white;
+    z-index: 1100;
+    transform: translateX(120%);
+    transition: transform 0.3s ease, bottom 0.3s ease;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+}
+
+.toast.show {
+    transform: translateX(0);
+}
+
+.toast-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.toast.toast-error {
+    background: var(--error);
+}
+
+.toast.toast-success {
+    background: var(--success);
+}
+
+.toast.toast-info {
+    background: var(--primary);
+}
