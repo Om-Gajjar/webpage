@@ -1,4 +1,10 @@
-// Global removeFromHistory function for search history management
+// ==================================================
+// Global Utilities and UI Helpers
+// ==================================================
+
+/**
+ * Remove a query from search history and update the UI.
+ */
 function removeFromHistory(query) {
     let history = JSON.parse(localStorage.getItem('searchHistory') || '[]');
     history = history.filter(item => item !== query);
@@ -9,81 +15,21 @@ function removeFromHistory(query) {
         searchHistory.innerHTML = history
             .map(
                 item => `
-        <div class="history-item">
-          <span><i class="fas fa-history"></i> ${item}</span>
-          <button class="icon-button" onclick="removeFromHistory('${item}')">
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
-      `
+          <div class="history-item">
+            <span><i class="fas fa-history"></i> ${item}</span>
+            <button class="icon-button" onclick="removeFromHistory('${item}')">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        `
             )
             .join('');
     }
 }
 
-// Core initialization
-function initApp() {
-    const app = {
-        state: {
-            isDark: localStorage.getItem('dark-mode') === 'true',
-            user: localStorage.getItem('user')
-                ? JSON.parse(localStorage.getItem('user'))
-                : null
-        },
-        elements: {
-            nav: document.querySelector('.top-nav'),
-            themeToggle: document.getElementById('theme-toggle'),
-            searchInput: document.getElementById('search-input'),
-            userMenu: document.querySelector('.user-menu')
-        }
-    };
-
-    // Initialize theme
-    if (app.state.isDark) {
-        document.body.classList.add('dark-mode');
-        app.elements.themeToggle.querySelector('i').classList.replace('fa-moon', 'fa-sun');
-    }
-
-    // Initialize user state
-    updateUserInterface(app.state.user);
-
-    return app;
-}
-
-// Event listeners setup
-function setupEventListeners() {
-    // Navigation scroll
-    handleNavScroll();
-
-    // Theme toggle
-    setupThemeToggle();
-
-    // Search functionality
-    setupSearch();
-    
-    // Image loading
-    setupImageLoading();
-
-    // Parallax effects
-    setupParallaxEffects();
-
-    // Header interactions
-    setupHeaderInteractions();
-
-    // Hero animations
-    setupHeroAnimations();
-
-    // Featured posts
-    setupFeaturedPosts();
-
-    // Latest articles view switching
-    setupLatestArticles();
-
-    // Create section interactivity
-    setupCreateSection();
-}
-
-// UI Helpers
+/**
+ * UI helper object.
+ */
 const ui = {
     showToast: (message, type = 'info', duration = 3000) => {
         // Remove existing toasts of the same type
@@ -94,17 +40,17 @@ const ui = {
         const toast = Object.assign(document.createElement('div'), {
             className: `toast toast-${type}`,
             innerHTML: `
-                <div class="toast-content">
-                    <i class="fas fa-${type === 'success' ? 'check' : 'info'}-circle"></i>
-                    <span>${message}</span>
-                </div>
-            `
+          <div class="toast-content">
+            <i class="fas fa-${type === 'success' ? 'check' : 'info'}-circle"></i>
+            <span>${message}</span>
+          </div>
+        `
         });
 
-        // Add positioning based on existing toasts
+        // Position the toast based on existing ones
         const existingToasts = document.querySelectorAll('.toast');
-        const offset = existingToasts.length * 60; // 60px spacing between toasts
-        toast.style.bottom = `${20 + offset}px`; // 20px initial bottom spacing
+        const offset = existingToasts.length * 60; // 60px spacing
+        toast.style.bottom = `${20 + offset}px`;
 
         document.body.appendChild(toast);
         requestAnimationFrame(() => toast.classList.add('show'));
@@ -114,9 +60,8 @@ const ui = {
             toast.classList.remove('show');
             setTimeout(() => {
                 toast.remove();
-                // Reposition remaining toasts
                 document.querySelectorAll('.toast').forEach((t, index) => {
-                    t.style.bottom = `${20 + (index * 60)}px`;
+                    t.style.bottom = `${20 + index * 60}px`;
                 });
             }, 300);
         }, duration);
@@ -133,7 +78,9 @@ const ui = {
     }
 };
 
-// User interface updates
+/**
+ * Update user interface based on authentication state.
+ */
 function updateUserInterface(user) {
     const userMenu = document.querySelector('.user-menu');
     if (user) {
@@ -145,7 +92,64 @@ function updateUserInterface(user) {
     }
 }
 
-// Navigation handlers
+// ==================================================
+// Core Initialization and Event Listeners
+// ==================================================
+
+/**
+ * Initialize app state and basic UI elements.
+ */
+function initApp() {
+    const app = {
+        state: {
+            isDark: localStorage.getItem('dark-mode') === 'true',
+            user: localStorage.getItem('user')
+                ? JSON.parse(localStorage.getItem('user'))
+                : null
+        },
+        elements: {
+            nav: document.querySelector('.top-nav'),
+            themeToggle: document.getElementById('theme-toggle'),
+            searchInput: document.getElementById('search-input'),
+            userMenu: document.querySelector('.user-menu')
+        }
+    };
+
+    // Initialize theme based on saved preference
+    if (app.state.isDark) {
+        document.body.classList.add('dark-mode');
+        app.elements.themeToggle.querySelector('i').classList.replace('fa-moon', 'fa-sun');
+    }
+
+    // Initialize user interface
+    updateUserInterface(app.state.user);
+
+    return app;
+}
+
+/**
+ * Set up primary event listeners.
+ */
+function setupEventListeners() {
+    handleNavScroll();
+    setupThemeToggle();
+    setupSearch();
+    setupImageLoading();
+    setupParallaxEffects();
+    setupHeaderInteractions();
+    setupHeroAnimations();
+    setupFeaturedPosts();
+    setupLatestArticles();
+    setupCreateSection();
+}
+
+// ==================================================
+// Navigation and Theme Handlers
+// ==================================================
+
+/**
+ * Handle navigation bar visibility on scroll.
+ */
 function handleNavScroll() {
     let lastScroll = 0;
     window.addEventListener('scroll', () => {
@@ -159,12 +163,13 @@ function handleNavScroll() {
     });
 }
 
-// Theme handlers
+/**
+ * Setup dark/light theme toggle.
+ */
 function setupThemeToggle() {
     const themeToggle = document.getElementById('theme-toggle');
     const icon = themeToggle.querySelector('i');
 
-    // Check initial theme
     if (localStorage.getItem('dark-mode') === 'true') {
         document.body.classList.add('dark-mode');
         icon.classList.replace('fa-moon', 'fa-sun');
@@ -175,13 +180,18 @@ function setupThemeToggle() {
         const isDark = document.body.classList.contains('dark-mode');
         localStorage.setItem('dark-mode', isDark);
 
-        // Toggle icon
         icon.classList.toggle('fa-moon', !isDark);
         icon.classList.toggle('fa-sun', isDark);
     });
 }
 
-// Search handlers
+// ==================================================
+// Search and Suggestions
+// ==================================================
+
+/**
+ * Setup search functionality with suggestions and history.
+ */
 function setupSearch() {
     const searchModal = document.querySelector('.search-modal');
     const searchInput = document.getElementById('search-modal-input');
@@ -190,7 +200,6 @@ function setupSearch() {
     const filtersPanel = document.querySelector('.search-filters-panel');
     const searchHistory = document.querySelector('.history-items');
 
-    // Search history
     const history = JSON.parse(localStorage.getItem('searchHistory') || '[]');
 
     function updateHistory(query) {
@@ -204,18 +213,17 @@ function setupSearch() {
         searchHistory.innerHTML = items
             .map(
                 item => `
-        <div class="history-item">
-          <span><i class="fas fa-history"></i> ${item}</span>
-          <button class="icon-button" onclick="removeFromHistory('${item}')">
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
-      `
+          <div class="history-item">
+            <span><i class="fas fa-history"></i> ${item}</span>
+            <button class="icon-button" onclick="removeFromHistory('${item}')">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        `
             )
             .join('');
     }
 
-    // Search suggestions
     function showSuggestions(query) {
         if (!query) {
             searchResults.innerHTML = '';
@@ -225,51 +233,52 @@ function setupSearch() {
         searchResults.innerHTML = suggestions
             .map(
                 suggestion => `
-        <div class="search-suggestion" role="button" tabindex="0">
-          <div class="suggestion-icon">
-            <i class="fas ${suggestion.icon}"></i>
+          <div class="search-suggestion" role="button" tabindex="0">
+            <div class="suggestion-icon">
+              <i class="fas ${suggestion.icon}"></i>
+            </div>
+            <div class="suggestion-content">
+              <div class="suggestion-title">${suggestion.title}</div>
+              <div class="suggestion-subtitle">${suggestion.subtitle}</div>
+            </div>
           </div>
-          <div class="suggestion-content">
-            <div class="suggestion-title">${suggestion.title}</div>
-            <div class="suggestion-subtitle">${suggestion.subtitle}</div>
-          </div>
-        </div>
-      `
+        `
             )
             .join('');
     }
 
-    // Filters toggle
-    filtersToggle?.addEventListener('click', () => {
-        filtersPanel.hidden = !filtersPanel.hidden;
-        filtersToggle.setAttribute('aria-expanded', !filtersPanel.hidden);
-    });
+    if (filtersToggle) {
+        filtersToggle.addEventListener('click', () => {
+            filtersPanel.hidden = !filtersPanel.hidden;
+            filtersToggle.setAttribute('aria-expanded', !filtersPanel.hidden);
+        });
+    }
 
-    // Search input handler with debounce
     let debounceTimer;
-    searchInput?.addEventListener('input', e => {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => {
-            showSuggestions(e.target.value);
-        }, 300);
-    });
+    if (searchInput) {
+        searchInput.addEventListener('input', e => {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                showSuggestions(e.target.value);
+            }, 300);
+        });
 
-    // Keyboard navigation for suggestions
-    searchInput?.addEventListener('keydown', e => {
-        if (e.key === 'ArrowDown') {
-            e.preventDefault();
-            const firstSuggestion = searchResults.querySelector('.search-suggestion');
-            firstSuggestion?.focus();
-        }
-    });
+        searchInput.addEventListener('keydown', e => {
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                const firstSuggestion = searchResults.querySelector('.search-suggestion');
+                firstSuggestion?.focus();
+            }
+        });
+    }
 
-    // Initialize history
     renderHistory(history);
 }
 
-// Helper function to generate search suggestions
+/**
+ * Generate simulated search suggestions.
+ */
 function generateSuggestions(query) {
-    // This would typically come from your backend
     return [
         {
             icon: 'fa-newspaper',
@@ -289,7 +298,13 @@ function generateSuggestions(query) {
     ];
 }
 
-// Fallback images for various content types
+// ==================================================
+// Image Loading and Parallax Effects
+// ==================================================
+
+/**
+ * Fallback images for different content types.
+ */
 const fallbackImages = {
     technology: 'https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg',
     design: 'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg',
@@ -300,7 +315,9 @@ const fallbackImages = {
     portrait: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg'
 };
 
-// Image loading handler
+/**
+ * Setup lazy loading for images.
+ */
 function setupImageLoading() {
     const images = document.querySelectorAll('.article-img, .post-card-image img, .author-avatar');
 
@@ -355,7 +372,9 @@ function setupImageLoading() {
     });
 }
 
-// Parallax effects
+/**
+ * Setup parallax scrolling effects.
+ */
 function setupParallaxEffects() {
     const parallaxSections = document.querySelectorAll('.parallax');
     window.addEventListener('scroll', () => {
@@ -367,9 +386,14 @@ function setupParallaxEffects() {
     });
 }
 
-// Header interactions
+// ==================================================
+// Header and Navigation Interactions
+// ==================================================
+
+/**
+ * Setup header interactions including mobile menu, search shortcut, and user menu.
+ */
 function setupHeaderInteractions() {
-    // Mobile menu toggle
     const mobileMenuBtn = document.querySelector('.mobile-menu-button');
     const navLinks = document.querySelector('.nav-links');
 
@@ -378,16 +402,14 @@ function setupHeaderInteractions() {
         document.body.classList.toggle('menu-open');
     });
 
-    // Search shortcut
     setupSearchShortcut();
-
-    // User menu
     setupUserMenu();
-
-    // Active link tracking
     setupActiveLinks();
 }
 
+/**
+ * Setup search shortcut functionality.
+ */
 function setupSearchShortcut() {
     const searchBtn = document.querySelector('.search-toggle');
     const searchInput = document.getElementById('search-input');
@@ -398,7 +420,6 @@ function setupSearchShortcut() {
         searchInput?.focus();
     });
 
-    // Close search on escape
     document.addEventListener('keydown', e => {
         if (e.key === 'Escape') {
             searchModal?.classList.remove('show');
@@ -406,18 +427,19 @@ function setupSearchShortcut() {
     });
 }
 
+/**
+ * Setup user menu and logout functionality.
+ */
 function setupUserMenu() {
     const userMenu = document.querySelector('.user-menu');
     const dropdownMenu = userMenu?.querySelector('.dropdown-menu');
 
-    // Close dropdown on outside click
     document.addEventListener('click', e => {
         if (!userMenu?.contains(e.target)) {
             dropdownMenu?.classList.remove('show');
         }
     });
 
-    // Handle logout
     const logoutBtn = document.querySelector('.logout-link');
     logoutBtn?.addEventListener('click', e => {
         e.preventDefault();
@@ -425,6 +447,9 @@ function setupUserMenu() {
     });
 }
 
+/**
+ * Handle user logout.
+ */
 function handleLogout() {
     localStorage.removeItem('user');
     updateUserInterface(null);
@@ -432,6 +457,9 @@ function handleLogout() {
     window.location.hash = '#home';
 }
 
+/**
+ * Setup active navigation link highlighting.
+ */
 function setupActiveLinks() {
     const navLinks = document.querySelectorAll('.nav-link');
     const currentPath = window.location.hash || '#home';
@@ -440,7 +468,6 @@ function setupActiveLinks() {
         link.classList.toggle('active', link.getAttribute('href') === currentPath);
     });
 
-    // Update active link on hash change
     window.addEventListener('hashchange', () => {
         const currentHash = window.location.hash || '#home';
         navLinks.forEach(link => {
@@ -449,8 +476,14 @@ function setupActiveLinks() {
     });
 }
 
+// ==================================================
+// Animations and Featured Posts
+// ==================================================
+
+/**
+ * Setup hero animations for stat numbers.
+ */
 function setupHeroAnimations() {
-    // Animate stats numbers
     const statsNumbers = document.querySelectorAll('.stat-number[data-count]');
 
     const animateValue = (element, start, end, duration) => {
@@ -474,7 +507,6 @@ function setupHeroAnimations() {
         updateNumber();
     };
 
-    // Start animation when element is in view
     const observer = new IntersectionObserver(
         entries => {
             entries.forEach(entry => {
@@ -492,24 +524,22 @@ function setupHeroAnimations() {
     statsNumbers.forEach(stat => observer.observe(stat));
 }
 
+/**
+ * Setup featured posts filtering and lazy load images.
+ */
 function setupFeaturedPosts() {
     const categoryPills = document.querySelectorAll('.category-pill');
     const posts = document.querySelectorAll('.post-card:not(.featured-post)');
 
-    // Category filter
     categoryPills.forEach(pill => {
         pill.addEventListener('click', () => {
             const category = pill.textContent.trim().toLowerCase();
 
-            // Update active state
             categoryPills.forEach(p => p.classList.remove('active'));
             pill.classList.add('active');
 
-            // Filter posts
             posts.forEach(post => {
-                const postCategory = post.querySelector('.post-category').textContent
-                    .trim()
-                    .toLowerCase();
+                const postCategory = post.querySelector('.post-category').textContent.trim().toLowerCase();
                 const shouldShow = category === 'all topics' || postCategory === category;
 
                 post.style.opacity = '0';
@@ -528,7 +558,6 @@ function setupFeaturedPosts() {
         });
     });
 
-    // Lazy load images with blur-up effect
     const lazyImages = document.querySelectorAll('.post-card-image img[loading="lazy"]');
     const imageObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
@@ -546,6 +575,9 @@ function setupFeaturedPosts() {
     lazyImages.forEach(img => imageObserver.observe(img));
 }
 
+/**
+ * Setup view switching for latest articles.
+ */
 function setupLatestArticles() {
     const viewButtons = document.querySelectorAll('.view-switcher button');
     const blogGrid = document.querySelector('.blog-grid');
@@ -554,14 +586,11 @@ function setupLatestArticles() {
         button.addEventListener('click', () => {
             const view = button.dataset.view;
 
-            // Update active state
             viewButtons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
 
-            // Update view
             blogGrid.className = `blog-grid ${view}-view`;
 
-            // Trigger layout animations
             const articles = blogGrid.querySelectorAll('.article-card');
             articles.forEach((article, index) => {
                 article.style.opacity = '0';
@@ -576,6 +605,9 @@ function setupLatestArticles() {
     });
 }
 
+/**
+ * Setup create section interactivity.
+ */
 function setupCreateSection() {
     const editor = {
         tabs: document.querySelectorAll('.tab-btn'),
@@ -621,7 +653,6 @@ function setupCreateSection() {
           `;
                 editor.selectedTags.appendChild(tagElement);
 
-                // Add remove functionality
                 tagElement.querySelector('.remove-tag').addEventListener('click', () => {
                     tagElement.remove();
                 });
@@ -637,7 +668,13 @@ function setupCreateSection() {
     });
 }
 
-// Enhanced Image Loading
+// ==================================================
+// Enhanced Features
+// ==================================================
+
+/**
+ * Setup enhanced lazy loading for images.
+ */
 function setupEnhancedImageLoading() {
     const images = document.querySelectorAll('img[data-src]');
 
@@ -658,7 +695,6 @@ function setupEnhancedImageLoading() {
                         }
                     };
                     tempImage.src = src;
-
                     observer.unobserve(img);
                 }
             });
@@ -669,7 +705,9 @@ function setupEnhancedImageLoading() {
     images.forEach(img => imageObserver.observe(img));
 }
 
-// About Section Video Modal
+/**
+ * Setup video modal for the About section.
+ */
 function setupVideoModal() {
     const videoButton = document.querySelector('.outline-button');
     if (!videoButton) return;
@@ -701,13 +739,14 @@ function setupVideoModal() {
     });
 }
 
-// Enhanced Search Functionality
+/**
+ * Setup enhanced search functionality.
+ */
 function setupEnhancedSearch() {
     const searchInput = document.getElementById('search-modal-input');
     const searchModal = document.querySelector('.search-modal');
     const searchResults = document.querySelector('.search-results');
 
-    // Search Modal Toggle
     document.addEventListener('keydown', e => {
         if (e.key === '/' && !e.target.matches('input, textarea')) {
             e.preventDefault();
@@ -719,7 +758,6 @@ function setupEnhancedSearch() {
         }
     });
 
-    // Search Input Handler
     let searchTimeout;
     searchInput?.addEventListener('input', e => {
         clearTimeout(searchTimeout);
@@ -734,10 +772,15 @@ function setupEnhancedSearch() {
     });
 }
 
-// Perform Search
+// ==================================================
+// Additional Features (Second Code Snippet)
+// ==================================================
+
+/**
+ * Simulated search operation for results.
+ */
 function performSearch(query) {
     const searchResults = document.querySelector('.search-results');
-    // Simulated search results
     const results = [
         {
             type: 'article',
@@ -756,24 +799,23 @@ function performSearch(query) {
     searchResults.innerHTML = results
         .map(
             result => `
-      <div class="search-result-item">
-        <div class="result-icon">
-          <i class="fas fa-${result.type === 'article' ? 'newspaper' : 'user'
-                }"></i>
+        <div class="search-result-item">
+          <div class="result-icon">
+            <i class="fas fa-${result.type === 'article' ? 'newspaper' : 'user'}"></i>
+          </div>
+          <div class="result-content">
+            <h4>${result.type === 'article' ? result.title : result.name}</h4>
+            <p>${result.type === 'article' ? result.excerpt : result.role}</p>
+          </div>
         </div>
-        <div class="result-content">
-          <h4>${result.type === 'article' ? result.title : result.name
-                }</h4>
-          <p>${result.type === 'article' ? result.excerpt : result.role
-                }</p>
-        </div>
-      </div>
-    `
+      `
         )
         .join('');
 }
 
-// Category Filter Enhancement
+/**
+ * Enhance category filtering for blog posts.
+ */
 function setupCategoryFilter() {
     const categoryPills = document.querySelectorAll('.category-pill');
     const posts = document.querySelectorAll('.post-card');
@@ -786,10 +828,7 @@ function setupCategoryFilter() {
             pill.classList.add('active');
 
             posts.forEach(post => {
-                const postCategory = post
-                    .querySelector('.post-category')
-                    ?.textContent.trim()
-                    .toLowerCase();
+                const postCategory = post.querySelector('.post-category')?.textContent.trim().toLowerCase();
 
                 post.style.opacity = '0';
                 post.style.transform = 'translateY(20px)';
@@ -810,7 +849,9 @@ function setupCategoryFilter() {
     });
 }
 
-// Blog View Switcher Enhancement
+/**
+ * Setup blog view switching functionality.
+ */
 function setupBlogViewSwitcher() {
     const viewButtons = document.querySelectorAll('.view-switcher button');
     const blogGrid = document.querySelector('.blog-grid');
@@ -824,7 +865,6 @@ function setupBlogViewSwitcher() {
 
             blogGrid.className = `blog-grid ${view}-view`;
 
-            // Trigger re-layout animation
             const articles = blogGrid.querySelectorAll('.article-card');
             articles.forEach((article, index) => {
                 article.style.opacity = '0';
@@ -839,7 +879,9 @@ function setupBlogViewSwitcher() {
     });
 }
 
-// Add Stats Counter Animation
+/**
+ * Animate stats counters.
+ */
 function animateStats() {
     const stats = document.querySelectorAll('.stat-value[data-count]');
 
@@ -874,6 +916,9 @@ function animateStats() {
     });
 }
 
+/**
+ * Setup authentication functionality.
+ */
 function setupAuth() {
     const mockUsers = JSON.parse(localStorage.getItem('users') || '[]');
 
@@ -899,29 +944,20 @@ function setupAuth() {
         }
     }
 
-    // Add form validation
     function validateForm(form) {
         const password = form.querySelector('input[type="password"]');
         const confirm = form.querySelector('#signup-password-confirm');
-
-        if (confirm && password.value !== confirm.value) {
-            return false;
-        }
-
-        return true;
+        return !confirm || password.value === confirm.value;
     }
 
-    // Add password strength check
     function checkPasswordStrength(password) {
         const minLength = 8;
         const hasNumber = /\d/.test(password);
         const hasUpperCase = /[A-Z]/.test(password);
         const hasLowerCase = /[a-z]/.test(password);
-
         return password.length >= minLength && hasNumber && hasUpperCase && hasLowerCase;
     }
 
-    // For localStorage operations
     function safelyGetFromStorage(key, defaultValue = '[]') {
         try {
             return JSON.parse(localStorage.getItem(key) || defaultValue);
@@ -942,7 +978,7 @@ function setupAuth() {
     }
 
     // Handle login
-    document.getElementById('login-form').addEventListener('submit', (e) => {
+    document.getElementById('login-form').addEventListener('submit', e => {
         e.preventDefault();
         try {
             const email = document.getElementById('login-email').value;
@@ -950,7 +986,6 @@ function setupAuth() {
             const users = safelyGetFromStorage('users');
 
             const user = users.find(u => u.email === email && u.password === password);
-
             if (user) {
                 const { password: _, ...userData } = user;
                 if (safelySetToStorage('currentUser', userData)) {
@@ -969,7 +1004,7 @@ function setupAuth() {
     });
 
     // Handle signup
-    document.getElementById('signup-form').addEventListener('submit', (e) => {
+    document.getElementById('signup-form').addEventListener('submit', e => {
         e.preventDefault();
         try {
             const username = document.getElementById('signup-username').value;
@@ -982,7 +1017,6 @@ function setupAuth() {
             }
 
             const users = safelyGetFromStorage('users');
-
             if (users.some(u => u.email === email)) {
                 ui.showToast('Email already registered', 'error');
                 return;
@@ -1007,7 +1041,7 @@ function setupAuth() {
     });
 
     // Handle logout
-    document.querySelector('.logout-link').addEventListener('click', (e) => {
+    document.querySelector('.logout-link').addEventListener('click', e => {
         e.preventDefault();
         localStorage.removeItem('currentUser');
         updateAuthUI(null);
@@ -1033,7 +1067,7 @@ function setupAuth() {
 
     // Close modal on outside click
     document.querySelectorAll('.auth-modal').forEach(modal => {
-        modal.addEventListener('click', (e) => {
+        modal.addEventListener('click', e => {
             if (e.target === modal) {
                 modal.classList.remove('show');
             }
@@ -1048,7 +1082,7 @@ function setupAuth() {
         });
     });
 
-    // Handle form validation
+    // Handle form validation events
     document.querySelectorAll('.auth-form').forEach(form => {
         form.querySelectorAll('input').forEach(input => {
             input.addEventListener('input', () => {
@@ -1060,21 +1094,18 @@ function setupAuth() {
 
     // Handle auth form switching
     document.querySelectorAll('.switch-auth').forEach(link => {
-        link.addEventListener('click', (e) => {
+        link.addEventListener('click', e => {
             e.preventDefault();
             const currentModal = link.closest('.auth-modal');
             const targetModal = link.dataset.modal;
-
             currentModal.classList.remove('show');
             showModal(`${targetModal}-modal`);
         });
     });
 
-    // Add error handling
     function handleError(error, context = 'general') {
         console.error(`Auth Error (${context}):`, error);
         let message = 'An error occurred. Please try again.';
-
         switch (context) {
             case 'login':
                 message = 'Login failed. Please check your credentials.';
@@ -1086,16 +1117,13 @@ function setupAuth() {
                 message = 'Storage error. Please check your browser settings.';
                 break;
         }
-
         ui.showToast(message, 'error');
     }
 
-    // Reset form fields after submission
     function resetForm(formId) {
         document.getElementById(formId).reset();
     }
 
-    // Clear form errors
     function clearFormErrors(formId) {
         const form = document.getElementById(formId);
         form.querySelectorAll('input').forEach(input => {
@@ -1103,8 +1131,7 @@ function setupAuth() {
         });
     }
 
-    // Add keyboard event listeners for modal
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', e => {
         if (e.key === 'Escape') {
             document.querySelectorAll('.auth-modal.show').forEach(modal => {
                 modal.classList.remove('show');
@@ -1112,7 +1139,6 @@ function setupAuth() {
         }
     });
 
-    // Add focus trap for modals
     document.querySelectorAll('.auth-modal').forEach(modal => {
         const focusableElements = modal.querySelectorAll(
             'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
@@ -1120,7 +1146,7 @@ function setupAuth() {
         const firstFocusable = focusableElements[0];
         const lastFocusable = focusableElements[focusableElements.length - 1];
 
-        modal.addEventListener('keydown', (e) => {
+        modal.addEventListener('keydown', e => {
             if (e.key === 'Tab') {
                 if (e.shiftKey) {
                     if (document.activeElement === firstFocusable) {
@@ -1138,7 +1164,10 @@ function setupAuth() {
     });
 }
 
-// Main initialization when DOM is ready
+// ==================================================
+// Main Initialization
+// ==================================================
+
 document.addEventListener('DOMContentLoaded', () => {
     initApp();
     setupEventListeners();
