@@ -2,7 +2,7 @@
  * Authentication module for handling user login, signup, and session management
  */
 
-import { ui } from './scripts.js';
+import { ui } from '../scripts.js';
 
 /**
  * Setup authentication functionality

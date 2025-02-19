@@ -2,8 +2,6 @@
 // Global Utilities and UI Helpers
 // ==================================================
 
-import { setupAuth } from './auth.js';
-
 /**
  * Remove a query from search history and update the UI.
  */
@@ -71,11 +69,11 @@ export const ui = {
 
     addLoading: element => {
         element.disabled = true;
-        const originalText = element.textContent;
-        element.textContent = 'Loading...';
+        const originalHTML = element.innerHTML;
+        element.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
         return () => {
             element.disabled = false;
-            element.textContent = originalText;
+            element.innerHTML = originalHTML;
         };
     }
 };
@@ -136,13 +134,11 @@ function setupEventListeners() {
     handleNavScroll();
     setupThemeToggle();
     setupSearch();
-    setupImageLoading();
     setupParallaxEffects();
     setupHeaderInteractions();
     setupHeroAnimations();
     setupFeaturedPosts();
     setupLatestArticles();
-    setupCreateSection();
 }
 
 // ==================================================
@@ -307,7 +303,7 @@ function generateSuggestions(query) {
 /**
  * Fallback images for different content types.
  */
-const fallbackImages = {
+export const fallbackImages = {
     technology: 'https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg',
     design: 'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg',
     ai: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg',
@@ -320,30 +316,35 @@ const fallbackImages = {
 /**
  * Setup lazy loading for images.
  */
-function setupImageLoading() {
-    const images = document.querySelectorAll('.article-img, .post-card-image img, .author-avatar');
+export function setupImageLoading() {
+    // Update selectors to match HTML structure
+    const images = document.querySelectorAll('.article-img, .author-avatar');
 
     const loadImage = img => {
-        const src = img.getAttribute('data-src') || img.src;
+        const src = img.getAttribute('data-src');
+        if (!src) return; // Skip if no data-src attribute
+
         const tempImage = new Image();
 
         tempImage.onload = () => {
             img.src = src;
             img.classList.add('loaded');
-            if (!img.classList.contains('author-avatar')) {
-                const imageContainer = img.closest('.article-image, .post-card-image');
-                if (imageContainer) {
-                    imageContainer.classList.add('loaded');
-                }
+
+            // Find parent container and add loaded class
+            const imageContainer = img.closest('.article-image');
+            if (imageContainer) {
+                imageContainer.classList.add('loaded');
             }
         };
 
         tempImage.onerror = () => {
+            // Get image type from data attribute
             const type = img.getAttribute('data-type') || 'technology';
-            img.src = fallbackImages[type];
-            img.classList.add('loaded');
-            if (!img.classList.contains('author-avatar')) {
-                const imageContainer = img.closest('.article-image, .post-card-image');
+            if (fallbackImages[type]) {
+                img.src = fallbackImages[type];
+                img.classList.add('loaded');
+
+                const imageContainer = img.closest('.article-image');
                 if (imageContainer) {
                     imageContainer.classList.add('loaded');
                 }
@@ -353,25 +354,25 @@ function setupImageLoading() {
         tempImage.src = src;
     };
 
-    images.forEach(img => {
-        img.removeAttribute('loading');
-        if ('IntersectionObserver' in window) {
-            const observer = new IntersectionObserver(
-                (entries, observer) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            loadImage(entry.target);
-                            observer.unobserve(entry.target);
-                        }
-                    });
-                },
-                { rootMargin: '50px', threshold: 0.1 }
-            );
-            observer.observe(img);
-        } else {
-            loadImage(img);
-        }
-    });
+    // Set up Intersection Observer
+    if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    loadImage(entry.target);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            rootMargin: '50px 0px',
+            threshold: 0.1
+        });
+
+        images.forEach(img => imageObserver.observe(img));
+    } else {
+        // Fallback for browsers that don't support Intersection Observer
+        images.forEach(img => loadImage(img));
+    }
 }
 
 /**
@@ -607,69 +608,6 @@ function setupLatestArticles() {
     });
 }
 
-/**
- * Setup create section interactivity.
- */
-function setupCreateSection() {
-    const editor = {
-        tabs: document.querySelectorAll('.tab-btn'),
-        types: document.querySelectorAll('.type-btn'),
-        toolbarButtons: document.querySelectorAll('.editor-toolbar button'),
-        floatingTools: document.querySelectorAll('.floating-tools button'),
-        tagInput: document.querySelector('.tag-input'),
-        tagSuggestions: document.querySelectorAll('.tag-chip'),
-        selectedTags: document.querySelector('.selected-tags'),
-        publishButton: document.querySelector('.publish-button')
-    };
-
-    // Tab switching
-    editor.tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            editor.tabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-        });
-    });
-
-    // Post type selection
-    editor.types.forEach(type => {
-        type.addEventListener('click', () => {
-            editor.types.forEach(t => t.classList.remove('active'));
-            type.classList.add('active');
-        });
-    });
-
-    // Tag handling
-    editor.tagSuggestions.forEach(tag => {
-        tag.addEventListener('click', () => {
-            const tagText = tag.textContent.trim();
-            const tagIcon = tag.querySelector('i').className;
-
-            if (!document.querySelector(`.selected-tag[data-tag="${tagText}"]`)) {
-                const tagElement = document.createElement('span');
-                tagElement.className = 'tag-chip selected-tag';
-                tagElement.dataset.tag = tagText;
-                tagElement.innerHTML = `
-            <i class="${tagIcon}"></i>
-            ${tagText}
-            <i class="fas fa-times remove-tag"></i>
-          `;
-                editor.selectedTags.appendChild(tagElement);
-
-                tagElement.querySelector('.remove-tag').addEventListener('click', () => {
-                    tagElement.remove();
-                });
-            }
-        });
-    });
-
-    // Keyboard shortcut for publishing (Cmd/Ctrl + Enter)
-    document.addEventListener('keydown', e => {
-        if (e.metaKey && e.key === 'Enter') {
-            editor.publishButton.click();
-        }
-    });
-}
-
 // ==================================================
 // Enhanced Features
 // ==================================================
@@ -705,40 +643,6 @@ function setupEnhancedImageLoading() {
     );
 
     images.forEach(img => imageObserver.observe(img));
-}
-
-/**
- * Setup video modal for the About section.
- */
-function setupVideoModal() {
-    const videoButton = document.querySelector('.outline-button');
-    if (!videoButton) return;
-
-    const modal = document.createElement('div');
-    modal.className = 'video-modal';
-    modal.innerHTML = `
-      <div class="video-modal-content">
-        <button class="close-modal"><i class="fas fa-times"></i></button>
-        <div class="video-container">
-          <iframe width="560" height="315" src="" frameborder="0" allowfullscreen></iframe>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(modal);
-
-    videoButton.addEventListener('click', () => {
-        modal.classList.add('show');
-        const iframe = modal.querySelector('iframe');
-        iframe.src = 'https://www.youtube.com/embed/your-video-id';
-    });
-
-    modal.addEventListener('click', e => {
-        if (e.target === modal || e.target.closest('.close-modal')) {
-            modal.classList.remove('show');
-            const iframe = modal.querySelector('iframe');
-            iframe.src = '';
-        }
-    });
 }
 
 /**
@@ -852,36 +756,6 @@ function setupCategoryFilter() {
 }
 
 /**
- * Setup blog view switching functionality.
- */
-function setupBlogViewSwitcher() {
-    const viewButtons = document.querySelectorAll('.view-switcher button');
-    const blogGrid = document.querySelector('.blog-grid');
-
-    viewButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const view = button.dataset.view;
-
-            viewButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-
-            blogGrid.className = `blog-grid ${view}-view`;
-
-            const articles = blogGrid.querySelectorAll('.article-card');
-            articles.forEach((article, index) => {
-                article.style.opacity = '0';
-                article.style.transform = 'scale(0.95)';
-
-                setTimeout(() => {
-                    article.style.opacity = '1';
-                    article.style.transform = 'scale(1)';
-                }, 50 * index);
-            });
-        });
-    });
-}
-
-/**
  * Animate stats counters.
  */
 function animateStats() {
@@ -922,14 +796,29 @@ function animateStats() {
 // Main Initialization
 // ==================================================
 
+// Import modules
+import { setupAuth } from './js/auth.js';
+import { setupBlogFeatures } from './js/blog.js';
+import { BlogManager, Editor } from './js/create.js';
+
+// Initialize app when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize core features
     initApp();
     setupEventListeners();
+
+    // Initialize auth features
+    setupAuth();
+
+    // Initialize blog features
+    const blogManager = new BlogManager();
+    const editor = new Editor(blogManager);
+    editor.init();
+    setupBlogFeatures();
+
+    // Initialize other features
     setupEnhancedImageLoading();
-    setupVideoModal();
     setupEnhancedSearch();
     setupCategoryFilter();
-    setupBlogViewSwitcher();
     animateStats();
-    setupAuth();
 });

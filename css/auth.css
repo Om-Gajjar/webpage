@@ -230,39 +230,3 @@
     background: rgba(220, 38, 38, 0.1) !important;
     color: #dc2626 !important;
 }
-
-/* Toast Notifications */
-.toast {
-    position: fixed;
-    right: 20px;
-    min-width: 300px;
-    padding: 1rem;
-    border-radius: var(--border-radius);
-    color: white;
-    z-index: 1100;
-    transform: translateX(120%);
-    transition: transform 0.3s ease, bottom 0.3s ease;
-    box-shadow: var(--shadow);
-}
-
-.toast.show {
-    transform: translateX(0);
-}
-
-.toast-content {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.toast.toast-error {
-    background: var(--error);
-}
-
-.toast.toast-success {
-    background: var(--success);
-}
-
-.toast.toast-info {
-    background: var(--primary);
-}

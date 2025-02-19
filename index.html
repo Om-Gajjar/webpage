@@ -66,59 +66,59 @@
     </nav>
 
     <!-- <section class="auth-section"> -->
-        <div class="auth-modal" id="login-modal" role="dialog" aria-labelledby="login-title">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 id="login-title">Login</h2>
-                    <button class="modal-close" aria-label="Close login modal">&times;</button>
-                </div>
-                <form id="login-form" class="auth-form">
-                    <div class="form-group">
-                        <label for="login-email">Email</label>
-                        <input type="email" id="login-email" required autocomplete="email">
-                    </div>
-                    <div class="form-group">
-                        <label for="login-password">Password</label>
-                        <input type="password" id="login-password" required autocomplete="current-password">
-                    </div>
-                    <button type="submit" class="btn-submit">Login</button>
-                    <p class="form-switch">
-                        Don't have an account? <a href="#" data-modal="signup" class="switch-auth">Sign up</a>
-                    </p>
-                </form>
+    <div class="auth-modal" id="login-modal" role="dialog" aria-labelledby="login-title">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="login-title">Login</h2>
+                <button class="modal-close" aria-label="Close login modal">&times;</button>
             </div>
+            <form id="login-form" class="auth-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required autocomplete="email">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn-submit">Login</button>
+                <p class="form-switch">
+                    Don't have an account? <a href="#" data-modal="signup" class="switch-auth">Sign up</a>
+                </p>
+            </form>
         </div>
+    </div>
 
-        <div class="auth-modal" id="signup-modal" role="dialog" aria-labelledby="signup-title">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 id="signup-title">Sign Up</h2>
-                    <button class="modal-close" aria-label="Close signup modal">&times;</button>
-                </div>
-                <form id="signup-form" class="auth-form">
-                    <div class="form-group">
-                        <label for="signup-username">Username</label>
-                        <input type="text" id="signup-username" name="username" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="signup-email">Email</label>
-                        <input type="email" id="signup-email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="signup-password">Password</label>
-                        <input type="password" id="signup-password" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="signup-password-confirm">Confirm Password</label>
-                        <input type="password" id="signup-password-confirm" required>
-                    </div>
-                    <button type="submit" class="btn-submit">Sign Up</button>
-                    <p class="form-switch">
-                        Already have an account? <a href="#" data-modal="login" class="switch-auth">Login</a>
-                    </p>
-                </form>
+    <div class="auth-modal" id="signup-modal" role="dialog" aria-labelledby="signup-title">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="signup-title">Sign Up</h2>
+                <button class="modal-close" aria-label="Close signup modal">&times;</button>
             </div>
+            <form id="signup-form" class="auth-form">
+                <div class="form-group">
+                    <label for="signup-username">Username</label>
+                    <input type="text" id="signup-username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-password-confirm">Confirm Password</label>
+                    <input type="password" id="signup-password-confirm" required>
+                </div>
+                <button type="submit" class="btn-submit">Sign Up</button>
+                <p class="form-switch">
+                    Already have an account? <a href="#" data-modal="login" class="switch-auth">Login</a>
+                </p>
+            </form>
         </div>
+    </div>
     <!-- </section> -->
 
     <!-- Enhanced Search Modal -->
@@ -233,7 +233,7 @@
         </section>
 
         <!-- Featured Posts Section -->
-        <section class="featured-posts">
+        <section class="featured-posts" id="home">
             <div class="container">
                 <div class="section-header" data-aos="fade-up">
                     <h2 class="section-title gradient-text">Featured Stories</h2>
@@ -313,7 +313,7 @@
                     <article class="post-card" data-aos="fade-up" data-aos-delay="150">
                         <div class="post-card-image">
                             <img data-type="technology"
-                                src="https://images.pexels.com/photos/3861972/pexels-photo-3861972.jpeg"
+                            data-src="https://images.pexels.com/photos/3861972/pexels-photo-3861972.jpeg"
                                 alt="Technology" loading="lazy">
                             <div class="post-category">
                                 <i class="fas fa-laptop-code"></i>
@@ -340,7 +340,7 @@
                     <article class="post-card" data-aos="fade-up" data-aos-delay="200">
                         <div class="post-card-image">
                             <img data-type="technology"
-                                src="https://images.pexels.com/photos/1181677/pexels-photo-1181677.jpeg"
+                                data-src="https://images.pexels.com/photos/1181677/pexels-photo-1181677.jpeg"
                                 alt="Technology" loading="lazy">
                             <div class="post-category">
                                 <i class="fas fa-laptop-code"></i>
@@ -368,7 +368,7 @@
                     <article class="post-card" data-aos="fade-up" data-aos-delay="250">
                         <div class="post-card-image">
                             <img data-type="design"
-                                src="https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg" alt="Design"
+                                data-src="https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg" alt="Design"
                                 loading="lazy">
                             <div class="post-category">
                                 <i class="fas fa-paint-brush"></i>
@@ -395,7 +395,7 @@
                     <article class="post-card" data-aos="fade-up" data-aos-delay="300">
                         <div class="post-card-image">
                             <img data-type="design"
-                                src="https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg" alt="Design"
+                                data-src="https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg" alt="Design"
                                 loading="lazy">
                             <div class="post-category">
                                 <i class="fas fa-paint-brush"></i>
@@ -421,7 +421,7 @@
                     <article class="post-card" data-aos="fade-up" data-aos-delay="350">
                         <div class="post-card-image">
                             <img data-type="design"
-                                src="https://images.pexels.com/photos/1762851/pexels-photo-1762851.jpeg" alt="Design"
+                                data-src="https://images.pexels.com/photos/1762851/pexels-photo-1762851.jpeg" alt="Design"
                                 loading="lazy">
                             <div class="post-category">
                                 <i class="fas fa-paint-brush"></i>
@@ -448,7 +448,7 @@
                     <!-- AI & ML Posts -->
                     <article class="post-card" data-aos="fade-up" data-aos-delay="400">
                         <div class="post-card-image">
-                            <img data-type="ai" src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg"
+                            <img data-type="ai" data-src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg"
                                 alt="AI & ML" loading="lazy">
                             <div class="post-category">
                                 <i class="fas fa-robot"></i>
@@ -474,7 +474,7 @@
 
                     <article class="post-card" data-aos="fade-up" data-aos-delay="450">
                         <div class="post-card-image">
-                            <img data-type="ai" src="https://images.pexels.com/photos/8386434/pexels-photo-8386434.jpeg"
+                            <img data-type="ai" data-src="https://images.pexels.com/photos/8386434/pexels-photo-8386434.jpeg"
                                 alt="AI & ML" loading="lazy">
                             <div class="post-category">
                                 <i class="fas fa-robot"></i>
@@ -499,7 +499,7 @@
 
                     <article class="post-card" data-aos="fade-up" data-aos-delay="500">
                         <div class="post-card-image">
-                            <img data-type="ai" src="https://images.pexels.com/photos/8386639/pexels-photo-8386639.jpeg"
+                            <img data-type="ai" data-src="https://images.pexels.com/photos/8386639/pexels-photo-8386639.jpeg"
                                 alt="AI & ML" loading="lazy">
                             <div class="post-category">
                                 <i class="fas fa-robot"></i>
@@ -526,7 +526,7 @@
                     <!-- Mobile Posts -->
                     <article class="post-card" data-aos="fade-up" data-aos-delay="550">
                         <div class="post-card-image">
-                            <img data-type="mobile" src="https://images.pexels.com/photos/47261/pexels-photo-47261.jpeg"
+                            <img data-type="mobile" data-src="https://images.pexels.com/photos/47261/pexels-photo-47261.jpeg"
                                 alt="Mobile Development" loading="lazy">
                             <div class="post-category">
                                 <i class="fas fa-mobile-alt"></i>
@@ -553,7 +553,7 @@
                     <article class="post-card" data-aos="fade-up" data-aos-delay="600">
                         <div class="post-card-image">
                             <img data-type="mobile"
-                                src="https://images.pexels.com/photos/1092644/pexels-photo-1092644.jpeg"
+                                data-src="https://images.pexels.com/photos/1092644/pexels-photo-1092644.jpeg"
                                 alt="Mobile Development" loading="lazy">
                             <div class="post-category">
                                 <i class="fas fa-mobile-alt"></i>
@@ -580,7 +580,7 @@
                     <article class="post-card" data-aos="fade-up" data-aos-delay="650">
                         <div class="post-card-image">
                             <img data-type="mobile"
-                                src="https://images.pexels.com/photos/1440727/pexels-photo-1440727.jpeg"
+                                data-src="https://images.pexels.com/photos/1440727/pexels-photo-1440727.jpeg"
                                 alt="Mobile Development" loading="lazy">
                             <div class="post-category">
                                 <i class="fas fa-mobile-alt"></i>
@@ -630,7 +630,7 @@
         </section>
 
         <!-- 3. Latest Articles -->
-        <section class="blog-section">
+        <section class="blog-section" id="posts">
             <div class="container">
                 <div class="blog-header">
                     <div class="section-intro">
@@ -791,57 +791,54 @@
         </section>
 
         <!-- 4. Create Section -->
-        <section class="create-section">
+        <section class="create-section" id="create">
             <div class="container">
-                <div class="section-header" data-aos="fade-up">
-                    <div class="badge"><i class="fas fa-sparkles"></i> Creator Studio</div>
+                <!-- Section Header -->
+                <header class="section-header" data-aos="fade-up">
+                    <div class="create-gradient-badge">
+                        <i class="fas fa-sparkles"></i> Creator Studio
+                    </div>
                     <h2 class="section-title gradient-text">Share Your Knowledge</h2>
                     <p class="section-subtitle">Create engaging content that inspires and educates</p>
-                </div>
+                </header>
 
                 <div class="create-grid">
+                    <!-- Editor Panel -->
                     <div class="editor-panel glass-card" data-aos="fade-right">
-                        <div class="editor-tabs">
+                        <!-- Editor Tabs -->
+                        <nav class="editor-tabs">
                             <button class="tab-btn active" data-tab="write">
-                                <i class="fas fa-pen-fancy"></i>
-                                <span>Write</span>
+                                <i class="fas fa-pen-fancy"></i> Write
                             </button>
                             <button class="tab-btn" data-tab="preview">
-                                <i class="fas fa-eye"></i>
-                                <span>Preview</span>
+                                <i class="fas fa-eye"></i> Preview
                             </button>
                             <button class="tab-btn" data-tab="settings">
-                                <i class="fas fa-cog"></i>
-                                <span>Settings</span>
+                                <i class="fas fa-cog"></i> Settings
                             </button>
-                        </div>
+                        </nav>
 
                         <div class="editor-content">
-                            <div class="post-type-selector">
+                            <!-- Post Type Selector -->
+                            <nav class="post-type-selector">
                                 <button class="type-btn active" data-type="article">
-                                    <i class="fas fa-newspaper"></i>
-                                    <span>Article</span>
+                                    <i class="fas fa-newspaper"></i> Article
                                 </button>
                                 <button class="type-btn" data-type="tutorial">
-                                    <i class="fas fa-graduation-cap"></i>
-                                    <span>Tutorial</span>
+                                    <i class="fas fa-graduation-cap"></i> Tutorial
                                 </button>
                                 <button class="type-btn" data-type="wiki">
-                                    <i class="fas fa-book"></i>
-                                    <span>Wiki</span>
+                                    <i class="fas fa-book"></i> Wiki
                                 </button>
-                            </div>
+                            </nav>
 
+                            <!-- Editor Main Area -->
                             <div class="editor-main">
-                                <div class="floating-tools">
-                                    <button title="Add Image"><i class="fas fa-image"></i></button>
-                                    <button title="Add Video"><i class="fas fa-video"></i></button>
-                                    <button title="Add Code"><i class="fas fa-code"></i></button>
-                                    <button title="Add Link"><i class="fas fa-link"></i></button>
-                                </div>
 
+                                <!-- Title Input -->
                                 <input type="text" class="title-input" placeholder="Enter your title...">
 
+                                <!-- Tags -->
                                 <div class="tag-wrapper">
                                     <div class="tag-input-container">
                                         <input type="text" class="tag-input" placeholder="Add tags...">
@@ -860,33 +857,41 @@
                                     <div class="selected-tags"></div>
                                 </div>
 
-                                <div class="editor-toolbar">
-                                    <div class="toolbar-group">
-                                        <button title="Bold"><i class="fas fa-bold"></i></button>
-                                        <button title="Italic"><i class="fas fa-italic"></i></button>
-                                        <button title="Underline"><i class="fas fa-underline"></i></button>
-                                        <button title="Strike"><i class="fas fa-strikethrough"></i></button>
+                                <!-- Add this after the tag-wrapper div in the editor-main section -->
+                                <div class="cover-image-wrapper">
+                                    <h4>Cover Image</h4>
+                                    <div class="image-preview">
+                                        <img src="" alt="Cover preview" id="cover-preview">
+                                        <div class="image-placeholder">
+                                            <i class="fas fa-image"></i>
+                                            <span>Select a cover image</span>
+                                        </div>
                                     </div>
-                                    <div class="toolbar-group">
-                                        <button title="Heading 1"><i class="fas fa-heading"></i>1</button>
-                                        <button title="Heading 2"><i class="fas fa-heading"></i>2</button>
-                                        <button title="Heading 3"><i class="fas fa-heading"></i>3</button>
-                                    </div>
-                                    <div class="toolbar-group">
-                                        <button title="Bullet List"><i class="fas fa-list-ul"></i></button>
-                                        <button title="Numbered List"><i class="fas fa-list-ol"></i></button>
-                                        <button title="Quote"><i class="fas fa-quote-right"></i></button>
+                                    <div class="image-options">
+                                        <button class="upload-image-btn">
+                                            <i class="fas fa-upload"></i> Upload Image
+                                        </button>
+                                        <select class="modern-select" id="default-cover-select">
+                                            <option value="">Choose from defaults...</option>
+                                            <option value="technology">Technology</option>
+                                            <option value="design">Design</option>
+                                            <option value="developer">Development</option>
+                                            <option value="ai">AI & ML</option>
+                                            <option value="mobile">Mobile</option>
+                                            <option value="workspace">Workspace</option>
+                                        </select>
                                     </div>
                                 </div>
 
+                                <!-- Content Area -->
                                 <div class="content-area">
-                                    <textarea class="content-editor"
-                                        placeholder="Start writing your story..."></textarea>
+                                    <textarea id="content-editor"></textarea>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="editor-footer">
+                        <!-- Editor Footer -->
+                        <footer class="editor-footer">
                             <button class="outline-button">
                                 <i class="fas fa-save"></i> Save Draft
                             </button>
@@ -894,10 +899,12 @@
                                 <i class="fas fa-paper-plane"></i> Publish
                                 <span class="button-tooltip">⌘ + Enter</span>
                             </button>
-                        </div>
+                        </footer>
                     </div>
 
-                    <div class="sidebar-panel" data-aos="fade-left">
+                    <!-- Sidebar Panel -->
+                    <aside class="sidebar-panel" data-aos="fade-left">
+                        <!-- Help Card -->
                         <div class="help-card glass-card">
                             <h3><i class="fas fa-lightbulb"></i> Writing Tips</h3>
                             <ul class="tips-list">
@@ -907,29 +914,7 @@
                                 <li>End with a clear call-to-action</li>
                             </ul>
                         </div>
-
-                        <div class="resources-card glass-card">
-                            <h3><i class="fas fa-box-open"></i> Resources</h3>
-                            <div class="resource-grid">
-                                <a href="#" class="resource-item">
-                                    <i class="fas fa-image"></i>
-                                    <span>Free Images</span>
-                                </a>
-                                <a href="#" class="resource-item">
-                                    <i class="fas fa-chart-bar"></i>
-                                    <span>Analytics</span>
-                                </a>
-                                <a href="#" class="resource-item">
-                                    <i class="fas fa-book"></i>
-                                    <span>Guidelines</span>
-                                </a>
-                                <a href="#" class="resource-item">
-                                    <i class="fas fa-question-circle"></i>
-                                    <span>Help</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    </aside>
                 </div>
             </div>
         </section>
@@ -942,7 +927,7 @@
                 <div class="shape shape-3"></div>
             </div>
 
-            <div class="container">
+            <div class="container" id="about">
                 <div class="section-header text-center" data-aos="fade-up">
                     <span class="badge gradient-badge">
                         <i class="fas fa-star-half-alt"></i> Our Story
@@ -1145,17 +1130,18 @@
         </div>
     </footer>
 
+    <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js" defer></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({
             duration: 800,
             offset: 100,
-            once: true,
-            disable: 'mobile'
+            once: true
         });
     </script>
-    <!-- Change the script import to use modules -->
     <script type="module" src="scripts.js"></script>
+    <script type="module" src="js/create.js"></script>
+    <script type="module" src="js/blog.js"></script>
 </body>
 
 </html>
