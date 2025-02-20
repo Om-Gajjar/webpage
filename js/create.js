@@ -31,10 +31,9 @@ const EDITOR_CONFIG = {
 export class BlogManager {
     constructor() {
         this.blogGrid = document.querySelector('.blog-grid');
-        // Get default articles from localStorage or use HTML content
-        this.articles =
-            JSON.parse(localStorage.getItem('published-articles')) ||
-            this.getDefaultArticles();
+        this.articles = JSON.parse(localStorage.getItem('published-articles')) || this.getDefaultArticles();
+        // Get ImageLoader instance
+        this.imageLoader = ImageLoader.getInstance();
         this.displayArticles();
     }
 
@@ -126,11 +125,14 @@ export class BlogManager {
     }
 
     createArticleCard(article) {
+        // Use ImageLoader's fallback images
+        const fallbackImages = this.imageLoader.options.fallbackImages;
+        
         return `
             <article class="article-card" data-id="${article.id}">
                 <div class="article-image">
                     <img class="article-img"
-                        data-src="${article.coverImage || this.imageLoader.options.fallbackImages[article.type]}"
+                        data-src="${article.coverImage || fallbackImages[article.type]}"
                         data-type="${article.type}" 
                         loading="lazy"
                         alt="${article.title}">
@@ -156,7 +158,7 @@ export class BlogManager {
                     <p class="article-excerpt">${article.excerpt}</p>
                     <div class="article-footer">
                         <div class="article-author">
-                            <img data-src="${article.author?.avatar || fallbackImages.portrait}"
+                            <img data-src="${article.author?.avatar || fallbackImages.portrait || fallbackImages.technology}"
                                 data-type="portrait" 
                                 loading="lazy"
                                 alt="Author avatar"
@@ -788,6 +790,7 @@ export class Editor {
     }
 
     gatherPostData() {
+        const fallbackImages = this.imageLoader.options.fallbackImages;
         const data = {
             ...this.getExistingGatherPostData(),
             coverImage: this.selectedCoverImage || fallbackImages[this.getSelectedType()]
@@ -925,6 +928,7 @@ export class Editor {
                 }, 300);
             };
 
+            // Handle clicking outside the dialog
             const handleOutsideClick = (e) => {
                 if (e.target === dialog) {
                     handleCancel();
