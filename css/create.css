@@ -62,7 +62,7 @@ body.dark-mode .editor-tabs {
 }
 
 body.dark-mode .tab-btn {
-  color: var(--text-light);
+  color: var(--text);
 }
 
 body.dark-mode .tab-btn:hover {
@@ -276,7 +276,7 @@ body.dark-mode .editor-footer {
   transform: translateX(-50%);
   padding: 0.5rem;
   background: var(--text);
-  color: white;
+  color: var(--background);
   font-size: 0.75rem;
   border-radius: 4px;
   opacity: 0;
@@ -381,6 +381,10 @@ body.dark-mode .ck.ck-toolbar {
 
 body.dark-mode .ck.ck-button {
   color: var(--text) !important;
+}
+
+body.dark-mode .ck.ck-button.ck-on {
+  background: var(--primary) !important;
 }
 
 body.dark-mode .ck.ck-button:hover {

@@ -69,7 +69,7 @@ export class BlogManager {
                 tags: [{ name: "Development", icon: "fas fa-code" }],
                 readingTime: 7,
                 views: 956,
-                likes: 192,
+                likes: 300,
                 comments: 34,
                 publishedAt: "2024-03-14",
                 author: {
