@@ -1,3 +1,4 @@
+import { ImageLoader } from './utils/ImageLoader.js';
 
 /**
  * Blog Functionality Module
@@ -105,4 +106,7 @@ export function setupBlogFeatures() {
     setupBlogViewSwitcher();
     setupCategoryFilter();
     setupBlogSorting();
+    
+    // Use existing ImageLoader instance
+    ImageLoader.getInstance().observe();
 }

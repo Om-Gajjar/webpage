@@ -314,68 +314,6 @@ export const fallbackImages = {
 };
 
 /**
- * Setup lazy loading for images.
- */
-export function setupImageLoading() {
-    // Update selectors to match HTML structure
-    const images = document.querySelectorAll('.article-img, .author-avatar');
-
-    const loadImage = img => {
-        const src = img.getAttribute('data-src');
-        if (!src) return; // Skip if no data-src attribute
-
-        const tempImage = new Image();
-
-        tempImage.onload = () => {
-            img.src = src;
-            img.classList.add('loaded');
-
-            // Find parent container and add loaded class
-            const imageContainer = img.closest('.article-image');
-            if (imageContainer) {
-                imageContainer.classList.add('loaded');
-            }
-        };
-
-        tempImage.onerror = () => {
-            // Get image type from data attribute
-            const type = img.getAttribute('data-type') || 'technology';
-            if (fallbackImages[type]) {
-                img.src = fallbackImages[type];
-                img.classList.add('loaded');
-
-                const imageContainer = img.closest('.article-image');
-                if (imageContainer) {
-                    imageContainer.classList.add('loaded');
-                }
-            }
-        };
-
-        tempImage.src = src;
-    };
-
-    // Set up Intersection Observer
-    if ('IntersectionObserver' in window) {
-        const imageObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    loadImage(entry.target);
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, {
-            rootMargin: '50px 0px',
-            threshold: 0.1
-        });
-
-        images.forEach(img => imageObserver.observe(img));
-    } else {
-        // Fallback for browsers that don't support Intersection Observer
-        images.forEach(img => loadImage(img));
-    }
-}
-
-/**
  * Setup parallax scrolling effects.
  */
 function setupParallaxEffects() {
@@ -537,7 +475,6 @@ function setupFeaturedPosts() {
     categoryPills.forEach(pill => {
         pill.addEventListener('click', () => {
             const category = pill.textContent.trim().toLowerCase();
-
             categoryPills.forEach(p => p.classList.remove('active'));
             pill.classList.add('active');
 
@@ -554,28 +491,14 @@ function setupFeaturedPosts() {
                         setTimeout(() => {
                             post.style.opacity = '1';
                             post.style.transform = 'scale(1)';
+                            // Trigger image loading for newly visible posts
+                            ImageLoader.getInstance().observe();
                         }, 50);
                     }
                 }, 300);
             });
         });
     });
-
-    const lazyImages = document.querySelectorAll('.post-card-image img[loading="lazy"]');
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                img.src = img.dataset.src;
-                img.addEventListener('load', () => {
-                    img.classList.add('loaded');
-                });
-                observer.unobserve(img);
-            }
-        });
-    });
-
-    lazyImages.forEach(img => imageObserver.observe(img));
 }
 
 /**
@@ -611,39 +534,6 @@ function setupLatestArticles() {
 // ==================================================
 // Enhanced Features
 // ==================================================
-
-/**
- * Setup enhanced lazy loading for images.
- */
-function setupEnhancedImageLoading() {
-    const images = document.querySelectorAll('img[data-src]');
-
-    const imageObserver = new IntersectionObserver(
-        (entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    const src = img.dataset.src;
-                    const tempImage = new Image();
-
-                    tempImage.onload = () => {
-                        img.src = src;
-                        img.classList.add('loaded');
-                        const container = img.closest('.post-card-image, .article-image');
-                        if (container) {
-                            container.classList.add('loaded');
-                        }
-                    };
-                    tempImage.src = src;
-                    observer.unobserve(img);
-                }
-            });
-        },
-        { rootMargin: '50px 0px', threshold: 0.1 }
-    );
-
-    images.forEach(img => imageObserver.observe(img));
-}
 
 /**
  * Setup enhanced search functionality.
@@ -800,24 +690,38 @@ function animateStats() {
 import { setupAuth } from './js/auth.js';
 import { setupBlogFeatures } from './js/blog.js';
 import { BlogManager, Editor } from './js/create.js';
+import { ImageLoader } from './js/utils/ImageLoader.js';
+
+// Add this new function:
+export function setupImageLoading(options = {}) {
+    const imageLoader = ImageLoader.getInstance(options);
+    imageLoader.observe();
+    return imageLoader;
+}
 
 // Initialize app when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize core features
     initApp();
     setupEventListeners();
-
-    // Initialize auth features
     setupAuth();
 
-    // Initialize blog features
+    // Initialize blog features with single image loader instance
+    const imageLoader = setupImageLoading({
+        selectors: [
+            '.article-img',
+            '.author-avatar',
+            '#cover-preview',
+            'img[data-src]',
+            '.post-card-image img'
+        ]
+    });
+
     const blogManager = new BlogManager();
     const editor = new Editor(blogManager);
     editor.init();
-    setupBlogFeatures();
 
-    // Initialize other features
-    setupEnhancedImageLoading();
+    setupBlogFeatures();
     setupEnhancedSearch();
     setupCategoryFilter();
     animateStats();

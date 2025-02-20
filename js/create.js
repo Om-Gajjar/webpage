@@ -1,4 +1,5 @@
-import { setupImageLoading, ui, fallbackImages } from '../scripts.js';
+import { ui } from '../scripts.js';
+import { ImageLoader } from './utils/ImageLoader.js';
 
 /**
  * Content Editor Configuration
@@ -129,8 +130,9 @@ export class BlogManager {
             <article class="article-card" data-id="${article.id}">
                 <div class="article-image">
                     <img class="article-img"
-                        data-src="${article.coverImage || fallbackImages[article.type]}"
+                        data-src="${article.coverImage || this.imageLoader.options.fallbackImages[article.type]}"
                         data-type="${article.type}" 
+                        loading="lazy"
                         alt="${article.title}">
                     <span class="article-category">
                         <i class="${article.tags[0]?.icon || 'fas fa-newspaper'}"></i>
@@ -154,10 +156,10 @@ export class BlogManager {
                     <p class="article-excerpt">${article.excerpt}</p>
                     <div class="article-footer">
                         <div class="article-author">
-                            <img data-src="${article.author?.avatar || fallbackImages.portrait
-            }"
+                            <img data-src="${article.author?.avatar || fallbackImages.portrait}"
                                 data-type="portrait" 
-                                alt="Author" 
+                                loading="lazy"
+                                alt="Author avatar"
                                 class="author-avatar">
                             <div>
                                 <div class="author-name">${article.author?.name || 'Anonymous'
@@ -188,8 +190,8 @@ export class BlogManager {
             .map(article => this.createArticleCard(article))
             .join('');
 
-        // Reinitialize image loading
-        setupImageLoading();
+        // Use the singleton instance
+        ImageLoader.getInstance().observe();
     }
 }
 
@@ -215,11 +217,21 @@ export class Editor {
         this.defaultCoverSelect = document.querySelector('#default-cover-select');
         this.uploadImageBtn = document.querySelector('.upload-image-btn');
         this.selectedCoverImage = null;
+        // Use getInstance instead of new
+        this.imageLoader = ImageLoader.getInstance({
+            selectors: [
+                '.article-img',
+                '.author-avatar',
+                '#cover-preview',
+                'img[data-src]'
+            ]
+        });
     }
 
     init() {
         this.initializeEditor();
         this.setupEventListeners();
+        this.imageLoader.observe(); // Add this line
     }
 
     async initializeEditor() {
@@ -263,8 +275,11 @@ export class Editor {
         // Handle default cover selection
         this.defaultCoverSelect?.addEventListener('change', (e) => {
             const type = e.target.value;
-            if (type && fallbackImages[type]) {
-                this.setCoverImage(fallbackImages[type]);
+            if (type) {
+                const fallbackSrc = this.imageLoader.options.fallbackImages[type];
+                if (fallbackSrc) {
+                    this.setCoverImage(fallbackSrc);
+                }
             }
         });
 
@@ -296,9 +311,12 @@ export class Editor {
 
     setCoverImage(src) {
         this.selectedCoverImage = src;
-        this.coverPreview.src = src;
-        this.coverPreview.classList.add('has-image');
-        this.coverPreview.closest('.image-preview').classList.add('has-image');
+        if (this.coverPreview) {
+            this.coverPreview.setAttribute('data-src', src);
+            this.coverPreview.setAttribute('data-type', this.getSelectedType());
+            ImageLoader.getInstance().loadImage(this.coverPreview);
+            this.coverPreview.closest('.image-preview').classList.add('has-image');
+        }
     }
 
     setupTabSwitching() {
