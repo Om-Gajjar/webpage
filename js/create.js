@@ -199,6 +199,7 @@ export class BlogManager {
  * Modify the Editor class to include author information
  */
 export class Editor {
+    // Add defaultType to constructor
     constructor(blogManager) {
         this.tabs = document.querySelectorAll('.tab-btn');
         this.types = document.querySelectorAll('.type-btn');
@@ -234,6 +235,8 @@ export class Editor {
         this.defaultCoverSelect = document.getElementById('default-cover-select');
         
         this.setupImageHandling();
+        this.defaultType = 'technology'; // Add this line
+        this.currentType = this.defaultType; // Add this line
     }
 
     init() {
@@ -392,17 +395,21 @@ export class Editor {
         // Ensure at least one type is selected initially
         if (!document.querySelector('.type-btn.active')) {
             const defaultType = this.types[0];
-            if (defaultType) defaultType.classList.add('active');
+            if (defaultType) {
+                defaultType.classList.add('active');
+                this.currentType = defaultType.getAttribute('data-type') || this.defaultType;
+            }
         }
 
         this.types.forEach(type => {
             type.addEventListener('click', () => {
                 this.types.forEach(t => t.classList.remove('active'));
                 type.classList.add('active');
+                this.currentType = type.getAttribute('data-type');
                 
                 // Update cover image type if exists
                 if (this.coverPreview && this.coverPreview.getAttribute('data-src')) {
-                    this.coverPreview.setAttribute('data-type', type.getAttribute('data-type'));
+                    this.coverPreview.setAttribute('data-type', this.currentType);
                 }
             });
         });
@@ -410,8 +417,7 @@ export class Editor {
 
     getSelectedType() {
         const activeTypeBtn = document.querySelector('.type-btn.active');
-        // Return default type if no active button found
-        return activeTypeBtn?.getAttribute('data-type') || 'technology';
+        return activeTypeBtn?.getAttribute('data-type') || this.currentType || this.defaultType;
     }
 
     setupTagHandling() {
@@ -420,19 +426,24 @@ export class Editor {
         });
     }
 
+    // Fix in handleTagSelection method
     handleTagSelection(tag) {
         const tagText = tag.textContent.trim();
         const tagIcon = tag.querySelector('i').className;
 
-        if (!document.querySelector(`.selected-tag[data-tag="${tagText}"]`)) {
+        // Change the selector to match the actual class
+        if (!document.querySelector(`.tag-chip.selected[data-tag="${tagText}"]`)) {
             const tagElement = this.createTagElement(tagText, tagIcon);
+            tagElement.setAttribute('data-tag', tagText); // Add this line
             this.selectedTags.appendChild(tagElement);
         }
     }
 
+    // Fix in createTagElement method
     createTagElement(text, iconClass) {
         const tag = document.createElement('span');
         tag.className = 'tag-chip selected';
+        tag.setAttribute('data-tag', text); // Add this line
         
         if (iconClass) {
             const icon = document.createElement('i');
@@ -484,55 +495,37 @@ export class Editor {
                 selectedValue: this.defaultCoverSelect?.value || ''
             };
 
-            // Restore the editor interface HTML
+            // Restore the editor interface HTML with default tag suggestions
             this.editorContent.innerHTML = `
                 <div class="editor-main">
                     <input type="text" class="title-input" placeholder="Enter your title..." value="${this.titleInput?.value || ''}">
                     <div class="tag-wrapper">
                         <div class="tag-input-container">
                             <input type="text" class="tag-input" placeholder="Add tags...">
-                            <div class="tag-suggestions"></div>
+                            <div class="tag-suggestions">
+                                <span class="tag-chip" data-tag="technology">
+                                    <i class="fas fa-microchip"></i> Technology
+                                </span>
+                                <span class="tag-chip" data-tag="design">
+                                    <i class="fas fa-palette"></i> Design
+                                </span>
+                                <span class="tag-chip" data-tag="tutorial">
+                                    <i class="fas fa-chalkboard-teacher"></i> Tutorial
+                                </span>
+                                <span class="tag-chip" data-tag="development">
+                                    <i class="fas fa-code"></i> Development
+                                </span>
+                                <span class="tag-chip" data-tag="ai">
+                                    <i class="fas fa-brain"></i> AI & ML
+                                </span>
+                            </div>
                         </div>
                         <div class="selected-tags">${this.selectedTags?.innerHTML || ''}</div>
                     </div>
-                    <div class="cover-image-wrapper">
-                        <h4>Cover Image</h4>
-                        <div class="image-preview">
-                            <img id="cover-preview" data-src="" data-type="" alt="Cover preview">
-                            <div class="image-placeholder">
-                                <i class="fas fa-image"></i>
-                                <span>Select a cover image</span>
-                            </div>
-                        </div>
-                        <div class="image-options">
-                            <button class="upload-image-btn">
-                                <i class="fas fa-upload"></i> Upload Image
-                            </button>
-                            <select class="modern-select" id="default-cover-select">
-                                <option value="">Choose from defaults...</option>
-                                <option value="technology">Technology</option>
-                                <option value="design">Design</option>
-                                <option value="developer">Development</option>
-                                <option value="ai">AI & ML</option>
-                                <option value="mobile">Mobile</option>
-                                <option value="workspace">Workspace</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="content-area">
-                        <textarea id="content-editor">${currentContent}</textarea>
-                    </div>
+                    <!-- Rest of the editor HTML -->
+                    ${this.getEditorMainHTML(currentContent, coverImageData)}
                 </div>
             `;
-
-            // Reinitialize CKEditor
-            if (this.contentEditor) {
-                await this.contentEditor.destroy();
-            }
-            this.contentEditor = await ClassicEditor.create(
-                document.querySelector('#content-editor'),
-                EDITOR_CONFIG
-            );
 
             // Re-query DOM elements after HTML restoration
             this.coverPreview = document.getElementById('cover-preview');
@@ -541,6 +534,8 @@ export class Editor {
             this.defaultCoverSelect = document.getElementById('default-cover-select');
             this.titleInput = document.querySelector('.title-input');
             this.selectedTags = document.querySelector('.selected-tags');
+            this.tagInput = document.querySelector('.tag-input');
+            this.tagSuggestions = document.querySelectorAll('.tag-chip'); // Update tag suggestions reference
 
             // Restore cover image if it existed
             if (coverImageData.src && this.coverPreview) {
@@ -558,9 +553,27 @@ export class Editor {
                 }
             }
 
+            // Reinitialize CKEditor
+            if (this.contentEditor) {
+                await this.contentEditor.destroy();
+            }
+            this.contentEditor = await ClassicEditor.create(
+                document.querySelector('#content-editor'),
+                EDITOR_CONFIG
+            );
+
             // Reattach event listeners
             this.setupImageHandling();
-            this.setupTagHandling();
+            this.setupTagHandling(); // This will now work with the restored tag suggestions
+
+            // Restore type selection
+            const activeType = document.querySelector('.type-btn.active');
+            if (!activeType && this.currentType) {
+                const typeBtn = document.querySelector(`.type-btn[data-type="${this.currentType}"]`);
+                if (typeBtn) {
+                    typeBtn.classList.add('active');
+                }
+            }
 
         } catch (error) {
             console.error('Editor initialization failed:', error);
@@ -568,6 +581,43 @@ export class Editor {
         } finally {
             removeLoading();
         }
+    }
+
+    // Helper method to get the editor main HTML
+    getEditorMainHTML(currentContent, coverImageData) {
+        return `
+            <div class="cover-image-wrapper">
+                <h4>Cover Image</h4>
+                <div class="image-preview">
+                    <img id="cover-preview" 
+                        data-src="${coverImageData.src}" 
+                        data-type="${coverImageData.type}" 
+                        alt="Cover preview"
+                        ${coverImageData.hasImage ? `src="${coverImageData.src}"` : ''}>
+                    <div class="image-placeholder">
+                        <i class="fas fa-image"></i>
+                        <span>Select a cover image</span>
+                    </div>
+                </div>
+                <div class="image-options">
+                    <button class="upload-image-btn">
+                        <i class="fas fa-upload"></i> Upload Image
+                    </button>
+                    <select class="modern-select" id="default-cover-select">
+                        <option value="">Choose from defaults...</option>
+                        <option value="technology">Technology</option>
+                        <option value="design">Design</option>
+                        <option value="developer">Development</option>
+                        <option value="ai">AI & ML</option>
+                        <option value="mobile">Mobile</option>
+                        <option value="workspace">Workspace</option>
+                    </select>
+                </div>
+            </div>
+            <div class="content-area">
+                <textarea id="content-editor">${currentContent}</textarea>
+            </div>
+        `;
     }
 
     setupDraftSaving() {
@@ -745,19 +795,15 @@ export class Editor {
         return data;
     }
 
-    getSelectedType() {
-        const activeTypeBtn = document.querySelector('.type-btn.active');
-        // Return default type if no active button found
-        return activeTypeBtn?.getAttribute('data-type') || 'technology';
-    }
-
+    // Fix in getExistingGatherPostData method
     getExistingGatherPostData() {
         const title = this.titleInput.value.trim();
         const content = this.contentEditor.getData().trim();
-        const type = document.querySelector('.type-btn.active').getAttribute('data-type');
-        const tags = Array.from(document.querySelectorAll('.selected-tag')).map((tag) => ({
-            name: tag.dataset.tag,
-            icon: tag.querySelector('i').className
+        const type = this.getSelectedType(); // Use the updated method
+        
+        const tags = Array.from(document.querySelectorAll('.tag-chip.selected')).map((tag) => ({
+            name: tag.textContent.trim().replace(/×$/, '').trim(), // Remove the × symbol if present
+            icon: tag.querySelector('i')?.className || ''
         }));
 
         return {
@@ -785,6 +831,7 @@ export class Editor {
         return Math.ceil(words / wordsPerMinute);
     }
 
+    // Fix in validateForm method
     validateForm() {
         if (!this.titleInput.value.trim()) {
             return 'Please enter a title';
@@ -792,7 +839,8 @@ export class Editor {
         if (!this.contentEditor.getData().trim()) {
             return 'Please add some content';
         }
-        const selectedTags = document.querySelectorAll('.selected-tag');
+        // Update the selector to match the actual class
+        const selectedTags = document.querySelectorAll('.tag-chip.selected');
         if (selectedTags.length === 0) {
             return 'Please add at least one tag';
         }
