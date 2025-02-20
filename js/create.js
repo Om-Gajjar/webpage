@@ -238,8 +238,13 @@ export class Editor {
 
     init() {
         this.initializeEditor();
+        // Set default active type before setting up event listeners
+        if (!document.querySelector('.type-btn.active')) {
+            const defaultType = this.types[0];
+            if (defaultType) defaultType.classList.add('active');
+        }
         this.setupEventListeners();
-        this.imageLoader.observe(); // Add this line
+        this.imageLoader.observe();
     }
 
     async initializeEditor() {
@@ -341,12 +346,20 @@ export class Editor {
     }
 
     setCoverImage(src) {
+        if (!src) return;
+        
         this.selectedCoverImage = src;
         if (this.coverPreview) {
+            const currentType = this.getSelectedType();
             this.coverPreview.setAttribute('data-src', src);
-            this.coverPreview.setAttribute('data-type', this.getSelectedType());
-            ImageLoader.getInstance().loadImage(this.coverPreview);
-            this.coverPreview.closest('.image-preview').classList.add('has-image');
+            this.coverPreview.setAttribute('data-type', currentType);
+            this.coverPreview.src = src; // Add this line
+            this.coverPreview.style.display = 'block';
+            
+            const previewContainer = this.coverPreview.closest('.image-preview');
+            if (previewContainer) {
+                previewContainer.classList.add('has-image');
+            }
         }
     }
 
@@ -376,12 +389,29 @@ export class Editor {
     }
 
     setupPostTypeSelection() {
+        // Ensure at least one type is selected initially
+        if (!document.querySelector('.type-btn.active')) {
+            const defaultType = this.types[0];
+            if (defaultType) defaultType.classList.add('active');
+        }
+
         this.types.forEach(type => {
             type.addEventListener('click', () => {
                 this.types.forEach(t => t.classList.remove('active'));
                 type.classList.add('active');
+                
+                // Update cover image type if exists
+                if (this.coverPreview && this.coverPreview.getAttribute('data-src')) {
+                    this.coverPreview.setAttribute('data-type', type.getAttribute('data-type'));
+                }
             });
         });
+    }
+
+    getSelectedType() {
+        const activeTypeBtn = document.querySelector('.type-btn.active');
+        // Return default type if no active button found
+        return activeTypeBtn?.getAttribute('data-type') || 'technology';
     }
 
     setupTagHandling() {
@@ -445,47 +475,30 @@ export class Editor {
             document.querySelector('.tab-btn[data-tab="write"]')
         );
         try {
-            // Store the current editor content
-            const currentContent = this.contentEditor
-                ? this.contentEditor.getData()
-                : '';
+            // Store current state
+            const currentContent = this.contentEditor ? this.contentEditor.getData() : '';
+            const coverImageData = {
+                src: this.coverPreview?.getAttribute('data-src') || '',
+                type: this.coverPreview?.getAttribute('data-type') || '',
+                hasImage: this.imagePreviewContainer?.classList.contains('has-image') || false,
+                selectedValue: this.defaultCoverSelect?.value || ''
+            };
 
-            // Restore the full editor interface
+            // Restore the editor interface HTML
             this.editorContent.innerHTML = `
-                <nav class="post-type-selector">
-                    <button class="type-btn active" data-type="article">
-                        <i class="fas fa-newspaper"></i> Article
-                    </button>
-                    <button class="type-btn" data-type="tutorial">
-                        <i class="fas fa-graduation-cap"></i> Tutorial
-                    </button>
-                    <button class="type-btn" data-type="wiki">
-                        <i class="fas fa-book"></i> Wiki
-                    </button>
-                </nav>
                 <div class="editor-main">
-                    <input type="text" class="title-input" placeholder="Enter your title...">
+                    <input type="text" class="title-input" placeholder="Enter your title..." value="${this.titleInput?.value || ''}">
                     <div class="tag-wrapper">
                         <div class="tag-input-container">
                             <input type="text" class="tag-input" placeholder="Add tags...">
-                            <div class="tag-suggestions">
-                                <span class="tag-chip" data-tag="technology">
-                                    <i class="fas fa-microchip"></i> Technology
-                                </span>
-                                <span class="tag-chip" data-tag="design">
-                                    <i class="fas fa-palette"></i> Design
-                                </span>
-                                <span class="tag-chip" data-tag="tutorial">
-                                    <i class="fas fa-chalkboard-teacher"></i> Tutorial
-                                </span>
-                            </div>
+                            <div class="tag-suggestions"></div>
                         </div>
-                        <div class="selected-tags"></div>
+                        <div class="selected-tags">${this.selectedTags?.innerHTML || ''}</div>
                     </div>
                     <div class="cover-image-wrapper">
                         <h4>Cover Image</h4>
                         <div class="image-preview">
-                            <img src="" alt="Cover preview" id="cover-preview">
+                            <img id="cover-preview" data-src="" data-type="" alt="Cover preview">
                             <div class="image-placeholder">
                                 <i class="fas fa-image"></i>
                                 <span>Select a cover image</span>
@@ -507,43 +520,48 @@ export class Editor {
                         </div>
                     </div>
                     <div class="content-area">
-                        <textarea id="content-editor"></textarea>
+                        <textarea id="content-editor">${currentContent}</textarea>
                     </div>
                 </div>
             `;
 
-            // Destroy existing editor instance if it exists
+            // Reinitialize CKEditor
             if (this.contentEditor) {
                 await this.contentEditor.destroy();
             }
-
-            // Reinitialize editor
             this.contentEditor = await ClassicEditor.create(
                 document.querySelector('#content-editor'),
                 EDITOR_CONFIG
             );
 
-            // Restore content from temp storage or draft
-            const tempContent = localStorage.getItem('temp-content');
-            const savedContent = localStorage.getItem('draft-content');
-            const contentToRestore = tempContent || currentContent || savedContent || '';
-
-            if (contentToRestore) {
-                this.contentEditor.setData(contentToRestore);
-            }
-
-            // Clear temp storage
-            localStorage.removeItem('temp-content');
-
-            // Reattach event listeners for new elements
-            this.types = document.querySelectorAll('.type-btn');
-            this.tagInput = document.querySelector('.tag-input');
-            this.tagSuggestions = document.querySelectorAll('.tag-chip');
+            // Re-query DOM elements after HTML restoration
+            this.coverPreview = document.getElementById('cover-preview');
+            this.imagePreviewContainer = document.querySelector('.image-preview');
+            this.uploadImageBtn = document.querySelector('.upload-image-btn');
+            this.defaultCoverSelect = document.getElementById('default-cover-select');
+            this.titleInput = document.querySelector('.title-input');
             this.selectedTags = document.querySelector('.selected-tags');
 
-            // Reinitialize event listeners
-            this.setupPostTypeSelection();
+            // Restore cover image if it existed
+            if (coverImageData.src && this.coverPreview) {
+                this.coverPreview.setAttribute('data-src', coverImageData.src);
+                this.coverPreview.setAttribute('data-type', coverImageData.type);
+                
+                if (coverImageData.hasImage) {
+                    this.imagePreviewContainer.classList.add('has-image');
+                    this.coverPreview.src = coverImageData.src;
+                    this.coverPreview.style.display = 'block';
+                }
+                
+                if (coverImageData.selectedValue) {
+                    this.defaultCoverSelect.value = coverImageData.selectedValue;
+                }
+            }
+
+            // Reattach event listeners
+            this.setupImageHandling();
             this.setupTagHandling();
+
         } catch (error) {
             console.error('Editor initialization failed:', error);
             ui.showToast('Failed to initialize editor', 'error');
@@ -728,7 +746,9 @@ export class Editor {
     }
 
     getSelectedType() {
-        return document.querySelector('.type-btn.active').getAttribute('data-type');
+        const activeTypeBtn = document.querySelector('.type-btn.active');
+        // Return default type if no active button found
+        return activeTypeBtn?.getAttribute('data-type') || 'technology';
     }
 
     getExistingGatherPostData() {

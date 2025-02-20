@@ -169,7 +169,7 @@ body.dark-mode .title-input {
 body.dark-mode .tag-input {
   background: var(--surface);
   border-color: var(--border);
-  color: var(--text);
+  color: var (--text);
 }
 
 .tag-suggestions {
@@ -604,15 +604,16 @@ body.dark-mode .cover-image-wrapper {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: none; /* Hidden by default */
+  opacity: 0; /* Start hidden */
+  transition: opacity 0.3s ease;
 }
 
 .image-preview.has-image img {
-  display: block; /* Show when has-image class is added */
+  opacity: 1; /* Show when loaded */
 }
 
 .image-preview.has-image .image-placeholder {
-  display: none; /* Hide placeholder when image is present */
+  display: none;
 }
 
 .image-placeholder {
@@ -625,6 +626,7 @@ body.dark-mode .cover-image-wrapper {
   gap: 0.5rem;
   color: var(--text-light);
   cursor: pointer;
+  pointer-events: none;
 }
 
 body.dark-mode .image-preview {
