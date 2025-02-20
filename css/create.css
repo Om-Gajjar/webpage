@@ -600,6 +600,33 @@ body.dark-mode .cover-image-wrapper {
   border: 2px dashed var(--border);
 }
 
+.image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none; /* Hidden by default */
+}
+
+.image-preview.has-image img {
+  display: block; /* Show when has-image class is added */
+}
+
+.image-preview.has-image .image-placeholder {
+  display: none; /* Hide placeholder when image is present */
+}
+
+.image-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: var(--text-light);
+  cursor: pointer;
+}
+
 body.dark-mode .image-preview {
   background: var(--surface);
   border-color: var(--border);
@@ -647,6 +674,11 @@ body.dark-mode .image-placeholder {
 
 .upload-image-btn {
   flex-shrink: 0;
+}
+
+.upload-image-btn:hover,
+.image-placeholder:hover {
+  opacity: 0.8;
 }
 
 #default-cover-select {

@@ -30,10 +30,9 @@ export class ImageLoader {
                 technology: 'https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg',
                 design: 'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg',
                 ai: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg',
-                mobile: 'https://images.pexels.com/photos/47261/pexels-photo-47261.jpeg',
+                mobile: 'https://images.pexels.com/photos/1440727/pexels-photo-1440727.jpeg',
                 developer: 'https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg',
-                workspace: 'https://images.pexels.com/photos/7974/pexels-photo.jpg',
-                portrait: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg'
+                workspace: 'https://images.pexels.com/photos/1181677/pexels-photo-1181677.jpeg'
             },
             ...options
         };

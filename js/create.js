@@ -226,6 +226,14 @@ export class Editor {
                 'img[data-src]'
             ]
         });
+        
+        // Initialize image related elements
+        this.coverPreview = document.getElementById('cover-preview');
+        this.imagePreviewContainer = document.querySelector('.image-preview');
+        this.uploadImageBtn = document.querySelector('.upload-image-btn');
+        this.defaultCoverSelect = document.getElementById('default-cover-select');
+        
+        this.setupImageHandling();
     }
 
     init() {
@@ -245,11 +253,34 @@ export class Editor {
             if (savedDraft) {
                 try {
                     const draftData = JSON.parse(savedDraft);
+                    
                     // Restore content
                     this.contentEditor.setData(draftData.content || '');
+                    
                     // Restore title
                     if (this.titleInput && draftData.title) {
                         this.titleInput.value = draftData.title;
+                    }
+
+                    // Restore tags
+                    if (draftData.tags && this.selectedTags) {
+                        this.selectedTags.innerHTML = '';
+                        draftData.tags.forEach(tag => {
+                            const tagElement = this.createTagElement(tag.name, tag.icon);
+                            this.selectedTags.appendChild(tagElement);
+                        });
+                    }
+
+                    // Restore cover image
+                    if (draftData.coverImage && this.coverPreview) {
+                        if (draftData.coverImage.src) {
+                            this.setCoverImage(draftData.coverImage.src);
+                            
+                            // If it was a default image, restore the select value
+                            if (draftData.coverImage.isDefault && this.defaultCoverSelect) {
+                                this.defaultCoverSelect.value = draftData.coverImage.type;
+                            }
+                        }
                     }
                 } catch (e) {
                     console.error('Error loading draft:', e);
@@ -370,17 +401,24 @@ export class Editor {
     }
 
     createTagElement(text, iconClass) {
-        const tagElement = document.createElement('span');
-        tagElement.className = 'tag-chip selected-tag';
-        tagElement.dataset.tag = text;
-        tagElement.innerHTML = `
-            <i class="${iconClass}"></i>
-            ${text}
-            <i class="fas fa-times remove-tag"></i>
-        `;
-        tagElement.querySelector('.remove-tag')
-            .addEventListener('click', () => tagElement.remove());
-        return tagElement;
+        const tag = document.createElement('span');
+        tag.className = 'tag-chip selected';
+        
+        if (iconClass) {
+            const icon = document.createElement('i');
+            icon.className = iconClass;
+            tag.appendChild(icon);
+        }
+        
+        tag.appendChild(document.createTextNode(text));
+        
+        // Add remove button
+        const removeBtn = document.createElement('i');
+        removeBtn.className = 'fas fa-times remove-tag';
+        removeBtn.onclick = () => tag.remove();
+        tag.appendChild(removeBtn);
+        
+        return tag;
     }
 
     async showPreview() {
@@ -528,16 +566,29 @@ export class Editor {
 
             const removeLoading = ui.addLoading(this.saveDraftButton);
             try {
-                // Get the current content
+                // Get the current content and title
                 const content = this.contentEditor.getData();
-
-                // Get the current title
                 const title = this.titleInput?.value || '';
 
-                // Save both content and title
+                // Get selected tags
+                const selectedTags = Array.from(this.selectedTags.children).map(tag => ({
+                    name: tag.textContent.trim(),
+                    icon: tag.querySelector('i')?.className || ''
+                }));
+
+                // Get cover image data
+                const coverImageData = {
+                    src: this.coverPreview?.src || '',
+                    type: this.coverPreview?.dataset.type || '',
+                    isDefault: !!this.defaultCoverSelect?.value
+                };
+
+                // Save all data
                 const draftData = {
                     content,
                     title,
+                    tags: selectedTags,
+                    coverImage: coverImageData,
                     lastSaved: new Date().toISOString()
                 };
 
@@ -743,24 +794,27 @@ export class Editor {
     }
 
     resetForm() {
-        // Reset title
+        // Existing reset code...
         this.titleInput.value = '';
-        // Reset editor content
         this.contentEditor.setData('');
-        // Reset post type
-        const defaultType = document.querySelector('.type-btn[data-type="article"]');
-        if (defaultType) {
-            this.types.forEach((t) => t.classList.remove('active'));
-            defaultType.classList.add('active');
+        
+        // Reset tags
+        if (this.selectedTags) {
+            this.selectedTags.innerHTML = '';
         }
-        // Clear selected tags
-        this.selectedTags.innerHTML = '';
-        // Clear image
-        this.selectedCoverImage = null;
-        this.coverPreview.src = '';
-        this.coverPreview.classList.remove('has-image');
-        this.coverPreview.closest('.image-preview').classList.remove('has-image');
-        this.defaultCoverSelect.value = '';
+
+        // Reset cover image
+        if (this.coverPreview) {
+            this.coverPreview.src = '';
+            this.coverPreview.classList.remove('has-image');
+            this.coverPreview.closest('.image-preview')?.classList.remove('has-image');
+            if (this.defaultCoverSelect) {
+                this.defaultCoverSelect.value = '';
+            }
+        }
+
+        // Clear draft from localStorage
+        localStorage.removeItem('draft-content');
     }
 
     async confirmPublish() {
