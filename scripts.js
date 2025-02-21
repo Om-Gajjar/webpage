@@ -15,13 +15,13 @@ function removeFromHistory(query) {
         searchHistory.innerHTML = history
             .map(
                 item => `
-          <div class="history-item">
-            <span><i class="fas fa-history"></i> ${item}</span>
-            <button class="icon-button" onclick="removeFromHistory('${item}')">
-              <i class="fas fa-times"></i>
-            </button>
-          </div>
-        `
+            <div class="history-item">
+              <span><i class="fas fa-history"></i> ${item}</span>
+              <button class="icon-button" onclick="removeFromHistory('${item}')">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          `
             )
             .join('');
     }
@@ -40,11 +40,11 @@ export const ui = {
         const toast = Object.assign(document.createElement('div'), {
             className: `toast toast-${type}`,
             innerHTML: `
-          <div class="toast-content">
-            <i class="fas fa-${type === 'success' ? 'check' : 'info'}-circle"></i>
-            <span>${message}</span>
-          </div>
-        `
+            <div class="toast-content">
+              <i class="fas fa-${type === 'success' ? 'check' : 'info'}-circle"></i>
+              <span>${message}</span>
+            </div>
+          `
         });
 
         // Position the toast based on existing ones
@@ -211,13 +211,13 @@ function setupSearch() {
         searchHistory.innerHTML = items
             .map(
                 item => `
-          <div class="history-item">
-            <span><i class="fas fa-history"></i> ${item}</span>
-            <button class="icon-button" onclick="removeFromHistory('${item}')">
-              <i class="fas fa-times"></i>
-            </button>
-          </div>
-        `
+            <div class="history-item">
+              <span><i class="fas fa-history"></i> ${item}</span>
+              <button class="icon-button" onclick="removeFromHistory('${item}')">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          `
             )
             .join('');
     }
@@ -231,16 +231,16 @@ function setupSearch() {
         searchResults.innerHTML = suggestions
             .map(
                 suggestion => `
-          <div class="search-suggestion" role="button" tabindex="0">
-            <div class="suggestion-icon">
-              <i class="fas ${suggestion.icon}"></i>
+            <div class="search-suggestion" role="button" tabindex="0">
+              <div class="suggestion-icon">
+                <i class="fas ${suggestion.icon}"></i>
+              </div>
+              <div class="suggestion-content">
+                <div class="suggestion-title">${suggestion.title}</div>
+                <div class="suggestion-subtitle">${suggestion.subtitle}</div>
+              </div>
             </div>
-            <div class="suggestion-content">
-              <div class="suggestion-title">${suggestion.title}</div>
-              <div class="suggestion-subtitle">${suggestion.subtitle}</div>
-            </div>
-          </div>
-        `
+          `
             )
             .join('');
     }
@@ -595,16 +595,16 @@ function performSearch(query) {
     searchResults.innerHTML = results
         .map(
             result => `
-        <div class="search-result-item">
-          <div class="result-icon">
-            <i class="fas fa-${result.type === 'article' ? 'newspaper' : 'user'}"></i>
+          <div class="search-result-item">
+            <div class="result-icon">
+              <i class="fas fa-${result.type === 'article' ? 'newspaper' : 'user'}"></i>
+            </div>
+            <div class="result-content">
+              <h4>${result.type === 'article' ? result.title : result.name}</h4>
+              <p>${result.type === 'article' ? result.excerpt : result.role}</p>
+            </div>
           </div>
-          <div class="result-content">
-            <h4>${result.type === 'article' ? result.title : result.name}</h4>
-            <p>${result.type === 'article' ? result.excerpt : result.role}</p>
-          </div>
-        </div>
-      `
+        `
         )
         .join('');
 }
@@ -692,7 +692,9 @@ import { setupBlogFeatures } from './js/blog.js';
 import { BlogManager, Editor } from './js/create.js';
 import { ImageLoader } from './js/utils/ImageLoader.js';
 
-// Add this new function:
+/**
+ * Initialize image loading.
+ */
 export function setupImageLoading(options = {}) {
     const imageLoader = ImageLoader.getInstance(options);
     imageLoader.observe();

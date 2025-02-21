@@ -26,12 +26,13 @@ const EDITOR_CONFIG = {
 };
 
 /**
- * Editor State Management
+ * Blog Manager: Handles retrieval, storage, and display of blog articles.
  */
 export class BlogManager {
     constructor() {
         this.blogGrid = document.querySelector('.blog-grid');
-        this.articles = JSON.parse(localStorage.getItem('published-articles')) || this.getDefaultArticles();
+        this.articles =
+            JSON.parse(localStorage.getItem('published-articles')) || this.getDefaultArticles();
         // Get ImageLoader instance
         this.imageLoader = ImageLoader.getInstance();
         this.displayArticles();
@@ -54,11 +55,9 @@ export class BlogManager {
                 author: {
                     name: "Alex Mitchell",
                     role: "Tech Lead",
-                    avatar:
-                        "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg"
+                    avatar: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg"
                 },
-                coverImage:
-                    "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg"
+                coverImage: "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg"
             },
             {
                 id: 2,
@@ -75,11 +74,9 @@ export class BlogManager {
                 author: {
                     name: "Mark Wilson",
                     role: "Senior Developer",
-                    avatar:
-                        "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg"
+                    avatar: "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg"
                 },
-                coverImage:
-                    "https://images.pexels.com/photos/1181298/pexels-photo-1181298.jpeg"
+                coverImage: "https://images.pexels.com/photos/1181298/pexels-photo-1181298.jpeg"
             },
             {
                 id: 3,
@@ -96,11 +93,9 @@ export class BlogManager {
                 author: {
                     name: "Sarah Chen",
                     role: "UX Designer",
-                    avatar:
-                        "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg"
+                    avatar: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg"
                 },
-                coverImage:
-                    "https://images.pexels.com/photos/3182773/pexels-photo-3182773.jpeg"
+                coverImage: "https://images.pexels.com/photos/3182773/pexels-photo-3182773.jpeg"
             }
         ];
     }
@@ -116,96 +111,86 @@ export class BlogManager {
 
         // Add new article to the beginning of the array
         this.articles.unshift(newArticle);
-
-        // Save to localStorage including default articles
         localStorage.setItem('published-articles', JSON.stringify(this.articles));
-
-        // Update display
         this.displayArticles();
     }
 
     createArticleCard(article) {
-        // Use ImageLoader's fallback images
         const fallbackImages = this.imageLoader.options.fallbackImages;
-        
         return `
-            <article class="article-card" data-id="${article.id}">
-                <div class="article-image">
-                    <img class="article-img"
-                        data-src="${article.coverImage || fallbackImages[article.type]}"
-                        data-type="${article.type}" 
-                        loading="lazy"
-                        alt="${article.title}">
-                    <span class="article-category">
-                        <i class="${article.tags[0]?.icon || 'fas fa-newspaper'}"></i>
-                        ${article.tags[0]?.name || article.type}
-                    </span>
-                    <div class="article-meta">
-                        <span><i class="far fa-clock"></i> ${article.readingTime} min read</span>
-                        <span><i class="far fa-eye"></i> ${article.views} views</span>
-                    </div>
-                </div>
-                <div class="article-content">
-                    <div class="article-info">
-                        <span>${new Date(article.publishedAt).toLocaleDateString('en-US', {
+      <article class="article-card" data-id="${article.id}">
+        <div class="article-image">
+          <img class="article-img"
+            data-src="${article.coverImage || fallbackImages[article.type]}"
+            data-type="${article.type}"
+            loading="lazy"
+            alt="${article.title}">
+          <span class="article-category">
+            <i class="${article.tags[0]?.icon || 'fas fa-newspaper'}"></i>
+            ${article.tags[0]?.name || article.type}
+          </span>
+          <div class="article-meta">
+            <span><i class="far fa-clock"></i> ${article.readingTime} min read</span>
+            <span><i class="far fa-eye"></i> ${article.views} views</span>
+          </div>
+        </div>
+        <div class="article-content">
+          <div class="article-info">
+            <span>${new Date(article.publishedAt).toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',
             day: 'numeric'
         })}</span>
-                        <span><i class="far fa-bookmark"></i> Save</span>
-                    </div>
-                    <h3 class="article-title">${article.title}</h3>
-                    <p class="article-excerpt">${article.excerpt}</p>
-                    <div class="article-footer">
-                        <div class="article-author">
-                            <img data-src="${article.author?.avatar || fallbackImages.portrait || fallbackImages.technology}"
-                                data-type="portrait" 
-                                loading="lazy"
-                                alt="Author avatar"
-                                class="author-avatar">
-                            <div>
-                                <div class="author-name">${article.author?.name || 'Anonymous'
-            }</div>
-                                <div class="author-role">${article.author?.role || 'Contributor'
-            }</div>
-                            </div>
-                        </div>
-                        <div class="article-stats">
-                            <span class="stat-item">
-                                <i class="far fa-heart"></i>
-                                ${article.likes}
-                            </span>
-                            <span class="stat-item">
-                                <i class="far fa-comment"></i>
-                                ${article.comments}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        `;
+            <span><i class="far fa-bookmark"></i> Save</span>
+          </div>
+          <h3 class="article-title">${article.title}</h3>
+          <p class="article-excerpt">${article.excerpt}</p>
+          <div class="article-footer">
+            <div class="article-author">
+              <img data-src="${article.author?.avatar ||
+            fallbackImages.portrait ||
+            fallbackImages.technology
+            }"
+                data-type="portrait"
+                loading="lazy"
+                alt="Author avatar"
+                class="author-avatar">
+              <div>
+                <div class="author-name">${article.author?.name || 'Anonymous'}</div>
+                <div class="author-role">${article.author?.role || 'Contributor'}</div>
+              </div>
+            </div>
+            <div class="article-stats">
+              <span class="stat-item">
+                <i class="far fa-heart"></i> ${article.likes}
+              </span>
+              <span class="stat-item">
+                <i class="far fa-comment"></i> ${article.comments}
+              </span>
+            </div>
+          </div>
+        </div>
+      </article>
+    `;
     }
 
     displayArticles() {
         if (!this.blogGrid) return;
         this.blogGrid.innerHTML = this.articles
-            .map(article => this.createArticleCard(article))
+            .map((article) => this.createArticleCard(article))
             .join('');
-
-        // Use the singleton instance
         ImageLoader.getInstance().observe();
     }
 }
 
 /**
- * Modify the Editor class to include author information
+ * Editor: Provides content editing functionality including draft saving,
+ * cover image handling, tag management, and publishing.
  */
 export class Editor {
-    // Add defaultType to constructor
     constructor(blogManager) {
         this.tabs = document.querySelectorAll('.tab-btn');
         this.types = document.querySelectorAll('.type-btn');
-        // Remove unused toolbar buttons as we're using CKEditor
         this.tagInput = document.querySelector('.tag-input');
         this.tagSuggestions = document.querySelectorAll('.tag-chip');
         this.selectedTags = document.querySelector('.selected-tags');
@@ -220,7 +205,6 @@ export class Editor {
         this.defaultCoverSelect = document.querySelector('#default-cover-select');
         this.uploadImageBtn = document.querySelector('.upload-image-btn');
         this.selectedCoverImage = null;
-        // Use getInstance instead of new
         this.imageLoader = ImageLoader.getInstance({
             selectors: [
                 '.article-img',
@@ -229,21 +213,20 @@ export class Editor {
                 'img[data-src]'
             ]
         });
-        
-        // Initialize image related elements
+
+        // Initialize image-related elements
         this.coverPreview = document.getElementById('cover-preview');
         this.imagePreviewContainer = document.querySelector('.image-preview');
         this.uploadImageBtn = document.querySelector('.upload-image-btn');
         this.defaultCoverSelect = document.getElementById('default-cover-select');
-        
+
         this.setupImageHandling();
-        this.defaultType = 'technology'; // Add this line
-        this.currentType = this.defaultType; // Add this line
+        this.defaultType = 'technology';
+        this.currentType = this.defaultType;
     }
 
     init() {
         this.initializeEditor();
-        // Set default active type before setting up event listeners
         if (!document.querySelector('.type-btn.active')) {
             const defaultType = this.types[0];
             if (defaultType) defaultType.classList.add('active');
@@ -263,30 +246,20 @@ export class Editor {
             if (savedDraft) {
                 try {
                     const draftData = JSON.parse(savedDraft);
-                    
-                    // Restore content
                     this.contentEditor.setData(draftData.content || '');
-                    
-                    // Restore title
                     if (this.titleInput && draftData.title) {
                         this.titleInput.value = draftData.title;
                     }
-
-                    // Restore tags
                     if (draftData.tags && this.selectedTags) {
                         this.selectedTags.innerHTML = '';
-                        draftData.tags.forEach(tag => {
+                        draftData.tags.forEach((tag) => {
                             const tagElement = this.createTagElement(tag.name, tag.icon);
                             this.selectedTags.appendChild(tagElement);
                         });
                     }
-
-                    // Restore cover image
                     if (draftData.coverImage && this.coverPreview) {
                         if (draftData.coverImage.src) {
                             this.setCoverImage(draftData.coverImage.src);
-                            
-                            // If it was a default image, restore the select value
                             if (draftData.coverImage.isDefault && this.defaultCoverSelect) {
                                 this.defaultCoverSelect.value = draftData.coverImage.type;
                             }
@@ -313,7 +286,6 @@ export class Editor {
     }
 
     setupImageHandling() {
-        // Handle default cover selection
         this.defaultCoverSelect?.addEventListener('change', (e) => {
             const type = e.target.value;
             if (type) {
@@ -324,7 +296,6 @@ export class Editor {
             }
         });
 
-        // Handle image upload
         this.uploadImageBtn?.addEventListener('click', () => {
             const input = document.createElement('input');
             input.type = 'file';
@@ -333,11 +304,10 @@ export class Editor {
             input.onchange = (e) => {
                 const file = e.target.files[0];
                 if (file) {
-                    if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                    if (file.size > 5 * 1024 * 1024) {
                         ui.showToast('Image size should be less than 5MB', 'error');
                         return;
                     }
-
                     const reader = new FileReader();
                     reader.onload = (e) => {
                         this.setCoverImage(e.target.result);
@@ -352,15 +322,13 @@ export class Editor {
 
     setCoverImage(src) {
         if (!src) return;
-        
         this.selectedCoverImage = src;
         if (this.coverPreview) {
             const currentType = this.getSelectedType();
             this.coverPreview.setAttribute('data-src', src);
             this.coverPreview.setAttribute('data-type', currentType);
-            this.coverPreview.src = src; // Add this line
+            this.coverPreview.src = src;
             this.coverPreview.style.display = 'block';
-            
             const previewContainer = this.coverPreview.closest('.image-preview');
             if (previewContainer) {
                 previewContainer.classList.add('has-image');
@@ -369,15 +337,11 @@ export class Editor {
     }
 
     setupTabSwitching() {
-        this.tabs.forEach(tab => {
+        this.tabs.forEach((tab) => {
             tab.addEventListener('click', async () => {
-                // Don't process if it's already active
                 if (tab.classList.contains('active')) return;
-
-                // Remove active class from all tabs
-                this.tabs.forEach(t => t.classList.remove('active'));
+                this.tabs.forEach((t) => t.classList.remove('active'));
                 tab.classList.add('active');
-
                 const tabType = tab.getAttribute('data-tab');
                 try {
                     if (tabType === 'preview') {
@@ -394,7 +358,6 @@ export class Editor {
     }
 
     setupPostTypeSelection() {
-        // Ensure at least one type is selected initially
         if (!document.querySelector('.type-btn.active')) {
             const defaultType = this.types[0];
             if (defaultType) {
@@ -402,14 +365,11 @@ export class Editor {
                 this.currentType = defaultType.getAttribute('data-type') || this.defaultType;
             }
         }
-
-        this.types.forEach(type => {
+        this.types.forEach((type) => {
             type.addEventListener('click', () => {
-                this.types.forEach(t => t.classList.remove('active'));
+                this.types.forEach((t) => t.classList.remove('active'));
                 type.classList.add('active');
                 this.currentType = type.getAttribute('data-type');
-                
-                // Update cover image type if exists
                 if (this.coverPreview && this.coverPreview.getAttribute('data-src')) {
                     this.coverPreview.setAttribute('data-type', this.currentType);
                 }
@@ -423,44 +383,35 @@ export class Editor {
     }
 
     setupTagHandling() {
-        this.tagSuggestions.forEach(tag => {
+        this.tagSuggestions.forEach((tag) => {
             tag.addEventListener('click', () => this.handleTagSelection(tag));
         });
     }
 
-    // Fix in handleTagSelection method
     handleTagSelection(tag) {
         const tagText = tag.textContent.trim();
         const tagIcon = tag.querySelector('i').className;
-
-        // Change the selector to match the actual class
         if (!document.querySelector(`.tag-chip.selected[data-tag="${tagText}"]`)) {
             const tagElement = this.createTagElement(tagText, tagIcon);
-            tagElement.setAttribute('data-tag', tagText); // Add this line
+            tagElement.setAttribute('data-tag', tagText);
             this.selectedTags.appendChild(tagElement);
         }
     }
 
-    // Fix in createTagElement method
     createTagElement(text, iconClass) {
         const tag = document.createElement('span');
         tag.className = 'tag-chip selected';
-        tag.setAttribute('data-tag', text); // Add this line
-        
+        tag.setAttribute('data-tag', text);
         if (iconClass) {
             const icon = document.createElement('i');
             icon.className = iconClass;
             tag.appendChild(icon);
         }
-        
         tag.appendChild(document.createTextNode(text));
-        
-        // Add remove button
         const removeBtn = document.createElement('i');
         removeBtn.className = 'fas fa-times remove-tag';
         removeBtn.onclick = () => tag.remove();
         tag.appendChild(removeBtn);
-        
         return tag;
     }
 
@@ -470,13 +421,12 @@ export class Editor {
                 throw new Error('Editor not initialized');
             }
             const content = this.contentEditor.getData();
-            // Store the current content before switching
             localStorage.setItem('temp-content', content);
             this.editorContent.innerHTML = `
-                <div class="preview-content">
-                    ${content || '<p class="empty-content">No content to preview</p>'}
-                </div>
-            `;
+        <div class="preview-content">
+          ${content || '<p class="empty-content">No content to preview</p>'}
+        </div>
+      `;
         } catch (error) {
             console.error('Preview failed:', error);
             ui.showToast('Failed to show preview', 'error');
@@ -484,11 +434,8 @@ export class Editor {
     }
 
     async showEditor() {
-        const removeLoading = ui.addLoading(
-            document.querySelector('.tab-btn[data-tab="write"]')
-        );
+        const removeLoading = ui.addLoading(document.querySelector('.tab-btn[data-tab="write"]'));
         try {
-            // Store current state
             const currentContent = this.contentEditor ? this.contentEditor.getData() : '';
             const coverImageData = {
                 src: this.coverPreview?.getAttribute('data-src') || '',
@@ -496,40 +443,37 @@ export class Editor {
                 hasImage: this.imagePreviewContainer?.classList.contains('has-image') || false,
                 selectedValue: this.defaultCoverSelect?.value || ''
             };
-
-            // Restore the editor interface HTML with default tag suggestions
             this.editorContent.innerHTML = `
-                <div class="editor-main">
-                    <input type="text" class="title-input" placeholder="Enter your title..." value="${this.titleInput?.value || ''}">
-                    <div class="tag-wrapper">
-                        <div class="tag-input-container">
-                            <input type="text" class="tag-input" placeholder="Add tags...">
-                            <div class="tag-suggestions">
-                                <span class="tag-chip" data-tag="technology">
-                                    <i class="fas fa-microchip"></i> Technology
-                                </span>
-                                <span class="tag-chip" data-tag="design">
-                                    <i class="fas fa-palette"></i> Design
-                                </span>
-                                <span class="tag-chip" data-tag="tutorial">
-                                    <i class="fas fa-chalkboard-teacher"></i> Tutorial
-                                </span>
-                                <span class="tag-chip" data-tag="development">
-                                    <i class="fas fa-code"></i> Development
-                                </span>
-                                <span class="tag-chip" data-tag="ai">
-                                    <i class="fas fa-brain"></i> AI & ML
-                                </span>
-                            </div>
-                        </div>
-                        <div class="selected-tags">${this.selectedTags?.innerHTML || ''}</div>
-                    </div>
-                    <!-- Rest of the editor HTML -->
-                    ${this.getEditorMainHTML(currentContent, coverImageData)}
-                </div>
-            `;
+        <div class="editor-main">
+          <input type="text" class="title-input" placeholder="Enter your title..." value="${this.titleInput?.value || ''
+                }">
+          <div class="tag-wrapper">
+            <div class="tag-input-container">
+              <input type="text" class="tag-input" placeholder="Add tags...">
+              <div class="tag-suggestions">
+                <span class="tag-chip" data-tag="technology">
+                  <i class="fas fa-microchip"></i> Technology
+                </span>
+                <span class="tag-chip" data-tag="design">
+                  <i class="fas fa-palette"></i> Design
+                </span>
+                <span class="tag-chip" data-tag="tutorial">
+                  <i class="fas fa-chalkboard-teacher"></i> Tutorial
+                </span>
+                <span class="tag-chip" data-tag="development">
+                  <i class="fas fa-code"></i> Development
+                </span>
+                <span class="tag-chip" data-tag="ai">
+                  <i class="fas fa-brain"></i> AI & ML
+                </span>
+              </div>
+            </div>
+            <div class="selected-tags">${this.selectedTags?.innerHTML || ''}</div>
+          </div>
+          ${this.getEditorMainHTML(currentContent, coverImageData)}
+        </div>
+      `;
 
-            // Re-query DOM elements after HTML restoration
             this.coverPreview = document.getElementById('cover-preview');
             this.imagePreviewContainer = document.querySelector('.image-preview');
             this.uploadImageBtn = document.querySelector('.upload-image-btn');
@@ -537,25 +481,21 @@ export class Editor {
             this.titleInput = document.querySelector('.title-input');
             this.selectedTags = document.querySelector('.selected-tags');
             this.tagInput = document.querySelector('.tag-input');
-            this.tagSuggestions = document.querySelectorAll('.tag-chip'); // Update tag suggestions reference
+            this.tagSuggestions = document.querySelectorAll('.tag-chip');
 
-            // Restore cover image if it existed
             if (coverImageData.src && this.coverPreview) {
                 this.coverPreview.setAttribute('data-src', coverImageData.src);
                 this.coverPreview.setAttribute('data-type', coverImageData.type);
-                
                 if (coverImageData.hasImage) {
                     this.imagePreviewContainer.classList.add('has-image');
                     this.coverPreview.src = coverImageData.src;
                     this.coverPreview.style.display = 'block';
                 }
-                
                 if (coverImageData.selectedValue) {
                     this.defaultCoverSelect.value = coverImageData.selectedValue;
                 }
             }
 
-            // Reinitialize CKEditor
             if (this.contentEditor) {
                 await this.contentEditor.destroy();
             }
@@ -564,11 +504,9 @@ export class Editor {
                 EDITOR_CONFIG
             );
 
-            // Reattach event listeners
             this.setupImageHandling();
-            this.setupTagHandling(); // This will now work with the restored tag suggestions
+            this.setupTagHandling();
 
-            // Restore type selection
             const activeType = document.querySelector('.type-btn.active');
             if (!activeType && this.currentType) {
                 const typeBtn = document.querySelector(`.type-btn[data-type="${this.currentType}"]`);
@@ -576,7 +514,6 @@ export class Editor {
                     typeBtn.classList.add('active');
                 }
             }
-
         } catch (error) {
             console.error('Editor initialization failed:', error);
             ui.showToast('Failed to initialize editor', 'error');
@@ -585,41 +522,40 @@ export class Editor {
         }
     }
 
-    // Helper method to get the editor main HTML
     getEditorMainHTML(currentContent, coverImageData) {
         return `
-            <div class="cover-image-wrapper">
-                <h4>Cover Image</h4>
-                <div class="image-preview">
-                    <img id="cover-preview" 
-                        data-src="${coverImageData.src}" 
-                        data-type="${coverImageData.type}" 
-                        alt="Cover preview"
-                        ${coverImageData.hasImage ? `src="${coverImageData.src}"` : ''}>
-                    <div class="image-placeholder">
-                        <i class="fas fa-image"></i>
-                        <span>Select a cover image</span>
-                    </div>
-                </div>
-                <div class="image-options">
-                    <button class="upload-image-btn">
-                        <i class="fas fa-upload"></i> Upload Image
-                    </button>
-                    <select class="modern-select" id="default-cover-select">
-                        <option value="">Choose from defaults...</option>
-                        <option value="technology">Technology</option>
-                        <option value="design">Design</option>
-                        <option value="developer">Development</option>
-                        <option value="ai">AI & ML</option>
-                        <option value="mobile">Mobile</option>
-                        <option value="workspace">Workspace</option>
-                    </select>
-                </div>
-            </div>
-            <div class="content-area">
-                <textarea id="content-editor">${currentContent}</textarea>
-            </div>
-        `;
+      <div class="cover-image-wrapper">
+        <h4>Cover Image</h4>
+        <div class="image-preview">
+          <img id="cover-preview" 
+            data-src="${coverImageData.src}" 
+            data-type="${coverImageData.type}" 
+            alt="Cover preview"
+            ${coverImageData.hasImage ? `src="${coverImageData.src}"` : ''}>
+          <div class="image-placeholder">
+            <i class="fas fa-image"></i>
+            <span>Select a cover image</span>
+          </div>
+        </div>
+        <div class="image-options">
+          <button class="upload-image-btn">
+            <i class="fas fa-upload"></i> Upload Image
+          </button>
+          <select class="modern-select" id="default-cover-select">
+            <option value="">Choose from defaults...</option>
+            <option value="technology">Technology</option>
+            <option value="design">Design</option>
+            <option value="developer">Development</option>
+            <option value="ai">AI & ML</option>
+            <option value="mobile">Mobile</option>
+            <option value="workspace">Workspace</option>
+          </select>
+        </div>
+      </div>
+      <div class="content-area">
+        <textarea id="content-editor">${currentContent}</textarea>
+      </div>
+    `;
     }
 
     setupDraftSaving() {
@@ -636,24 +572,18 @@ export class Editor {
 
             const removeLoading = ui.addLoading(this.saveDraftButton);
             try {
-                // Get the current content and title
                 const content = this.contentEditor.getData();
                 const title = this.titleInput?.value || '';
-
-                // Get selected tags
-                const selectedTags = Array.from(this.selectedTags.children).map(tag => ({
+                const selectedTags = Array.from(this.selectedTags.children).map((tag) => ({
                     name: tag.textContent.trim(),
                     icon: tag.querySelector('i')?.className || ''
                 }));
-
-                // Get cover image data
                 const coverImageData = {
                     src: this.coverPreview?.src || '',
                     type: this.coverPreview?.dataset.type || '',
                     isDefault: !!this.defaultCoverSelect?.value
                 };
 
-                // Save all data
                 const draftData = {
                     content,
                     title,
@@ -662,9 +592,7 @@ export class Editor {
                     lastSaved: new Date().toISOString()
                 };
 
-                // Save to localStorage
                 localStorage.setItem('draft-content', JSON.stringify(draftData));
-
                 ui.showToast('Draft saved successfully!', 'success');
             } catch (error) {
                 console.error('Failed to save draft:', error);
@@ -690,7 +618,6 @@ export class Editor {
     async handlePublish() {
         const removeLoading = ui.addLoading(this.publishButton);
         try {
-            // If no author info, prompt for it
             if (!this.authorInfo) {
                 const authorInfo = await this.promptAuthorInfo();
                 if (!authorInfo) {
@@ -701,29 +628,17 @@ export class Editor {
                 localStorage.setItem('author-info', JSON.stringify(authorInfo));
             }
 
-            // Validate form
             const validationError = this.validateForm();
             if (validationError) {
                 ui.showToast(validationError, 'error');
                 return;
             }
 
-            // Get post data
             const postData = this.gatherPostData();
-
-            // Show confirmation dialog
             if (!(await this.confirmPublish())) return;
-
-            // Add author info to post data
             postData.author = this.authorInfo;
-
-            // Add to blog
             this.blogManager.addArticle(postData);
-
-            // Success feedback
             ui.showToast('Post published successfully!', 'success');
-
-            // Reset form
             setTimeout(() => this.resetForm(), 1500);
         } catch (error) {
             console.error('Publishing failed:', error);
@@ -738,28 +653,28 @@ export class Editor {
             const dialog = Object.assign(document.createElement('div'), {
                 className: 'publish-dialog',
                 innerHTML: `
-                    <div class="publish-dialog-content glass-card">
-                        <h3><i class="fas fa-user"></i> Author Information</h3>
-                        <div class="author-form">
-                            <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" id="author-name" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Role</label>
-                                <input type="text" id="author-role" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Avatar URL (optional)</label>
-                                <input type="url" id="author-avatar">
-                            </div>
-                        </div>
-                        <div class="dialog-buttons">
-                            <button class="outline-button cancel-btn">Cancel</button>
-                            <button class="publish-button save-btn">Save</button>
-                        </div>
-                    </div>
-                `
+          <div class="publish-dialog-content glass-card">
+            <h3><i class="fas fa-user"></i> Author Information</h3>
+            <div class="author-form">
+              <div class="form-group">
+                <label>Name</label>
+                <input type="text" id="author-name" required>
+              </div>
+              <div class="form-group">
+                <label>Role</label>
+                <input type="text" id="author-role" required>
+              </div>
+              <div class="form-group">
+                <label>Avatar URL (optional)</label>
+                <input type="url" id="author-avatar">
+              </div>
+            </div>
+            <div class="dialog-buttons">
+              <button class="outline-button cancel-btn">Cancel</button>
+              <button class="publish-button save-btn">Save</button>
+            </div>
+          </div>
+        `
             });
 
             document.body.appendChild(dialog);
@@ -769,12 +684,10 @@ export class Editor {
                 const name = document.getElementById('author-name').value.trim();
                 const role = document.getElementById('author-role').value.trim();
                 const avatar = document.getElementById('author-avatar').value.trim();
-
                 if (!name || !role) {
                     ui.showToast('Please fill in required fields', 'error');
                     return;
                 }
-
                 dialog.remove();
                 resolve({ name, role, avatar });
             };
@@ -798,17 +711,14 @@ export class Editor {
         return data;
     }
 
-    // Fix in getExistingGatherPostData method
     getExistingGatherPostData() {
         const title = this.titleInput.value.trim();
         const content = this.contentEditor.getData().trim();
-        const type = this.getSelectedType(); // Use the updated method
-        
+        const type = this.getSelectedType();
         const tags = Array.from(document.querySelectorAll('.tag-chip.selected')).map((tag) => ({
-            name: tag.textContent.trim().replace(/×$/, '').trim(), // Remove the × symbol if present
+            name: tag.textContent.trim().replace(/×$/, '').trim(),
             icon: tag.querySelector('i')?.className || ''
         }));
-
         return {
             title,
             content,
@@ -822,7 +732,6 @@ export class Editor {
     }
 
     generateExcerpt(content) {
-        // Remove HTML tags and get first 160 characters
         const plainText = content.replace(/<[^>]+>/g, '');
         return plainText.slice(0, 160) + (plainText.length > 160 ? '...' : '');
     }
@@ -834,7 +743,6 @@ export class Editor {
         return Math.ceil(words / wordsPerMinute);
     }
 
-    // Fix in validateForm method
     validateForm() {
         if (!this.titleInput.value.trim()) {
             return 'Please enter a title';
@@ -842,7 +750,6 @@ export class Editor {
         if (!this.contentEditor.getData().trim()) {
             return 'Please add some content';
         }
-        // Update the selector to match the actual class
         const selectedTags = document.querySelectorAll('.tag-chip.selected');
         if (selectedTags.length === 0) {
             return 'Please add at least one tag';
@@ -851,10 +758,8 @@ export class Editor {
     }
 
     async publishPost(postData) {
-        // Replace this with your actual API call
         return new Promise((resolve) => {
             setTimeout(() => {
-                // Simulate successful API response
                 resolve({
                     success: true,
                     message: 'Post published successfully',
@@ -865,16 +770,11 @@ export class Editor {
     }
 
     resetForm() {
-        // Existing reset code...
         this.titleInput.value = '';
         this.contentEditor.setData('');
-        
-        // Reset tags
         if (this.selectedTags) {
             this.selectedTags.innerHTML = '';
         }
-
-        // Reset cover image
         if (this.coverPreview) {
             this.coverPreview.src = '';
             this.coverPreview.classList.remove('has-image');
@@ -883,8 +783,6 @@ export class Editor {
                 this.defaultCoverSelect.value = '';
             }
         }
-
-        // Clear draft from localStorage
         localStorage.removeItem('draft-content');
     }
 
@@ -893,20 +791,20 @@ export class Editor {
             const dialog = Object.assign(document.createElement('div'), {
                 className: 'publish-dialog',
                 innerHTML: `
-                    <div class="publish-dialog-content glass-card">
-                        <h3><i class="fas fa-paper-plane"></i> Publish Post</h3>
-                        <p>Are you sure you want to publish this post?</p>
-                        <p class="dialog-info">This will make your post visible to all users.</p>
-                        <div class="dialog-buttons">
-                            <button class="outline-button cancel-btn">
-                                <i class="fas fa-times"></i> Cancel
-                            </button>
-                            <button class="publish-button confirm-btn">
-                                <i class="fas fa-check"></i> Publish
-                            </button>
-                        </div>
-                    </div>
-                `
+          <div class="publish-dialog-content glass-card">
+            <h3><i class="fas fa-paper-plane"></i> Publish Post</h3>
+            <p>Are you sure you want to publish this post?</p>
+            <p class="dialog-info">This will make your post visible to all users.</p>
+            <div class="dialog-buttons">
+              <button class="outline-button cancel-btn">
+                <i class="fas fa-times"></i> Cancel
+              </button>
+              <button class="publish-button confirm-btn">
+                <i class="fas fa-check"></i> Publish
+              </button>
+            </div>
+          </div>
+        `
             });
 
             document.body.appendChild(dialog);
@@ -928,7 +826,6 @@ export class Editor {
                 }, 300);
             };
 
-            // Handle clicking outside the dialog
             const handleOutsideClick = (e) => {
                 if (e.target === dialog) {
                     handleCancel();

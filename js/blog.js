@@ -106,7 +106,7 @@ export function setupBlogFeatures() {
     setupBlogViewSwitcher();
     setupCategoryFilter();
     setupBlogSorting();
-    
+
     // Use existing ImageLoader instance
     ImageLoader.getInstance().observe();
 }

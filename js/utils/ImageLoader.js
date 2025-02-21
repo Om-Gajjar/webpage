@@ -1,6 +1,6 @@
 export class ImageLoader {
     static instance = null;
-    
+
     static getInstance(options = {}) {
         if (!ImageLoader.instance) {
             ImageLoader.instance = new ImageLoader(options);
@@ -27,16 +27,22 @@ export class ImageLoader {
                 }
             },
             fallbackImages: {
-                technology: 'https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg',
-                design: 'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg',
-                ai: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg',
-                mobile: 'https://images.pexels.com/photos/1440727/pexels-photo-1440727.jpeg',
-                developer: 'https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg',
-                workspace: 'https://images.pexels.com/photos/1181677/pexels-photo-1181677.jpeg'
+                technology:
+                    'https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg',
+                design:
+                    'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg',
+                ai:
+                    'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg',
+                mobile:
+                    'https://images.pexels.com/photos/1440727/pexels-photo-1440727.jpeg',
+                developer:
+                    'https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg',
+                workspace:
+                    'https://images.pexels.com/photos/1181677/pexels-photo-1181677.jpeg'
             },
             ...options
         };
-        
+
         this.observer = new IntersectionObserver(
             this.handleIntersection.bind(this),
             {
@@ -47,8 +53,8 @@ export class ImageLoader {
     }
 
     observe() {
-        this.options.selectors.forEach(selector => {
-            document.querySelectorAll(selector).forEach(img => {
+        this.options.selectors.forEach((selector) => {
+            document.querySelectorAll(selector).forEach((img) => {
                 if (!img.dataset.observing) {
                     this.observer.observe(img);
                     img.dataset.observing = 'true';
@@ -63,7 +69,7 @@ export class ImageLoader {
     }
 
     handleIntersection(entries, observer) {
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
             if (entry.isIntersecting) {
                 this.loadImage(entry.target);
                 observer.unobserve(entry.target);
@@ -79,7 +85,7 @@ export class ImageLoader {
         }
 
         const tempImage = new Image();
-        
+
         tempImage.onload = () => {
             try {
                 img.src = src;

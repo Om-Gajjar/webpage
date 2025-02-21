@@ -5,7 +5,7 @@
 import { ui } from '../scripts.js';
 
 /**
- * Setup authentication functionality
+ * Setup authentication functionality.
  */
 export function setupAuth() {
     const mockUsers = JSON.parse(localStorage.getItem('users') || '[]');
@@ -37,11 +37,7 @@ export function setupAuth() {
         const password = form.querySelector('input[type="password"]');
         const confirm = form.querySelector('#signup-password-confirm');
 
-        if (confirm && password.value !== confirm.value) {
-            return false;
-        }
-
-        return true;
+        return !(confirm && password.value !== confirm.value);
     }
 
     // Add password strength check
@@ -82,7 +78,7 @@ export function setupAuth() {
             const password = document.getElementById('login-password').value;
             const users = safelyGetFromStorage('users');
 
-            const user = users.find(u => u.email === email && u.password === password);
+            const user = users.find((u) => u.email === email && u.password === password);
 
             if (user) {
                 const { password: _, ...userData } = user;
@@ -110,13 +106,16 @@ export function setupAuth() {
             const password = document.getElementById('signup-password').value;
 
             if (!checkPasswordStrength(password)) {
-                ui.showToast('Password must be at least 8 characters with numbers and both cases', 'error');
+                ui.showToast(
+                    'Password must be at least 8 characters with numbers and both cases',
+                    'error'
+                );
                 return;
             }
 
             const users = safelyGetFromStorage('users');
 
-            if (users.some(u => u.email === email)) {
+            if (users.some((u) => u.email === email)) {
                 ui.showToast('Email already registered', 'error');
                 return;
             }
@@ -158,14 +157,14 @@ export function setupAuth() {
     }
 
     // Modal triggers
-    document.querySelectorAll('[data-modal]').forEach(button => {
+    document.querySelectorAll('[data-modal]').forEach((button) => {
         button.addEventListener('click', () => {
             showModal(`${button.dataset.modal}-modal`);
         });
     });
 
     // Close modal on outside click
-    document.querySelectorAll('.auth-modal').forEach(modal => {
+    document.querySelectorAll('.auth-modal').forEach((modal) => {
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.classList.remove('show');
@@ -174,7 +173,7 @@ export function setupAuth() {
     });
 
     // Close modals with close button
-    document.querySelectorAll('.modal-close').forEach(button => {
+    document.querySelectorAll('.modal-close').forEach((button) => {
         button.addEventListener('click', () => {
             const modal = button.closest('.auth-modal');
             modal.classList.remove('show');
@@ -182,8 +181,8 @@ export function setupAuth() {
     });
 
     // Handle form validation
-    document.querySelectorAll('.auth-form').forEach(form => {
-        form.querySelectorAll('input').forEach(input => {
+    document.querySelectorAll('.auth-form').forEach((form) => {
+        form.querySelectorAll('input').forEach((input) => {
             input.addEventListener('input', () => {
                 input.setCustomValidity('');
                 input.checkValidity();
@@ -192,7 +191,7 @@ export function setupAuth() {
     });
 
     // Handle auth form switching
-    document.querySelectorAll('.switch-auth').forEach(link => {
+    document.querySelectorAll('.switch-auth').forEach((link) => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             const currentModal = link.closest('.auth-modal');
@@ -231,22 +230,22 @@ export function setupAuth() {
     // Clear form errors
     function clearFormErrors(formId) {
         const form = document.getElementById(formId);
-        form.querySelectorAll('input').forEach(input => {
+        form.querySelectorAll('input').forEach((input) => {
             input.setCustomValidity('');
         });
     }
 
-    // Add keyboard event listeners for modal
+    // Add keyboard event listeners for modals
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
-            document.querySelectorAll('.auth-modal.show').forEach(modal => {
+            document.querySelectorAll('.auth-modal.show').forEach((modal) => {
                 modal.classList.remove('show');
             });
         }
     });
 
     // Add focus trap for modals
-    document.querySelectorAll('.auth-modal').forEach(modal => {
+    document.querySelectorAll('.auth-modal').forEach((modal) => {
         const focusableElements = modal.querySelectorAll(
             'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
         );
