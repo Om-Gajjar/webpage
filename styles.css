@@ -1452,3 +1452,64 @@ body.dark-mode {
         color: black;
     }
 }
+
+/* Read More Button Styles */
+.post-action,
+.article-action {
+    margin-top: 1rem;
+    text-align: right;
+}
+
+.read-more-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.read-more-btn i {
+    transition: transform 0.3s ease;
+}
+
+.read-more-btn:hover i {
+    transform: translateX(3px);
+}
+
+.read-more-btn.primary {
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+    color: white;
+    box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.2);
+}
+
+.read-more-btn.primary:hover {
+    box-shadow: 0 6px 15px rgba(var(--primary-rgb), 0.35);
+    transform: translateY(-2px);
+}
+
+.read-more-btn.glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    color: var(--primary);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.read-more-btn.glass:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--primary);
+}
+
+.read-more-btn.outline {
+    border: 1px solid var(--border);
+    color: var(--text);
+}
+
+.read-more-btn.outline:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: rgba(var(--primary-rgb), 0.05);
+}

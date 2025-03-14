@@ -205,11 +205,11 @@
                 </p>
 
                 <div class="hero-buttons" data-aos="fade-up" data-aos-delay="300">
-                    <button class="hero-button primary">
+                    <button class="hero-button primary" onclick="location.href='#create'">
                         <i class="fas fa-pencil-alt"></i>
                         Start Writing
                     </button>
-                    <button class="hero-button glass-button">
+                    <button class="hero-button glass-button" onclick="location.href='#posts'">
                         <i class="fas fa-compass"></i>
                         Explore Content
                     </button>
@@ -274,17 +274,46 @@
                             <div class="post-author">
                                 <img data-type="portrait"
                                     data-src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg"
-                                    alt="Author" 
-                                    class="author-avatar" 
-                                    loading="lazy">
+                                    alt="Author" class="author-avatar" loading="lazy">
                                 <div class="author-info">
                                     <span class="author-name">Sarah Johnson</span>
                                     <span class="author-role">Senior Developer</span>
                                 </div>
                             </div>
+                            <div class="post-action" data-aos="fade-up" data-aos-delay="500">
+                                <a href="#article-details" class="read-more-btn primary">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Read Full Article
+                                </a>
+                            </div>
                         </div>
                     </article>
+                </div>
 
+                    <div class="category-pills" data-aos="fade-up">
+                        <button class="category-pill active">
+                            <i class="fas fa-globe"></i>
+                            All Topics
+                        </button>
+                        <button class="category-pill">
+                            <i class="fas fa-laptop-code"></i>
+                            Technology
+                        </button>
+                        <button class="category-pill">
+                            <i class="fas fa-paint-brush"></i>
+                            Design
+                        </button>
+                        <button class="category-pill">
+                            <i class="fas fa-robot"></i>
+                            AI & ML
+                        </button>
+                        <button class="category-pill">
+                            <i class="fas fa-mobile-alt"></i>
+                            Mobile
+                        </button>
+                    </div>
+
+                <div class="posts-grid">
                     <!-- Technology Posts -->
                     <article class="post-card" data-aos="fade-up" data-aos-delay="100">
                         <div class="post-card-image">
@@ -309,13 +338,19 @@
                                     328
                                 </span>
                             </div>
+                            <div class="post-action">
+                                <a href="#article-details" class="read-more-btn glass">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Read More
+                                </a>
+                            </div>
                         </div>
                     </article>
 
                     <article class="post-card" data-aos="fade-up" data-aos-delay="150">
                         <div class="post-card-image">
                             <img data-type="technology"
-                            data-src="https://images.pexels.com/photos/3861972/pexels-photo-3861972.jpeg"
+                                data-src="https://images.pexels.com/photos/3861972/pexels-photo-3861972.jpeg"
                                 alt="Technology" loading="lazy">
                             <div class="post-category">
                                 <i class="fas fa-laptop-code"></i>
@@ -335,6 +370,12 @@
                                     <i class="far fa-heart"></i>
                                     421
                                 </span>
+                            </div>
+                            <div class="post-action">
+                                <a href="#article-details" class="read-more-btn glass">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Read More
+                                </a>
                             </div>
                         </div>
                     </article>
@@ -362,6 +403,12 @@
                                     <i class="far fa-heart"></i>
                                     287
                                 </span>
+                            </div>
+                            <div class="post-action">
+                                <a href="#article-details" class="read-more-btn glass">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Read More
+                                </a>
                             </div>
                         </div>
                     </article>
@@ -391,14 +438,20 @@
                                     245
                                 </span>
                             </div>
+                            <div class="post-action">
+                                <a href="#article-details" class="read-more-btn glass">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Read More
+                                </a>
+                            </div>
                         </div>
                     </article>
 
                     <article class="post-card" data-aos="fade-up" data-aos-delay="300">
                         <div class="post-card-image">
                             <img data-type="design"
-                                data-src="https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg" alt="Design"
-                                loading="lazy">
+                                data-src="https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg"
+                                alt="Design" loading="lazy">
                             <div class="post-category">
                                 <i class="fas fa-paint-brush"></i>
                                 Design
@@ -417,14 +470,20 @@
                                     342
                                 </span>
                             </div>
+                            <div class="post-action">
+                                <a href="#article-details" class="read-more-btn glass">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Read More
+                                </a>
+                            </div>
                         </div>
                     </article>
 
                     <article class="post-card" data-aos="fade-up" data-aos-delay="350">
                         <div class="post-card-image">
                             <img data-type="design"
-                                data-src="https://images.pexels.com/photos/1762851/pexels-photo-1762851.jpeg" alt="Design"
-                                loading="lazy">
+                                data-src="https://images.pexels.com/photos/1762851/pexels-photo-1762851.jpeg"
+                                alt="Design" loading="lazy">
                             <div class="post-category">
                                 <i class="fas fa-paint-brush"></i>
                                 Design
@@ -444,13 +503,20 @@
                                     396
                                 </span>
                             </div>
+                            <div class="post-action">
+                                <a href="#article-details" class="read-more-btn glass">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Read More
+                                </a>
+                            </div>
                         </div>
                     </article>
 
                     <!-- AI & ML Posts -->
                     <article class="post-card" data-aos="fade-up" data-aos-delay="400">
                         <div class="post-card-image">
-                            <img data-type="ai" data-src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg"
+                            <img data-type="ai"
+                                data-src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg"
                                 alt="AI & ML" loading="lazy">
                             <div class="post-category">
                                 <i class="fas fa-robot"></i>
@@ -471,12 +537,19 @@
                                     412
                                 </span>
                             </div>
+                            <div class="post-action">
+                                <a href="#article-details" class="read-more-btn glass">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Read More
+                                </a>
+                            </div>
                         </div>
                     </article>
 
                     <article class="post-card" data-aos="fade-up" data-aos-delay="450">
                         <div class="post-card-image">
-                            <img data-type="ai" data-src="https://images.pexels.com/photos/8386434/pexels-photo-8386434.jpeg"
+                            <img data-type="ai"
+                                data-src="https://images.pexels.com/photos/8386434/pexels-photo-8386434.jpeg"
                                 alt="AI & ML" loading="lazy">
                             <div class="post-category">
                                 <i class="fas fa-robot"></i>
@@ -496,12 +569,19 @@
                                     534
                                 </span>
                             </div>
+                            <div class="post-action">
+                                <a href="#article-details" class="read-more-btn glass">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Read More
+                                </a>
+                            </div>
                         </div>
                     </article>
 
                     <article class="post-card" data-aos="fade-up" data-aos-delay="500">
                         <div class="post-card-image">
-                            <img data-type="ai" data-src="https://images.pexels.com/photos/8386639/pexels-photo-8386639.jpeg"
+                            <img data-type="ai"
+                                data-src="https://images.pexels.com/photos/8386639/pexels-photo-8386639.jpeg"
                                 alt="AI & ML" loading="lazy">
                             <div class="post-category">
                                 <i class="fas fa-robot"></i>
@@ -522,13 +602,20 @@
                                     467
                                 </span>
                             </div>
+                            <div class="post-action">
+                                <a href="#article-details" class="read-more-btn glass">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Read More
+                                </a>
+                            </div>
                         </div>
                     </article>
 
                     <!-- Mobile Posts -->
                     <article class="post-card" data-aos="fade-up" data-aos-delay="550">
                         <div class="post-card-image">
-                            <img data-type="mobile" data-src="https://images.pexels.com/photos/47261/pexels-photo-47261.jpeg"
+                            <img data-type="mobile"
+                                data-src="https://images.pexels.com/photos/47261/pexels-photo-47261.jpeg"
                                 alt="Mobile Development" loading="lazy">
                             <div class="post-category">
                                 <i class="fas fa-mobile-alt"></i>
@@ -548,6 +635,12 @@
                                     <i class="far fa-heart"></i>
                                     289
                                 </span>
+                            </div>
+                            <div class="post-action">
+                                <a href="#article-details" class="read-more-btn glass">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Read More
+                                </a>
                             </div>
                         </div>
                     </article>
@@ -576,6 +669,12 @@
                                     312
                                 </span>
                             </div>
+                            <div class="post-action">
+                                <a href="#article-details" class="read-more-btn glass">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Read More
+                                </a>
+                            </div>
                         </div>
                     </article>
 
@@ -602,31 +701,14 @@
                                     276
                                 </span>
                             </div>
+                            <div class="post-action">
+                                <a href="#article-details" class="read-more-btn glass">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Read More
+                                </a>
+                            </div>
                         </div>
                     </article>
-                </div>
-
-                <div class="category-pills" data-aos="fade-up">
-                    <button class="category-pill active">
-                        <i class="fas fa-globe"></i>
-                        All Topics
-                    </button>
-                    <button class="category-pill">
-                        <i class="fas fa-laptop-code"></i>
-                        Technology
-                    </button>
-                    <button class="category-pill">
-                        <i class="fas fa-paint-brush"></i>
-                        Design
-                    </button>
-                    <button class="category-pill">
-                        <i class="fas fa-robot"></i>
-                        AI & ML
-                    </button>
-                    <button class="category-pill">
-                        <i class="fas fa-mobile-alt"></i>
-                        Mobile
-                    </button>
                 </div>
             </div>
         </section>
@@ -664,9 +746,7 @@
                         <div class="article-image">
                             <img class="article-img"
                                 data-src="https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg"
-                                data-type="developer" 
-                                loading="lazy" 
-                                alt="Programming">
+                                data-type="developer" loading="lazy" alt="Programming">
                             <span class="article-category">
                                 <i class="fas fa-laptop-code"></i>
                                 Technology
@@ -687,10 +767,7 @@
                             <div class="article-footer">
                                 <div class="article-author">
                                     <img data-src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg"
-                                        data-type="portrait" 
-                                        alt="Author" 
-                                        loading="lazy" 
-                                        class="author-avatar">
+                                        data-type="portrait" alt="Author" loading="lazy" class="author-avatar">
                                     <div>
                                         <div class="author-name">Alex Mitchell</div>
                                         <div class="author-role">Tech Lead</div>
@@ -707,6 +784,11 @@
                                     </span>
                                 </div>
                             </div>
+                            <div class="article-action">
+                                <a href="#article-details" class="read-more-btn outline">
+                                    Read Full Article
+                                </a>
+                            </div>
                         </div>
                     </article>
 
@@ -715,9 +797,7 @@
                         <div class="article-image">
                             <img class="article-img"
                                 data-src="https://images.pexels.com/photos/1181298/pexels-photo-1181298.jpeg"
-                                data-type="technology" 
-                                loading="lazy" 
-                                alt="Web Development">
+                                data-type="technology" loading="lazy" alt="Web Development">
                             <span class="article-category">
                                 <i class="fas fa-code"></i>
                                 Development
@@ -738,10 +818,7 @@
                             <div class="article-footer">
                                 <div class="article-author">
                                     <img data-src="https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg"
-                                        data-type="portrait" 
-                                        alt="Author" 
-                                        loading="lazy" 
-                                        class="author-avatar">
+                                        data-type="portrait" alt="Author" loading="lazy" class="author-avatar">
                                     <div>
                                         <div class="author-name">Mark Wilson</div>
                                         <div class="author-role">Senior Developer</div>
@@ -752,6 +829,11 @@
                                     <span class="stat-item"><i class="far fa-comment"></i> 34</span>
                                 </div>
                             </div>
+                            <div class="article-action">
+                                <a href="#article-details" class="read-more-btn outline">
+                                    Read Full Article
+                                </a>
+                            </div>
                         </div>
                     </article>
 
@@ -760,9 +842,7 @@
                         <div class="article-image">
                             <img class="article-img"
                                 data-src="https://images.pexels.com/photos/3182773/pexels-photo-3182773.jpeg"
-                                data-type="design" 
-                                loading="lazy" 
-                                alt="Design">
+                                data-type="design" loading="lazy" alt="Design">
                             <span class="article-category">
                                 <i class="fas fa-paint-brush"></i>
                                 Design
@@ -783,10 +863,7 @@
                             <div class="article-footer">
                                 <div class="article-author">
                                     <img data-src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg"
-                                        data-type="portrait" 
-                                        alt="Author" 
-                                        loading="lazy" 
-                                        class="author-avatar">
+                                        data-type="portrait" alt="Author" loading="lazy" class="author-avatar">
                                     <div>
                                         <div class="author-name">Sarah Chen</div>
                                         <div class="author-role">UX Designer</div>
@@ -796,6 +873,11 @@
                                     <span class="stat-item"><i class="far fa-heart"></i> 167</span>
                                     <span class="stat-item"><i class="far fa-comment"></i> 28</span>
                                 </div>
+                            </div>
+                            <div class="article-action">
+                                <a href="#article-details" class="read-more-btn outline">
+                                    Read Full Article
+                                </a>
                             </div>
                         </div>
                     </article>
@@ -878,10 +960,7 @@
                                 <div class="cover-image-wrapper">
                                     <h4>Cover Image</h4>
                                     <div class="image-preview">
-                                        <img id="cover-preview"
-                                            data-src=""
-                                            data-type="technology"
-                                            alt="Cover preview">
+                                        <img id="cover-preview" data-src="" data-type="technology" alt="Cover preview">
                                         <div class="image-placeholder">
                                             <i class="fas fa-image"></i>
                                             <span>Select a cover image</span>

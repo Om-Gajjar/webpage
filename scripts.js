@@ -469,35 +469,26 @@ function setupHeroAnimations() {
  * Setup featured posts filtering and lazy load images.
  */
 function setupFeaturedPosts() {
-    const categoryPills = document.querySelectorAll('.category-pill');
-    const posts = document.querySelectorAll('.post-card:not(.featured-post)');
-
-    categoryPills.forEach(pill => {
-        pill.addEventListener('click', () => {
-            const category = pill.textContent.trim().toLowerCase();
-            categoryPills.forEach(p => p.classList.remove('active'));
-            pill.classList.add('active');
-
-            posts.forEach(post => {
-                const postCategory = post.querySelector('.post-category').textContent.trim().toLowerCase();
-                const shouldShow = category === 'all topics' || postCategory === category;
-
-                post.style.opacity = '0';
-                post.style.transform = 'scale(0.95)';
-
-                setTimeout(() => {
-                    post.style.display = shouldShow ? 'block' : 'none';
-                    if (shouldShow) {
-                        setTimeout(() => {
-                            post.style.opacity = '1';
-                            post.style.transform = 'scale(1)';
-                            // Trigger image loading for newly visible posts
-                            ImageLoader.getInstance().observe();
-                        }, 50);
-                    }
-                }, 300);
-            });
-        });
+    setupCategoryFilter({
+        containerSelector: '.featured-posts', // Specify the container
+        pillSelector: '.category-pill',
+        itemSelector: '.post-card:not(.featured-post)',
+        animation: {
+            hide: {
+                opacity: '0',
+                transform: 'scale(0.95)'
+            },
+            show: {
+                opacity: '1',
+                transform: 'scale(1)'
+            },
+            duration: 300,
+            stagger: 50
+        },
+        onItemShown: () => {
+            // Trigger image loading for newly visible posts
+            ImageLoader.getInstance().observe();
+        }
     });
 }
 
@@ -610,42 +601,6 @@ function performSearch(query) {
 }
 
 /**
- * Enhance category filtering for blog posts.
- */
-function setupCategoryFilter() {
-    const categoryPills = document.querySelectorAll('.category-pill');
-    const posts = document.querySelectorAll('.post-card');
-
-    categoryPills.forEach(pill => {
-        pill.addEventListener('click', () => {
-            const category = pill.textContent.trim().toLowerCase();
-
-            categoryPills.forEach(p => p.classList.remove('active'));
-            pill.classList.add('active');
-
-            posts.forEach(post => {
-                const postCategory = post.querySelector('.post-category')?.textContent.trim().toLowerCase();
-
-                post.style.opacity = '0';
-                post.style.transform = 'translateY(20px)';
-
-                setTimeout(() => {
-                    const shouldShow = category === 'all topics' || postCategory === category;
-                    post.style.display = shouldShow ? 'block' : 'none';
-
-                    if (shouldShow) {
-                        setTimeout(() => {
-                            post.style.opacity = '1';
-                            post.style.transform = 'translateY(0)';
-                        }, 50);
-                    }
-                }, 300);
-            });
-        });
-    });
-}
-
-/**
  * Animate stats counters.
  */
 function animateStats() {
@@ -691,6 +646,7 @@ import { setupAuth } from './js/auth.js';
 import { setupBlogFeatures } from './js/blog.js';
 import { BlogManager, Editor } from './js/create.js';
 import { ImageLoader } from './js/utils/ImageLoader.js';
+import { setupCategoryFilter } from './js/utils/CategoryFilter.js';
 
 /**
  * Initialize image loading.
@@ -725,6 +681,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setupBlogFeatures();
     setupEnhancedSearch();
-    setupCategoryFilter();
     animateStats();
+    // Removed duplicate setupCategoryFilter() call
 });

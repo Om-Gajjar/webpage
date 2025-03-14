@@ -1,4 +1,5 @@
 import { ImageLoader } from './utils/ImageLoader.js';
+import { setupCategoryFilter } from './utils/CategoryFilter.js';
 
 /**
  * Blog Functionality Module
@@ -26,34 +27,6 @@ function setupBlogViewSwitcher() {
                     article.style.opacity = '1';
                     article.style.transform = 'scale(1)';
                 }, 50 * index);
-            });
-        });
-    });
-}
-
-// Category filtering
-function setupCategoryFilter() {
-    const categoryPills = document.querySelectorAll('.category-pill');
-    const articles = document.querySelectorAll('.post-card, .article-card');
-
-    categoryPills?.forEach((pill) => {
-        pill.addEventListener('click', () => {
-            const category = pill.textContent.trim().toLowerCase();
-            // Update active state
-            categoryPills.forEach((p) => p.classList.remove('active'));
-            pill.classList.add('active');
-            // Filter articles
-            articles.forEach((article) => {
-                const articleCategory = article.querySelector('.post-category')
-                    ?.textContent.trim()
-                    .toLowerCase();
-                if (category === 'all topics' || articleCategory === category) {
-                    article.style.display = 'block';
-                    article.style.opacity = '1';
-                } else {
-                    article.style.display = 'none';
-                    article.style.opacity = '0';
-                }
             });
         });
     });
@@ -104,7 +77,23 @@ function getLikes(article) {
 // Initialize blog features
 export function setupBlogFeatures() {
     setupBlogViewSwitcher();
-    setupCategoryFilter();
+    setupCategoryFilter({
+        containerSelector: '.blog-section', // Specify the container
+        pillSelector: '.category-pill',
+        itemSelector: '.post-card, .article-card',
+        animation: {
+            hide: { 
+                opacity: '0', 
+                transform: 'translateY(20px)' 
+            },
+            show: { 
+                opacity: '1', 
+                transform: 'translateY(0)' 
+            },
+            duration: 300,
+            stagger: 50
+        }
+    });
     setupBlogSorting();
 
     // Use existing ImageLoader instance

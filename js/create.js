@@ -136,38 +136,29 @@ export class BlogManager {
         </div>
         <div class="article-content">
           <div class="article-info">
-            <span>${new Date(article.publishedAt).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        })}</span>
+            <span>${new Date(article.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
             <span><i class="far fa-bookmark"></i> Save</span>
           </div>
           <h3 class="article-title">${article.title}</h3>
           <p class="article-excerpt">${article.excerpt}</p>
           <div class="article-footer">
             <div class="article-author">
-              <img data-src="${article.author?.avatar ||
-            fallbackImages.portrait ||
-            fallbackImages.technology
-            }"
-                data-type="portrait"
-                loading="lazy"
-                alt="Author avatar"
-                class="author-avatar">
+              <img data-src="${article.author?.avatar || fallbackImages.portrait}"
+                data-type="portrait" alt="Author" loading="lazy" class="author-avatar">
               <div>
                 <div class="author-name">${article.author?.name || 'Anonymous'}</div>
-                <div class="author-role">${article.author?.role || 'Contributor'}</div>
+                <div class="author-role">${article.author?.role || 'Writer'}</div>
               </div>
             </div>
             <div class="article-stats">
-              <span class="stat-item">
-                <i class="far fa-heart"></i> ${article.likes}
-              </span>
-              <span class="stat-item">
-                <i class="far fa-comment"></i> ${article.comments}
-              </span>
+              <span class="stat-item"><i class="far fa-heart"></i> ${article.likes || 0}</span>
+              <span class="stat-item"><i class="far fa-comment"></i> ${article.comments || 0}</span>
             </div>
+          </div>
+          <div class="article-action">
+            <a href="#article-details" class="read-more-btn outline">
+              Read Full Article
+            </a>
           </div>
         </div>
       </article>
